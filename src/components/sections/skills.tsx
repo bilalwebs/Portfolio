@@ -1,19 +1,20 @@
 import { motion, useInView } from "motion/react";
-import { useRef, useState } from "react";
-import { ChevronDown, Layers, Server, Wrench, Sparkles } from "lucide-react";
+import { useRef } from "react";
+import { Layers, Server, Wrench, Sparkles, type LucideIcon } from "lucide-react";
 import { Section } from "@/components/ui/section";
 import { skills } from "@/data/portfolio";
 
-const groupIcons = {
+const groupIcons: Record<string, LucideIcon> = {
   Frontend: Layers,
   Backend: Server,
-  Tools: Wrench,
   AI: Sparkles,
-} as const;
+  Tools: Wrench,
+};
 
-type Group = keyof typeof skills;
+// Desired order: Frontend | Backend / AI | Tools
+const orderedGroups = ["Frontend", "Backend", "AI", "Tools"] as const;
 
-function ProgressBar({ value }: { value: number }) {
+function ProgressBar({ value, delay = 0 }: { value: number; delay?: number }) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-40px" });
   return (
@@ -21,73 +22,64 @@ function ProgressBar({ value }: { value: number }) {
       <motion.div
         initial={{ width: 0 }}
         animate={inView ? { width: `${value}%` } : { width: 0 }}
-        transition={{ duration: 1.1, ease: "easeOut" }}
+        transition={{ duration: 1.1, ease: "easeOut", delay }}
         className="h-full rounded-full bg-gradient-to-r from-primary to-accent neon-glow"
       />
     </div>
   );
 }
 
-export function Skills() {
-  const groups = Object.keys(skills) as Group[];
-  const [open, setOpen] = useState<Group>("Frontend");
+function SkillCard({ group, index }: { group: keyof typeof skills; index: number }) {
+  const Icon = groupIcons[group];
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-60px" });
+  const items = skills[group];
 
   return (
-    <Section id="skills" eyebrow="My Toolkit" title="Skills" subtitle="What I reach for to ship polished products.">
-      <div className="mx-auto max-w-3xl space-y-4">
-        {groups.map((g) => {
-          const Icon = groupIcons[g];
-          const isOpen = open === g;
-          return (
-            <div key={g} className="glass-card overflow-hidden">
-              <button
-                onClick={() => setOpen(isOpen ? ("" as Group) : g)}
-                className="flex w-full items-center justify-between p-5 text-left transition-colors hover:bg-primary/5"
-              >
-                <div className="flex items-center gap-3">
-                  <span className="grid h-9 w-9 place-items-center rounded-lg bg-primary/15 text-primary">
-                    <Icon size={16} />
-                  </span>
-                  <span className="font-semibold">{g}</span>
-                  <span className="text-xs text-muted-foreground">
-                    {skills[g].length} skills
-                  </span>
-                </div>
-                <ChevronDown
-                  size={18}
-                  className={`text-primary transition-transform ${isOpen ? "rotate-180" : ""}`}
-                />
-              </button>
-              <motion.div
-                initial={false}
-                animate={{
-                  height: isOpen ? "auto" : 0,
-                  opacity: isOpen ? 1 : 0,
-                }}
-                transition={{ duration: 0.35, ease: "easeInOut" }}
-                className="overflow-hidden"
-              >
-                <div className="space-y-4 border-t border-border p-5">
-                  {skills[g].map((s) => (
-                    <div key={s.name}>
-                      <div className="mb-2 flex items-center justify-between text-sm">
-                        <span className="text-foreground">{s.name}</span>
-                        <motion.span
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          className="text-primary font-semibold"
-                        >
-                          {s.level}%
-                        </motion.span>
-                      </div>
-                      <ProgressBar value={s.level} />
-                    </div>
-                  ))}
-                </div>
-              </motion.div>
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 30 }}
+      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+      transition={{ duration: 0.6, ease: "easeOut", delay: index * 0.08 }}
+      whileHover={{ y: -6 }}
+      className="glass-card group relative flex h-full flex-col p-6 ring-1 ring-primary/20 transition-all hover:ring-primary/50 hover:neon-glow-strong sm:p-7"
+    >
+      <div className="mb-6 flex items-center gap-3">
+        <span className="grid h-11 w-11 place-items-center rounded-xl bg-primary/15 text-primary ring-1 ring-primary/40 neon-glow">
+          <Icon size={20} />
+        </span>
+        <div className="min-w-0">
+          <h3 className="truncate text-lg font-semibold">{group}</h3>
+          <p className="text-xs text-muted-foreground">{items.length} skills</p>
+        </div>
+      </div>
+      <div className="flex flex-1 flex-col justify-between gap-5">
+        {items.map((s, i) => (
+          <div key={s.name}>
+            <div className="mb-2 flex items-center justify-between text-sm">
+              <span className="text-foreground">{s.name}</span>
+              <span className="font-semibold text-primary">{s.level}%</span>
             </div>
-          );
-        })}
+            <ProgressBar value={s.level} delay={0.1 + i * 0.1} />
+          </div>
+        ))}
+      </div>
+    </motion.div>
+  );
+}
+
+export function Skills() {
+  return (
+    <Section
+      id="skills"
+      eyebrow="My Toolkit"
+      title="Skills"
+      subtitle="What I reach for to ship polished products."
+    >
+      <div className="mx-auto grid max-w-5xl auto-rows-fr gap-6 sm:grid-cols-2 lg:gap-8">
+        {orderedGroups.map((g, i) => (
+          <SkillCard key={g} group={g} index={i} />
+        ))}
       </div>
     </Section>
   );
