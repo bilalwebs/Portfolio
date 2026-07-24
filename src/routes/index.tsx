@@ -9,6 +9,7 @@ import { Projects } from "@/components/sections/projects";
 import { Certificates } from "@/components/sections/certificates";
 import { Contact } from "@/components/sections/contact";
 import { Chatbot } from "@/components/chatbot";
+import { CustomCursor } from "@/components/custom-cursor";
 
 export const Route = createFileRoute("/")({
   component: Index,
