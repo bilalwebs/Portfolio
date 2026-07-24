@@ -8,6 +8,7 @@ import { Skills } from "@/components/sections/skills";
 import { Projects } from "@/components/sections/projects";
 import { Certificates } from "@/components/sections/certificates";
 import { Contact } from "@/components/sections/contact";
+import { Chatbot } from "@/components/chatbot";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -45,6 +46,7 @@ function Index() {
         <Contact />
       </main>
       <Footer />
+      <Chatbot />
     </div>
   );
 }

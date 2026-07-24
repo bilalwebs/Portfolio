@@ -12,52 +12,66 @@ const iconFor = (t: string) => {
 
 export function Timeline() {
   return (
-    <Section id="journey" eyebrow="My Path" title="My Journey" subtitle="Six years of building, learning, and shipping.">
-      <div className="relative mx-auto max-w-3xl">
-        <div className="absolute left-4 top-0 h-full w-px bg-gradient-to-b from-transparent via-primary/50 to-transparent md:left-1/2" />
-        <div className="space-y-10">
+    <Section
+      id="journey"
+      eyebrow="My Path"
+      title="My Journey"
+      subtitle="Six years of building, learning, and shipping."
+    >
+      <div className="relative mx-auto max-w-5xl">
+        {/* Center / left rail */}
+        <div className="pointer-events-none absolute left-4 top-0 h-full w-px bg-gradient-to-b from-transparent via-primary/50 to-transparent md:left-1/2 md:-translate-x-1/2" />
+
+        <ol className="space-y-8 md:space-y-14">
           {journey.map((item, i) => {
             const Icon = iconFor(item.type);
             const left = i % 2 === 0;
             return (
-              <motion.div
-                key={item.title}
-                initial={{ opacity: 0, x: left ? -30 : 30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.55 }}
-                className={`relative flex items-start gap-6 md:grid md:grid-cols-2 md:gap-10 ${
-                  left ? "" : "md:[&>*:first-child]:col-start-2"
-                }`}
-              >
-                <div
-                  className={`relative pl-12 md:pl-0 ${
-                    left ? "md:pr-10 md:text-right" : "md:pl-10"
-                  }`}
-                >
-                  <span
-                    className={`absolute left-0 top-1 grid h-8 w-8 place-items-center rounded-full border border-primary/60 bg-background text-primary neon-glow md:left-auto ${
-                      left ? "md:-right-4" : "md:-left-4"
+              <li key={item.title} className="relative">
+                <div className="md:grid md:grid-cols-2 md:items-center md:gap-12">
+                  {/* Card */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 24 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-80px" }}
+                    transition={{ duration: 0.5, ease: "easeOut" }}
+                    className={`relative pl-12 md:pl-0 ${
+                      left
+                        ? "md:col-start-1 md:pr-10 md:text-right"
+                        : "md:col-start-2 md:pl-10"
                     }`}
                   >
-                    <Icon size={14} />
-                  </span>
-                  <div className="glass-card p-5">
-                    <div className="flex flex-wrap items-center gap-2 text-xs">
-                      <span className="rounded-full bg-primary/15 px-2.5 py-0.5 font-semibold uppercase tracking-wider text-primary">
-                        {item.type}
-                      </span>
-                      <span className="text-muted-foreground">{item.period}</span>
+                    <div className="glass-card p-5 transition-all hover:-translate-y-0.5 hover:neon-glow sm:p-6">
+                      <div
+                        className={`flex flex-wrap items-center gap-2 text-xs ${
+                          left ? "md:justify-end" : ""
+                        }`}
+                      >
+                        <span className="rounded-full bg-primary/15 px-2.5 py-0.5 font-semibold uppercase tracking-wider text-primary">
+                          {item.type}
+                        </span>
+                        <span className="text-muted-foreground">{item.period}</span>
+                      </div>
+                      <h3 className="mt-2 text-lg font-semibold sm:text-xl">{item.title}</h3>
+                      <p className="text-sm text-primary/80">{item.org}</p>
+                      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                        {item.description}
+                      </p>
                     </div>
-                    <h3 className="mt-2 text-lg font-semibold">{item.title}</h3>
-                    <p className="text-sm text-primary/80">{item.org}</p>
-                    <p className="mt-2 text-sm text-muted-foreground">{item.description}</p>
-                  </div>
+                  </motion.div>
+
+                  {/* Dot on rail */}
+                  <span
+                    aria-hidden
+                    className="absolute left-0 top-6 grid h-9 w-9 -translate-x-0 place-items-center rounded-full border border-primary/60 bg-background text-primary neon-glow md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2"
+                  >
+                    <Icon size={15} />
+                  </span>
                 </div>
-              </motion.div>
+              </li>
             );
           })}
-        </div>
+        </ol>
       </div>
     </Section>
   );
