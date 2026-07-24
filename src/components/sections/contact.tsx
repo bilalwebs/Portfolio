@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { motion } from "motion/react";
-import { Mail, Phone, MapPin, Send, Check } from "lucide-react";
+import { Mail, Phone, MapPin, Send, Check, Github, Linkedin, Twitter } from "lucide-react";
 import { Section } from "@/components/ui/section";
 import { profile } from "@/data/portfolio";
 
@@ -27,26 +27,82 @@ export function Contact() {
       title="Let's Connect"
       subtitle="Got a project in mind? I'd love to hear about it."
     >
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-5">
+      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-10">
+        {/* Left column — pitch + contacts */}
+        <motion.aside
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="space-y-6 lg:col-span-5"
+        >
+          <div>
+            <h3 className="text-2xl font-bold sm:text-3xl">Got a project in mind?</h3>
+            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+              Whether it's a product launch, a design-system rebuild, or an AI-powered interface —
+              let's build something remarkable together.
+            </p>
+          </div>
+
+          <div className="space-y-3">
+            {cards.map((c) => (
+              <a
+                key={c.label}
+                href={c.href}
+                className="glass-card flex items-center gap-4 p-4 transition-all hover:-translate-y-0.5 hover:neon-glow"
+              >
+                <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-primary/15 text-primary neon-glow">
+                  <c.icon size={18} />
+                </span>
+                <div className="min-w-0">
+                  <p className="text-xs text-muted-foreground">{c.label}</p>
+                  <p className="truncate text-sm font-semibold text-foreground">{c.value}</p>
+                </div>
+              </a>
+            ))}
+          </div>
+
+          <div className="flex items-center gap-3 pt-2">
+            {[
+              { icon: Github, href: "https://github.com", label: "GitHub" },
+              { icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn" },
+              { icon: Twitter, href: "https://twitter.com", label: "Twitter" },
+            ].map((s) => (
+              <a
+                key={s.label}
+                href={s.href}
+                aria-label={s.label}
+                className="grid h-10 w-10 place-items-center rounded-full border border-border bg-background/40 text-muted-foreground transition hover:-translate-y-0.5 hover:border-primary hover:text-primary hover:neon-glow"
+              >
+                <s.icon size={16} />
+              </a>
+            ))}
+          </div>
+        </motion.aside>
+
+        {/* Right column — form */}
         <motion.form
           onSubmit={onSubmit}
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="glass-card space-y-4 p-6 sm:p-8 lg:col-span-3"
+          className="glass-card space-y-4 p-6 sm:p-8 lg:col-span-7"
         >
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <Field label="Name" name="name" placeholder="Your name" />
+            <Field label="Full Name" name="name" placeholder="Your full name" />
             <Field label="Email" name="email" type="email" placeholder="you@company.com" />
           </div>
           <Field label="Subject" name="subject" placeholder="Project inquiry" />
           <div>
-            <label className="mb-1.5 block text-xs font-medium text-muted-foreground">
+            <label
+              htmlFor="message"
+              className="mb-1.5 block text-[11px] font-semibold uppercase tracking-wider text-muted-foreground"
+            >
               Message
             </label>
             <textarea
+              id="message"
               required
-              rows={5}
+              rows={6}
               name="message"
               placeholder="Tell me a little about what you're building…"
               className="w-full resize-none rounded-xl border border-border bg-background/40 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/60 outline-none transition focus:border-primary focus:neon-glow"
@@ -55,7 +111,7 @@ export function Contact() {
           <button
             type="submit"
             disabled={sent}
-            className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/30 transition-all hover:scale-[1.01] hover:neon-glow-strong disabled:opacity-70 sm:w-auto"
+            className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary px-6 py-3.5 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/30 transition-all hover:scale-[1.01] hover:neon-glow-strong disabled:opacity-70"
           >
             {sent ? (
               <>
@@ -69,29 +125,6 @@ export function Contact() {
             )}
           </button>
         </motion.form>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="space-y-4 lg:col-span-2"
-        >
-          {cards.map((c) => (
-            <a
-              key={c.label}
-              href={c.href}
-              className="glass-card flex items-center gap-4 p-5 transition-all hover:-translate-y-0.5 hover:neon-glow"
-            >
-              <span className="grid h-11 w-11 place-items-center rounded-xl bg-primary/15 text-primary neon-glow">
-                <c.icon size={18} />
-              </span>
-              <div>
-                <p className="text-xs text-muted-foreground">{c.label}</p>
-                <p className="text-sm font-semibold text-foreground">{c.value}</p>
-              </div>
-            </a>
-          ))}
-        </motion.div>
       </div>
     </Section>
   );
@@ -110,7 +143,10 @@ function Field({
 }) {
   return (
     <div>
-      <label htmlFor={name} className="mb-1.5 block text-xs font-medium text-muted-foreground">
+      <label
+        htmlFor={name}
+        className="mb-1.5 block text-[11px] font-semibold uppercase tracking-wider text-muted-foreground"
+      >
         {label}
       </label>
       <input
