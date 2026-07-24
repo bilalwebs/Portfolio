@@ -24,11 +24,11 @@ export function Navbar() {
       }`}
     >
       <div
-        className={`mx-auto flex max-w-6xl items-center justify-between px-6 py-4 transition-all ${
+        className={`mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-4 sm:px-6 transition-all ${
           scrolled ? "border-b border-border bg-background/70" : ""
         }`}
       >
-        <a href="#home" className="flex items-center gap-2 group">
+        <a href="#home" className="flex shrink-0 items-center gap-2 group">
           <span className="grid h-9 w-9 place-items-center rounded-xl bg-primary/10 text-primary neon-glow ring-1 ring-primary/40 font-bold group-hover:scale-105 transition-transform">
             A
           </span>
@@ -37,12 +37,12 @@ export function Navbar() {
           </span>
         </a>
 
-        <nav className="hidden items-center gap-1 md:flex">
+        <nav className="hidden min-w-0 flex-1 items-center justify-center md:flex md:gap-0 lg:gap-1">
           {navLinks.map((l) => (
             <a
               key={l.href}
               href={l.href}
-              className="rounded-full px-4 py-2 text-sm text-muted-foreground transition-colors hover:bg-primary/10 hover:text-primary"
+              className="whitespace-nowrap rounded-full px-2 py-2 text-xs text-muted-foreground transition-colors hover:bg-primary/10 hover:text-primary lg:px-4 lg:text-sm"
             >
               {l.label}
             </a>
@@ -51,7 +51,7 @@ export function Navbar() {
 
         <a
           href="#contact"
-          className="hidden rounded-full bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/30 transition-transform hover:scale-105 hover:neon-glow-strong md:inline-flex"
+          className="hidden shrink-0 whitespace-nowrap rounded-full bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground shadow-lg shadow-primary/30 transition-transform hover:scale-105 hover:neon-glow-strong md:inline-flex lg:px-5 lg:text-sm"
         >
           Hire me
         </a>
