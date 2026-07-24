@@ -25,7 +25,7 @@ export const Route = createFileRoute("/")({
       {
         property: "og:description",
         content:
-          "Selected projects, journey, skills and credentials from a full-stack engineer obsessed with UI craft.",
+          "Portfolio of Aiden Vector — full-stack engineer and UI architect crafting fast, delightful, production-ready web experiences.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
