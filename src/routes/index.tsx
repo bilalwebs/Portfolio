@@ -1,24 +1,50 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { Navbar } from "@/components/layout/navbar";
+import { Footer } from "@/components/layout/footer";
+import { Hero } from "@/components/sections/hero";
+import { About } from "@/components/sections/about";
+import { Timeline } from "@/components/sections/timeline";
+import { Skills } from "@/components/sections/skills";
+import { Projects } from "@/components/sections/projects";
+import { Certificates } from "@/components/sections/certificates";
+import { Contact } from "@/components/sections/contact";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
   component: Index,
+  head: () => ({
+    meta: [
+      { title: "Aiden Vector — Full-Stack Engineer & UI Architect" },
+      {
+        name: "description",
+        content:
+          "Portfolio of Aiden Vector — full-stack engineer and UI architect crafting fast, delightful, production-ready web experiences.",
+      },
+      { property: "og:title", content: "Aiden Vector — Full-Stack Engineer & UI Architect" },
+      {
+        property: "og:description",
+        content:
+          "Selected projects, journey, skills and credentials from a full-stack engineer obsessed with UI craft.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
 function Index() {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
+    <div className="dark min-h-screen bg-background text-foreground">
+      <Navbar />
+      <main>
+        <Hero />
+        <About />
+        <Timeline />
+        <Skills />
+        <Projects />
+        <Certificates />
+        <Contact />
+      </main>
+      <Footer />
     </div>
   );
 }
