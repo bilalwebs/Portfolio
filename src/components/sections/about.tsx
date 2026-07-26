@@ -22,16 +22,19 @@ export function About() {
           className="lg:col-span-5"
         >
           <div className="relative mx-auto w-full max-w-[420px]">
-            {/* corner brackets */}
-            <span className="pointer-events-none absolute -left-3 -top-3 h-8 w-8 border-l-2 border-t-2 border-primary/70" />
-            <span className="pointer-events-none absolute -right-3 -top-3 h-8 w-8 border-r-2 border-t-2 border-primary/70" />
-            <span className="pointer-events-none absolute -bottom-3 -left-3 h-8 w-8 border-b-2 border-l-2 border-primary/70" />
-            <span className="pointer-events-none absolute -bottom-3 -right-3 h-8 w-8 border-b-2 border-r-2 border-primary/70" />
-
             {/* soft glow */}
-            <div className="absolute -inset-6 -z-10 rounded-[2rem] bg-gradient-to-br from-primary/25 via-accent/10 to-transparent blur-3xl" />
+            <div className="absolute -inset-8 -z-10 rounded-[2rem] bg-linear-to-br from-primary/25 via-accent/10 to-transparent blur-3xl" />
 
-            <div className="relative overflow-hidden rounded-2xl border border-primary/25 bg-card/60 p-2 backdrop-blur">
+            {/* offset faint outline behind image */}
+            <div className="pointer-events-none absolute -left-6 -top-6 h-full w-full rounded-2xl border border-dashed border-primary/25" />
+
+            {/* corner brackets (L-shapes) */}
+            <span className="pointer-events-none absolute -left-4 -top-4 h-10 w-10 border-l-2 border-t-2 border-primary rounded-tl-md" />
+            <span className="pointer-events-none absolute -right-4 -top-4 h-10 w-10 border-r-2 border-t-2 border-primary rounded-tr-md" />
+            <span className="pointer-events-none absolute -bottom-4 -left-4 h-10 w-10 border-b-2 border-l-2 border-primary rounded-bl-md" />
+            <span className="pointer-events-none absolute -bottom-4 -right-4 h-10 w-10 border-b-2 border-r-2 border-primary rounded-br-md" />
+
+            <div className="relative overflow-hidden rounded-2xl border border-primary/30 bg-card/60 p-2 backdrop-blur">
               <img
                 src={profile.aboutImage}
                 alt="Portrait"
