@@ -27,7 +27,7 @@ export function Timeline() {
             const Icon = iconFor(item.type);
             const left = i % 2 === 0;
             return (
-              <li key={item.title} className="relative">
+              <li key={item.title} className="group relative">
                 <div className="md:grid md:grid-cols-2 md:items-center md:gap-12">
                   {/* Card */}
                   <motion.div
