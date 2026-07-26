@@ -27,7 +27,7 @@ export function Timeline() {
             const Icon = iconFor(item.type);
             const left = i % 2 === 0;
             return (
-              <li key={item.title} className="relative">
+              <li key={item.title} className="group relative">
                 <div className="md:grid md:grid-cols-2 md:items-center md:gap-12">
                   {/* Card */}
                   <motion.div
@@ -63,7 +63,7 @@ export function Timeline() {
                   {/* Dot on rail */}
                   <span
                     aria-hidden
-                    className="absolute left-0 top-6 grid h-9 w-9 -translate-x-0 place-items-center rounded-full border border-primary/60 bg-background text-primary neon-glow md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2"
+                    className="absolute left-0 top-6 grid h-9 w-9 -translate-x-0 place-items-center rounded-full border border-primary/60 bg-transparent text-primary transition-all duration-300 group-hover:bg-primary group-hover:text-background group-hover:neon-glow md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2"
                   >
                     <Icon size={15} />
                   </span>
