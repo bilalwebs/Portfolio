@@ -1,5 +1,6 @@
 import { motion } from "motion/react";
 import { Download, Mail, Github, Linkedin, Twitter, Dribbble } from "lucide-react";
+import { TypeAnimation } from "react-type-animation";
 import { profile, socials } from "@/data/portfolio";
 
 const iconMap = { Github, Linkedin, Twitter, Dribbble };
