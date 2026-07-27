@@ -119,18 +119,18 @@
 
 @utility neon-glow {
   box-shadow:
-    0 0 20px rgba(0, 191, 255, 0.25),
-    0 0 40px rgba(0, 191, 255, 0.15);
+    0 0 10px rgba(0, 191, 255, 0.12),
+    0 0 20px rgba(0, 191, 255, 0.06);
 }
 
 @utility neon-glow-strong {
   box-shadow:
-    0 0 25px rgba(0, 191, 255, 0.55),
-    0 0 60px rgba(0, 191, 255, 0.3);
+    0 0 14px rgba(0, 191, 255, 0.25),
+    0 0 28px rgba(0, 191, 255, 0.12);
 }
 
 @utility text-glow {
-  text-shadow: 0 0 24px rgba(0, 191, 255, 0.55);
+  text-shadow: 0 0 14px rgba(0, 191, 255, 0.35);
 }
 
 @utility gradient-text {

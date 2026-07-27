@@ -166,12 +166,76 @@ export const certificates = [
   },
 ];
 
+export const recognitions = [
+  {
+    tag: "Hackathon",
+    title: "NCAI Hackathon, NUCES",
+    description:
+      "Top 6 finalist, placing in the Top 50 of 10,000 teams with ProctorVision AI. Special recognition from Prof. Fan Zhang of Zhejiang University.",
+    status: null as null | "Results Pending",
+  },
+  {
+    tag: "Hackathon",
+    title: "AMD Developer Hackathon: ACT II",
+    description:
+      "Led the team that built LogiSecure, an on-premise AI logistics copilot on AMD ROCm.",
+    status: "Results Pending" as const,
+  },
+  {
+    tag: "Hackathon",
+    title: "Vibe Coding Hackathon 2026",
+    description:
+      "Led the team that built Gulzareen, turning crop residue into farmer income.",
+    status: "Results Pending" as const,
+  },
+  {
+    tag: "Hackathon",
+    title: "OpenAI Build Week",
+    description: "Built Markdown Lens, a privacy-first in-browser Markdown viewer.",
+    status: null,
+  },
+  {
+    tag: "Kaggle",
+    title: "Digit Recognizer",
+    description: "Ranked 73rd of 3,380 participants.",
+    status: null,
+  },
+  {
+    tag: "Kaggle",
+    title: "Titanic, ML from Disaster",
+    description: "Ranked 219th of 45,633 participants.",
+    status: null,
+  },
+  {
+    tag: "Award",
+    title: "UET Merit Scholarship",
+    description:
+      "A1 merit-category admission and the Merit Scholarship reserved for the top 50 of the incoming cohort.",
+    status: null,
+  },
+  {
+    tag: "Recognition",
+    title: "Teaching Assistant",
+    description:
+      "Selected on core-course performance to support a 250-student junior batch in programming fundamentals and OOP.",
+    status: null,
+  },
+  {
+    tag: "Certification",
+    title: "CS50x and applied AI",
+    description:
+      "Harvard CS50x, plus computer vision and ML explainability tracks on Kaggle and Nvidia RAG.",
+    status: null,
+  },
+];
+
 export const navLinks = [
   { label: "Home", href: "#home" },
   { label: "About", href: "#about" },
   { label: "Journey", href: "#journey" },
   { label: "Skills", href: "#skills" },
   { label: "Projects", href: "#projects" },
+  { label: "Recognition", href: "#recognition" },
   { label: "Certificates", href: "#certificates" },
   { label: "Contact", href: "#contact" },
 ];
