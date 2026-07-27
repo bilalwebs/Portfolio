@@ -37,12 +37,12 @@ export function Navbar() {
           </span>
         </a>
 
-        <nav className="hidden min-w-0 flex-1 items-center justify-center md:flex md:gap-0 lg:gap-1">
+        <nav className="hidden min-w-0 flex-1 items-center justify-center lg:flex lg:gap-1">
           {navLinks.map((l) => (
             <a
               key={l.href}
               href={l.href}
-              className="whitespace-nowrap rounded-full px-2 py-2 text-xs text-muted-foreground transition-colors hover:bg-primary/10 hover:text-primary lg:px-4 lg:text-sm"
+              className="whitespace-nowrap rounded-full px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-primary/10 hover:text-primary xl:px-4"
             >
               {l.label}
             </a>
@@ -51,14 +51,14 @@ export function Navbar() {
 
         <a
           href="#contact"
-          className="hidden shrink-0 whitespace-nowrap rounded-full bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground shadow-lg shadow-primary/30 transition-transform hover:scale-105 hover:neon-glow-strong md:inline-flex lg:px-5 lg:text-sm"
+          className="hidden shrink-0 whitespace-nowrap rounded-full bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground shadow-lg shadow-primary/30 transition-transform hover:scale-105 hover:neon-glow-strong lg:inline-flex lg:px-5 lg:text-sm"
         >
           Hire me
         </a>
 
         <button
           aria-label="Toggle menu"
-          className="rounded-lg p-2 text-primary md:hidden"
+          className="rounded-lg p-2 text-primary lg:hidden"
           onClick={() => setOpen((v) => !v)}
         >
           {open ? <X size={22} /> : <Menu size={22} />}
@@ -71,7 +71,7 @@ export function Navbar() {
             initial={{ opacity: 0, y: -12 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
-            className="md:hidden"
+            className="lg:hidden"
           >
             <div className="mx-4 mb-4 glass-card p-4">
               {navLinks.map((l) => (
