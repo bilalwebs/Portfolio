@@ -1,5 +1,6 @@
 import { motion } from "motion/react";
 import { Download, Mail, Github, Linkedin, Twitter, Dribbble } from "lucide-react";
+import { TypeAnimation } from "react-type-animation";
 import { profile, socials } from "@/data/portfolio";
 
 const iconMap = { Github, Linkedin, Twitter, Dribbble };
@@ -34,8 +35,21 @@ export function Hero() {
               {profile.greeting}
             </span>
             <span className="mt-2 block">{profile.name}</span>
-            <span className="mt-3 block gradient-text text-3xl sm:text-4xl lg:text-5xl">
-              {profile.role}
+            <span className="mt-3 block min-h-[1.15em] gradient-text text-3xl sm:text-4xl lg:text-5xl [transform:translateZ(0)] [will-change:contents]">
+              <TypeAnimation
+                sequence={[
+                  "AI Engineer", 1500,
+                  "Agentic AI Developer", 1500,
+                  "Full-Stack Developer", 1500,
+                  "FastAPI Developer", 1500,
+                ]}
+                wrapper="span"
+                speed={{ type: "keyStrokeDelayInMs", value: 80 }}
+                deletionSpeed={{ type: "keyStrokeDelayInMs", value: 50 }}
+                repeat={Infinity}
+                cursor={true}
+                aria-label={profile.role}
+              />
             </span>
           </h1>
 
