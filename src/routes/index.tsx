@@ -38,7 +38,7 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   return (
-    <div className="dark min-h-screen bg-background text-foreground md:cursor-none md:[&_*]:cursor-none">
+    <div className="dark min-h-screen overflow-x-clip bg-background text-foreground md:cursor-none md:[&_*]:cursor-none">
       <Preloader />
       <CustomCursor />
       <Navbar />
