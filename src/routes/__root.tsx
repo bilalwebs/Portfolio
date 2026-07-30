@@ -80,12 +80,31 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "theme-color", content: "#071B2D" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { title: "Aiden Vector — Full-Stack Engineer & UI Architect" },
-      { property: "og:title", content: "Aiden Vector — Full-Stack Engineer & UI Architect" },
-      { name: "twitter:title", content: "Aiden Vector — Full-Stack Engineer & UI Architect" },
-      { name: "description", content: "Portfolio of Aiden Vector — full-stack engineer and UI architect crafting fast, delightful, production-ready web experiences." },
-      { property: "og:description", content: "Portfolio of Aiden Vector — full-stack engineer and UI architect crafting fast, delightful, production-ready web experiences." },
-      { name: "twitter:description", content: "Portfolio of Aiden Vector — full-stack engineer and UI architect crafting fast, delightful, production-ready web experiences." },
+     { title: "Muhammad Bilal Hussain | AI Engineer & Full-Stack Engineer" },
+     {
+  property: "og:title",
+  content: "Muhammad Bilal Hussain | AI Engineer & Full-Stack Engineer",
+},
+     {
+  name: "twitter:title",
+  content: "Muhammad Bilal Hussain | AI Engineer & Full-Stack Engineer",
+},
+{
+  name: "description",
+  content:
+    "Portfolio of Muhammad Bilal Hussain, AI Engineer and Full-Stack Engineer specializing in Agentic AI, FastAPI, React, Next.js, LangChain, LangGraph, RAG, and scalable AI-powered applications.",
+},
+    
+{
+  property: "og:description",
+  content:
+    "Explore Muhammad Bilal Hussain's portfolio featuring AI, Agentic AI, FastAPI, React, Next.js, LangChain, LangGraph, RAG, hackathons, and production-ready applications.",
+},
+  {
+  name: "twitter:description",
+  content:
+    "Portfolio of Muhammad Bilal Hussain showcasing AI Engineering, Full-Stack Development, Agentic AI, FastAPI, React, and modern software projects.",
+},
       { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/929a4812-cffa-4d19-9e78-75a6b91072d7/id-preview-ad9060ba--cb7acb01-b2f9-447e-8963-78f8cbe24ead.lovable.app-1784903034890.png" },
       { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/929a4812-cffa-4d19-9e78-75a6b91072d7/id-preview-ad9060ba--cb7acb01-b2f9-447e-8963-78f8cbe24ead.lovable.app-1784903034890.png" },
     ],

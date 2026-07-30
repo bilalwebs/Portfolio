@@ -23,7 +23,7 @@ export function Contact() {
   return (
     <Section
       id="contact"
-      eyebrow="Say hello"
+      eyebrow="08 — Contact"
       title="Let's Connect"
       subtitle="Got a project in mind? I'd love to hear about it."
     >

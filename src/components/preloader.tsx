@@ -5,7 +5,7 @@ export function Preloader() {
   const [show, setShow] = useState(true);
 
   useEffect(() => {
-    const t = setTimeout(() => setShow(false), 1900);
+    const t = setTimeout(() => setShow(false), 1500);
     return () => clearTimeout(t);
   }, []);
 
@@ -37,7 +37,7 @@ export function Preloader() {
                 transition={{ duration: 0.5, ease: "easeOut" }}
                 className="relative text-3xl font-bold tracking-widest text-primary text-glow"
               >
-                AV
+                BH
               </motion.span>
             </div>
 
@@ -55,7 +55,7 @@ export function Preloader() {
               transition={{ delay: 0.5, duration: 0.55 }}
               className="mt-3 text-3xl font-bold gradient-text sm:text-4xl"
             >
-              Aiden Vector
+             Bilal Hussain
             </motion.h1>
             <motion.p
               initial={{ opacity: 0 }}
@@ -63,7 +63,7 @@ export function Preloader() {
               transition={{ delay: 0.7, duration: 0.5 }}
               className="mt-1 text-sm font-semibold text-foreground/80"
             >
-              Portfolio
+              Agentic AI & Full-Stack Portfolio
             </motion.p>
           </div>
         </motion.div>

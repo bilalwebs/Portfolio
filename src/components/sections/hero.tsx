@@ -27,7 +27,7 @@ export function Hero() {
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
             </span>
-            Available for new projects
+            Available for AI & Full-Stack Opportunities
           </span>
 
           <h1 className="mt-6 text-4xl font-bold leading-[1.05] sm:text-5xl lg:text-6xl">
@@ -35,21 +35,29 @@ export function Hero() {
               {profile.greeting}
             </span>
             <span className="mt-2 block">{profile.name}</span>
-            <span className="mt-3 block min-h-[1.15em] gradient-text text-3xl sm:text-4xl lg:text-5xl [transform:translateZ(0)] [will-change:contents]">
+     <span
+  className="
+    mt-3
+    flex
+    items-center
+    h-[80px]
+    overflow-hidden
+    whitespace-nowrap
+    gradient-text
+    text-3xl
+    sm:text-4xl
+    lg:text-5xl
+  "
+>
               <TypeAnimation
-                sequence={[
-                  "AI Engineer", 1500,
-                  "Agentic AI Developer", 1500,
-                  "Full-Stack Developer", 1500,
-                  "FastAPI Developer", 1500,
-                ]}
-                wrapper="span"
-                speed={{ type: "keyStrokeDelayInMs", value: 80 }}
-                deletionSpeed={{ type: "keyStrokeDelayInMs", value: 50 }}
-                repeat={Infinity}
-                cursor={true}
-                aria-label={profile.role}
-              />
+  sequence={[
+    "Agentic AI Engineer", 2000,
+    "AI Engineer", 2000,
+    "Full-Stack Engineer", 2000,
+    "FastAPI Developer", 2000,
+  ]}
+  repeat={Infinity}
+/>
             </span>
           </h1>
 

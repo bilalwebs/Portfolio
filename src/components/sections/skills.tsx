@@ -72,7 +72,7 @@ export function Skills() {
   return (
     <Section
       id="skills"
-      eyebrow="My Toolkit"
+      eyebrow="03 — Skills"
       title="Skills"
       subtitle="What I reach for to ship polished products."
     >

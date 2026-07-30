@@ -4,14 +4,15 @@ import { MessageCircle, X, Send, Sparkles } from "lucide-react";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport, type UIMessage } from "ai";
 
-const STORAGE_KEY = "aiden-portfolio-chat-v1";
+const STORAGE_KEY = "bilal-portfolio-chat-v1";
 
 const SUGGESTIONS = [
-  "What does Aiden do?",
-  "Show me his best projects",
-  "How can I hire him?",
-  "What's his tech stack?",
+  "Tell me about Bilal",
+  "Show me Bilal's featured projects",
+  "Which hackathons has Bilal participated in?",
+  "What technologies does Bilal specialize in?",
 ];
+
 
 function loadMessages(): UIMessage[] {
   if (typeof window === "undefined") return [];
@@ -33,7 +34,7 @@ export function Chatbot() {
 
   const transport = useRef(new DefaultChatTransport({ api: "/api/chat" })).current;
   const { messages, sendMessage, status, setMessages } = useChat({
-    id: "aiden-assistant",
+    id: "bilal-assistant",
     messages: initial,
     transport,
   });
@@ -78,7 +79,7 @@ export function Chatbot() {
       {/* Launcher */}
       <motion.button
         onClick={() => setOpen((v) => !v)}
-        aria-label={open ? "Close chat" : "Open chat with Aiden's assistant"}
+        aria-label={open ? "Close chat" : "Open chat with Bilal's AI Assistant"}
         initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ delay: 0.5, type: "spring", stiffness: 220, damping: 18 }}
@@ -123,7 +124,7 @@ export function Chatbot() {
             transition={{ type: "spring", stiffness: 260, damping: 24 }}
             className="fixed bottom-24 right-3 z-50 flex h-[calc(100dvh-8rem)] max-h-[600px] w-[calc(100vw-1.5rem)] max-w-[400px] flex-col overflow-hidden glass-card border-primary/30 shadow-2xl shadow-primary/20 sm:right-6 sm:bottom-28"
             role="dialog"
-            aria-label="Portfolio AI assistant"
+            aria-label="Bilal Portfolio AI Assistant"
           >
             {/* Header */}
             <div className="flex items-center justify-between gap-3 border-b border-border/60 bg-background/40 px-4 py-3 backdrop-blur">
@@ -132,10 +133,13 @@ export function Chatbot() {
                   <Sparkles size={16} />
                 </span>
                 <div className="min-w-0">
-                  <p className="truncate text-sm font-semibold">Aiden's Assistant</p>
+                  <p className="truncate text-sm font-semibold">
+  Bilal AI Assistant
+</p>
                   <p className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
-                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" /> Online
-                  </p>
+  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+  AI Assistant • Online
+</p>
                 </div>
               </div>
               {messages.length > 0 && (
@@ -143,7 +147,7 @@ export function Chatbot() {
                   onClick={clear}
                   className="rounded-full border border-border px-2.5 py-1 text-[11px] text-muted-foreground transition hover:border-primary/60 hover:text-primary"
                 >
-                  Clear
+                  Clear Chat
                 </button>
               )}
             </div>
@@ -159,8 +163,20 @@ export function Chatbot() {
                     <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-primary/15 text-primary">
                       <Sparkles size={14} />
                     </span>
-                    <div className="rounded-2xl rounded-tl-sm border border-border bg-background/50 px-3.5 py-2.5 text-sm text-foreground">
-                      Hi! I'm Aiden's AI assistant. Ask me about his skills, projects, or how to work with him.
+                    <div className="rounded-2xl rounded-tl-sm border border-border bg-background/50 px-3.5 py-2.5 text-sm text-foreground whitespace-pre-line">
+                      {`Hi! 👋 I'm Bilal's AI Assistant.
+
+I can answer questions about:
+
+• AI & Full-Stack Projects
+• Agentic AI Experience
+• Skills & Technologies
+• Hackathons
+• Certifications
+• Education
+• Contact Information
+
+Ask me anything!`}
                     </div>
                   </div>
                   <div className="flex flex-wrap gap-2 pt-1">
@@ -235,7 +251,7 @@ export function Chatbot() {
               <input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder="Ask about Aiden…"
+                placeholder="Ask me anything about Bilal..."
                 disabled={isBusy}
                 className="flex-1 rounded-full border border-border bg-background/60 px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/60 outline-none transition focus:border-primary focus:neon-glow disabled:opacity-60"
               />

@@ -14,7 +14,7 @@ export function Timeline() {
   return (
     <Section
       id="journey"
-      eyebrow="My Path"
+      eyebrow="02 — My Journey"
       title="My Journey"
       subtitle="Six years of building, learning, and shipping."
     >

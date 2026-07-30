@@ -1,37 +1,37 @@
 import profileImg from "@/assets/profile.jpg";
-import aboutImg from "@/assets/about.jpg";
-import project1 from "@/assets/project-1.jpg";
-import project2 from "@/assets/project-2.jpg";
-import project3 from "@/assets/project-3.jpg";
+import aboutImg from "@/assets/about.png";
+import project1 from "@/assets/Gulzaren.jpeg";
+import project2 from "@/assets/amd.jpeg";
+import project3 from "@/assets/mentor.jpeg";
 import project4 from "@/assets/project-4.jpg";
 import cert1 from "@/assets/cert-1.jpg";
 import cert2 from "@/assets/cert-2.jpg";
 import cert3 from "@/assets/cert-3.jpg";
 
 export const profile = {
-  name: "Aiden Vector",
-  role: "Full-Stack Engineer & UI Architect",
+  name: "Muhammad Bilal Hussain",
+  role:"AI Engineer | Full-Stack Engineer",
   greeting: "Hello, I'm",
-  tagline:
-    "I craft high-performance, delightful web experiences at the edge of design and engineering — turning complex product ideas into pixel-precise, production-ready interfaces.",
-  location: "Remote · Berlin, DE",
-  email: "hello@aidenvector.dev",
-  phone: "+49 30 5555 0182",
-  resumeUrl: "#",
+tagline:
+  "Building intelligent AI applications and scalable full-stack solutions with Python, FastAPI, React, Next.js, and Large Language Models—focused on solving real-world problems through modern software engineering.",
+  location: "Karachi, Pakistan",
+  email: "bilalhussain42201@gmail.com",
+  phone: "+92 335 2009245",
+  resumeUrl: "./Bilal_Hussain.pdf",
   image: profileImg,
   aboutImage: aboutImg,
 };
 
 export const stats = [
-  { label: "Years Experience", value: "6+" },
-  { label: "Projects Shipped", value: "80+" },
-  { label: "Certificates", value: "14" },
-  { label: "Happy Clients", value: "40+" },
+  { label: "Projects", value: "15+" },
+  { label: "Hackathons", value: "4+" },
+  { label: "Certificates", value: "10+" },
+  { label: "Technologies", value: "25+" },
 ];
 
 export const socials = [
-  { name: "GitHub", href: "https://github.com", icon: "Github" as const },
-  { name: "LinkedIn", href: "https://linkedin.com", icon: "Linkedin" as const },
+  { name: "GitHub", href: "https://github.com/bilalwebs", icon: "Github" as const },
+  { name: "LinkedIn", href: "https://www.linkedin.com/in/bilal-hussain-dev/", icon: "Linkedin" as const },
   { name: "Twitter", href: "https://twitter.com", icon: "Twitter" as const },
   { name: "Dribbble", href: "https://dribbble.com", icon: "Dribbble" as const },
 ];
@@ -39,110 +39,127 @@ export const socials = [
 export const journey = [
   {
     type: "Education",
-    title: "B.Sc. Computer Science",
-    org: "Technical University of Berlin",
-    period: "2016 — 2020",
+    title: "Matriculation",
+    org: "Takbeer Secondary School, Karachi",
+    period: "2020",
     description:
-      "Focused on human–computer interaction, distributed systems, and applied ML. Graduated with honors.",
+      "Completed Science from the Board of Secondary Education Karachi.",
   },
   {
-    type: "Internship",
-    title: "Frontend Intern",
-    org: "Prism Labs",
-    period: "2019",
+    type: "Education",
+    title: "Intermediate (Pre-Engineering)",
+    org: "Aisha Bawany Government College, Karachi",
+    period: "2022",
     description:
-      "Shipped design-system primitives used across 12 internal tools. Built the first accessibility audit pipeline.",
+      "Completed Pre-Engineering from the Board of Intermediate Education Karachi.",
   },
   {
-    type: "Experience",
-    title: "Product Engineer",
-    org: "Northwave Studio",
-    period: "2020 — 2022",
+    type: "Education",
+    title: "BS Software Engineering (Ongoing)",
+    org: "Sindh Madressatul Islam University (SMIU), Karachi",
+    period: "2022 – Present",
     description:
-      "Led the rebuild of the flagship SaaS dashboard. Cut TTI by 62% and increased retention by 24%.",
+      "Pursuing a Bachelor's degree in Software Engineering with a focus on Artificial Intelligence, Full-Stack Development, Agentic AI, and modern software engineering practices.",
   },
   {
-    type: "Experience",
-    title: "Senior Full-Stack Engineer",
-    org: "Halcyon AI",
-    period: "2022 — Present",
+    type: "Certification",
+    title: "Certified Cloud Applied Generative AI Engineer",
+    org: "Governor House Karachi",
+    period: "2024 – Present",
     description:
-      "Architecting agentic tooling and realtime interfaces used by 40k+ makers. Mentoring a team of 5.",
-  },
-  {
-    type: "Achievement",
-    title: "Awwwards Site of the Day",
-    org: "Awwwards",
-    period: "2024",
-    description:
-      "Recognized for a generative motion portfolio built with WebGL, Motion, and a custom shader stack.",
+      "Comprehensive training in Generative AI, Agentic AI, Cloud Computing, FastAPI, LangChain, LangGraph, RAG, and production-ready AI application development.",
   },
 ];
-
 export const skills = {
   Frontend: [
-    { name: "React / Next.js", level: 96 },
-    { name: "TypeScript", level: 94 },
-    { name: "Tailwind CSS", level: 95 },
-    { name: "Motion / GSAP", level: 88 },
+    { name: "HTML5", level: 80 },
+    { name: "CSS3", level: 78 },
+    { name: "JavaScript (ES6+)", level: 75 },
+    { name: "React.js", level: 72 },
+    { name: "Next.js", level: 65 },
+    { name: "Tailwind CSS", level: 75 },
   ],
+
   Backend: [
-    { name: "Node.js / Bun", level: 92 },
-    { name: "PostgreSQL", level: 86 },
-    { name: "GraphQL", level: 80 },
-    { name: "Edge Functions", level: 84 },
+    { name: "Python", level: 88 },
+    { name: "FastAPI", level: 85 },
+    { name: "SQLAlchemy", level: 82 },
+    { name: "SQLite", level: 85 },
+    { name: "JWT Authentication", level: 80 },
+    { name: "REST APIs", level: 85 },
   ],
-  Tools: [
-    { name: "Git / GitHub", level: 95 },
-    { name: "Figma", level: 90 },
-    { name: "Docker", level: 78 },
-    { name: "Vite / Turbo", level: 88 },
-  ],
+
   AI: [
-    { name: "LLM App Design", level: 90 },
-    { name: "Vector Search", level: 82 },
-    { name: "Prompt Engineering", level: 88 },
-    { name: "Agent Tooling", level: 78 },
+    { name: "Agentic AI", level: 85 },
+    { name: "LangChain", level: 82 },
+    { name: "LangGraph", level: 75 },
+    { name: "RAG", level: 80 },
+    { name: "Prompt Engineering", level: 82 },
+    { name: "LLM Integration", level: 80 },
+  ],
+
+  Tools: [
+    { name: "Git & GitHub", level: 85 },
+    { name: "VS Code", level: 90 },
+    { name: "Postman", level: 80 },
+    { name: "Streamlit", level: 82 },
+    { name: "Vercel", level: 75 },
+    { name: "Docker", level: 60 },
   ],
 };
-
 export const projects = [
   {
-    title: "Halcyon Command Center",
-    description:
-      "A realtime observability suite for agentic workflows. Streams 12M events/day with sub-100ms UI updates.",
-    image: project1,
-    tech: ["Next.js", "tRPC", "Postgres", "Motion"],
-    github: "https://github.com",
-    demo: "https://example.com",
-  },
-  {
-    title: "Northwave Commerce",
-    description:
-      "Headless e-commerce storefront optimized for edge rendering. Ranked in the top 1% Lighthouse scores.",
-    image: project2,
-    tech: ["Remix", "Shopify", "Tailwind"],
-    github: "https://github.com",
-    demo: "https://example.com",
-  },
-  {
-    title: "Nova Chat",
-    description:
-      "Multi-model AI assistant with agent tools, RAG, and a beautifully minimal command interface.",
-    image: project3,
-    tech: ["React", "OpenAI", "Supabase"],
-    github: "https://github.com",
-    demo: "https://example.com",
-  },
-  {
-    title: "Pulse Analytics",
-    description:
-      "Zero-config product analytics with cohort explorer, funnels, and AI-generated insight briefings.",
-    image: project4,
-    tech: ["TanStack", "Clickhouse", "D3"],
-    github: "https://github.com",
-    demo: "https://example.com",
-  },
+  title: "Gulzareen – AI Crop Residue Classification Platform",
+  description:
+    "An AI-powered platform that classifies agricultural crop residue from smartphone images, estimates market value, recommends reuse opportunities, detects contamination, and calculates CO₂ emissions using Computer Vision and Machine Learning.",
+  image: project1,
+  tech: [
+    "Python",
+    "FastAPI",
+    "React",
+    "TypeScript",
+    "ONNX Runtime",
+    "Computer Vision",
+    "Docker",
+    "Vercel"
+  ],
+  github: "https://github.com/bilalwebs/Gulzareen",
+  demo: "https://gulzareen.vercel.app/",
+},
+{
+  title: "AMD Video Captioning AI",
+  description:
+    "An AI-powered video captioning platform that generates multiple caption styles from a single video using Vision Language Models, FFmpeg, FastAPI, and automated LLM-based quality evaluation.",
+  image: project2,
+  tech: [
+    "Python",
+    "FastAPI",
+    "Fireworks AI",
+    "Vision LLM",
+    "FFmpeg",
+    "HTML",
+    "JavaScript"
+  ],
+  github: "YOUR_GITHUB",
+  demo: "https://amd-hackathon.streamlit.app/",
+},
+{
+  title: "Qwen Multi-Agent Automation System",
+  description:
+    "A production-ready multi-agent AI system built on Qwen Cloud that automates complex workflows through intelligent task planning, tool calling, memory, and collaborative AI agents.",
+  image: project3,
+  tech: [
+    "Python",
+    "FastAPI",
+    "Qwen",
+    "Agentic AI",
+    "LLMs",
+    "React"
+  ],
+  github: "https://github.com/bilalwebs/MentorOS",
+  demo: "https://mentoros-ai.vercel.app/",
+},
+
 ];
 
 export const certificates = [
@@ -168,65 +185,27 @@ export const certificates = [
 
 export const recognitions = [
   {
-    tag: "Hackathon",
-    title: "NCAI Hackathon, NUCES",
-    description:
-      "Top 6 finalist, placing in the Top 50 of 10,000 teams with ProctorVision AI. Special recognition from Prof. Fan Zhang of Zhejiang University.",
-    status: null as null | "Results Pending",
-  },
+  tag: "Hackathon",
+  title: "Global AI Hackathon Series with Qwen Cloud",
+  description:
+    "Developed a production-ready AI agent using Qwen Cloud, multi-agent workflows, cloud deployment, and LLM-powered automation for the international AI hackathon.",
+  status: "Results Pending",
+},
   {
-    tag: "Hackathon",
-    title: "AMD Developer Hackathon: ACT II",
-    description:
-      "Led the team that built LogiSecure, an on-premise AI logistics copilot on AMD ROCm.",
-    status: "Results Pending" as const,
-  },
+  tag: "Hackathon",
+  title: "AMD Developer Hackathon: ACT II",
+  description:
+    "Developed an AI-powered video captioning platform that generates multiple caption styles from a single video using Vision Language Models, FFmpeg, FastAPI, and automated LLM-based quality evaluation.",
+  status: "Results Pending",
+},
   {
-    tag: "Hackathon",
-    title: "Vibe Coding Hackathon 2026",
-    description:
-      "Led the team that built Gulzareen, turning crop residue into farmer income.",
-    status: "Results Pending" as const,
-  },
-  {
-    tag: "Hackathon",
-    title: "OpenAI Build Week",
-    description: "Built Markdown Lens, a privacy-first in-browser Markdown viewer.",
-    status: null,
-  },
-  {
-    tag: "Kaggle",
-    title: "Digit Recognizer",
-    description: "Ranked 73rd of 3,380 participants.",
-    status: null,
-  },
-  {
-    tag: "Kaggle",
-    title: "Titanic, ML from Disaster",
-    description: "Ranked 219th of 45,633 participants.",
-    status: null,
-  },
-  {
-    tag: "Award",
-    title: "UET Merit Scholarship",
-    description:
-      "A1 merit-category admission and the Merit Scholarship reserved for the top 50 of the incoming cohort.",
-    status: null,
-  },
-  {
-    tag: "Recognition",
-    title: "Teaching Assistant",
-    description:
-      "Selected on core-course performance to support a 250-student junior batch in programming fundamentals and OOP.",
-    status: null,
-  },
-  {
-    tag: "Certification",
-    title: "CS50x and applied AI",
-    description:
-      "Harvard CS50x, plus computer vision and ML explainability tracks on Kaggle and Nvidia RAG.",
-    status: null,
-  },
+  tag: "Hackathon",
+  title: "DYLP Vibe Coding Hackathon 2026",
+  description:
+    "Developed 'Gulzareen', an AI-powered crop residue classification platform that helps farmers identify agricultural waste, estimate market value, discover reuse opportunities, and reduce crop burning through computer vision and AI.",
+  status: "Results Pending",
+},
+  
 ];
 
 export const navLinks = [

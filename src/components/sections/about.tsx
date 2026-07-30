@@ -4,9 +4,18 @@ import { Section } from "@/components/ui/section";
 import { profile } from "@/data/portfolio";
 
 const aboutStats = [
-  { value: "5th", label: "Semester BSCS" },
-  { value: "15+", label: "Projects Done" },
-  { value: "2+", label: "Yrs in Design" },
+  {
+    value: "5th",
+    label: "Semester"
+  },
+  {
+    value: "4",
+    label: "Hackathons"
+  },
+  {
+    value: "15+",
+    label: "Projects"
+  }
 ];
 
 export function About() {
@@ -54,15 +63,13 @@ export function About() {
           className="lg:col-span-7"
         >
           <p className="text-xs font-semibold uppercase tracking-[0.25em] text-primary">
-            Frontend Developer &amp; Visual Designer
+            Agentic AI Developer &amp; Full-Stack Engineer
           </p>
           <h3 className="mt-4 text-4xl font-bold leading-tight text-foreground sm:text-5xl">
-            Engineering Fluid Interfaces
+            Building Intelligent AI Applications
           </h3>
           <p className="mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground">
-            I specialize in translating sophisticated structural designs into highly optimized,
-            performant source code. With strong academic pillars in Computer Science and hands-on
-            freelance delivery workflows, I cross-engineer interfaces for scalable client success.
+            I am a Software Engineering student with a strong interest in Artificial Intelligence, Agentic AI, and Full-Stack Development. I enjoy building real-world AI applications using modern technologies such as Python, FastAPI, React, Next.js, and Large Language Models (LLMs). My goal is to develop scalable, intelligent, and user-focused software that solves practical problems while continuously improving my technical skills through projects, hackathons, and open-source learning.
           </p>
 
           {/* stats row */}

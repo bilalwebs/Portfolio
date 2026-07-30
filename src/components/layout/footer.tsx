@@ -8,17 +8,18 @@ export function Footer() {
   return (
     <footer className="relative border-t border-border bg-card/40 py-10">
       <div className="mx-auto flex max-w-6xl flex-col items-center gap-6 px-6 sm:flex-row sm:justify-between">
-        <a href="#home" className="flex items-center gap-2">
-          <span className="grid h-9 w-9 place-items-center rounded-xl bg-primary/10 text-primary neon-glow ring-1 ring-primary/40 font-bold">
-            A
-          </span>
-          <span className="font-semibold">
-            Aiden<span className="text-primary">.</span>
-          </span>
-        </a>
+        <a href="#home" className="flex items-center gap-3 group">
+  <div className="grid h-10 w-10 place-items-center rounded-xl bg-primary text-primary-foreground font-bold shadow-lg shadow-primary/30 transition-transform group-hover:scale-105">
+    BH
+  </div>
+
+  <h2 className="text-base font-bold tracking-tight">
+    Bilal <span className="gradient-text">Hussain</span>
+  </h2>
+</a>
 
         <p className="text-xs text-muted-foreground">
-          © {year} {profile.name}. Crafted with care and caffeine.
+          © {year} {profile.name}. All rights reserved.
         </p>
 
         <div className="flex items-center gap-3">

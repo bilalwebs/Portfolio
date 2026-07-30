@@ -1,14 +1,68 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { convertToModelMessages, streamText, type UIMessage } from "ai";
 import { createLovableAiGatewayProvider } from "@/lib/ai-gateway.server";
+import {
+  profile,
+  skills,
+  projects,
+  journey,
+  recognitions,
+  certificates,
+} from "@/data/portfolio";
 
-const SYSTEM_PROMPT = `You are Aiden's AI assistant on his portfolio site.
-Aiden Vector is a Full-Stack Engineer & UI Architect based in Berlin (remote).
-Contact: hello@aidenvector.dev · +49 30 5555 0182.
-He has 6+ years of experience, shipped 80+ projects, and works with React, Next.js, TypeScript, Tailwind, Motion, Node.js, Postgres, GraphQL, and LLM/agent tooling.
-Selected work: Halcyon Command Center (realtime agent observability), Northwave Commerce (headless storefront), Nova Chat (multi-model AI assistant), Pulse Analytics.
-Answer visitor questions about Aiden's skills, projects, experience, and how to hire him. Be concise, warm, and professional. Use short paragraphs and lists. If asked something you don't know, say so and point them to the contact form.`;
+const portfolioContext = `
+Name: ${profile.name}
+Role: ${profile.role}
+Location: ${profile.location}
+Email: ${profile.email}
 
+Skills:
+${Object.entries(skills)
+  .map(([category, items]) => {
+    return `${category}: ${items.map((s) => s.name).join(", ")}`;
+  })
+  .join("\n")}
+
+Projects:
+${projects
+  .map(
+    (p) => `- ${p.title}: ${p.description}
+Tech: ${p.tech.join(", ")}`
+  )
+  .join("\n\n")}
+
+Education & Journey:
+${journey
+  .map((j) => `- ${j.title} (${j.org})`)
+  .join("\n")}
+
+Recognitions:
+${recognitions
+  .map((r) => `- ${r.title}: ${r.description}`)
+  .join("\n")}
+
+Certificates:
+${certificates
+  .map((c) => `- ${c.title} (${c.org})`)
+  .join("\n")}
+`;
+const SYSTEM_PROMPT = `
+You are Bilal's AI Assistant.
+
+You answer questions only about Bilal's portfolio.
+
+Here is Bilal's latest portfolio information:
+
+${portfolioContext}
+
+Rules:
+- Be professional and concise.
+- Answer only using the information above.
+- Never invent projects, skills, achievements, certifications, education, or experience that are not present in the portfolio information.
+- If information is unavailable, politely say you don't know instead of making up an answer.
+- If someone greets you, introduce yourself as Bilal's AI Assistant and briefly explain what you can help with.
+- If someone wants to contact Bilal, provide his email or tell them to use the Contact section.
+`;
 type ChatRequestBody = { messages?: unknown };
 
 export const Route = createFileRoute("/api/chat")({

@@ -18,8 +18,8 @@ export function Projects() {
   return (
     <Section
       id="projects"
-      eyebrow="Selected Work"
-      title="My Projects"
+      eyebrow="05 — Featured Projects"
+      title="Featured Projects"
       subtitle="A few things I've built recently — from realtime dashboards to full commerce stacks."
     >
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
@@ -61,7 +61,7 @@ export function Projects() {
                           <Loader2 className="animate-spin text-primary" size={22} />
                         </div>
                         <span className="text-xs font-medium tracking-widest text-primary uppercase text-glow">
-                          Launching…
+                          Loading Demo...
                         </span>
                       </motion.div>
                     ) : (
@@ -108,7 +108,7 @@ export function Projects() {
                     rel="noreferrer"
                     className="inline-flex items-center gap-2 rounded-full border border-border bg-background/40 px-4 py-2 text-xs font-medium text-foreground transition hover:border-primary hover:text-primary"
                   >
-                    <Github size={14} /> Code
+                    <Github size={14} /> Source Code
                   </a>
                   <a
                     href={p.demo}

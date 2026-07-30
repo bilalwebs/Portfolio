@@ -7,9 +7,9 @@ export function Certificates() {
   return (
     <Section
       id="certificates"
-      eyebrow="Credentials"
-      title="My Certificates"
-      subtitle="Continued learning to keep the toolbox sharp."
+      eyebrow="07 — Certifications"
+      title="Professional Certifications"
+      subtitle="Industry-recognized certifications demonstrating continuous learning and technical expertise."
     >
       <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
         {certificates.map((c, i) => (
@@ -31,15 +31,17 @@ export function Certificates() {
               />
               <div className="absolute inset-0 flex items-center justify-center bg-background/70 opacity-0 backdrop-blur-sm transition-opacity group-hover:opacity-100">
                 <span className="inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground">
-                  <Eye size={14} /> View Certificate
+                  <Eye size={14} /> View Credential
                 </span>
               </div>
             </div>
             <div className="p-5">
-              <h3 className="font-semibold group-hover:text-primary transition-colors">
+            <h3 className="text-lg font-semibold transition-colors group-hover:text-primary">
                 {c.title}
               </h3>
-              <p className="mt-1 text-xs text-muted-foreground">{c.org}</p>
+              <p className="mt-2 text-sm text-muted-foreground">
+  {c.org}
+</p>
             </div>
           </motion.a>
         ))}

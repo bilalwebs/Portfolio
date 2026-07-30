@@ -4,12 +4,12 @@ import { recognitions } from "@/data/portfolio";
 
 export function Recognition() {
   return (
-    <Section
-      id="recognition"
-      eyebrow="Recognition"
-      title="Hackathons, rankings, and awards."
-      subtitle="Selected wins, placements, and credentials — pending results fall off as they land."
-    >
+   <Section
+  id="recognition"
+  eyebrow="06 — Achievements"
+  title="Achievements & Recognition"
+  subtitle="A collection of hackathons, competitions, academic achievements, certifications, and professional milestones throughout my learning journey."
+>
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
         {recognitions.map((r, i) => (
           <motion.article

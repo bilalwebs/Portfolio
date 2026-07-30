@@ -12,49 +12,48 @@ type Step = {
 const steps: Step[] = [
   {
     num: "01",
-    title: "Discover",
+    title: "Requirements Analysis",
     description:
-      "Understand the problem, business goals, and user requirements before writing a single line of code.",
+      "Understand business goals, gather requirements, analyze user needs, and define the project scope before development begins.",
     icon: Compass,
   },
   {
     num: "02",
-    title: "Design",
+    title: "System Design",
     description:
-      "Plan scalable architecture, AI models, APIs, databases, and the end-to-end user experience.",
+      "Design scalable system architecture, APIs, databases, AI workflows, and intuitive user experiences with security, maintainability, and performance in mind.",
     icon: PenTool,
   },
   {
     num: "03",
-    title: "Build",
+    title: "Development",
     description:
-      "Develop AI agents, FastAPI backends, React / Next.js frontends, RAG systems, and automation workflows.",
+      "Develop scalable AI-powered applications using Python, FastAPI, React, Next.js, SQL, and Large Language Models while following clean architecture and industry best practices.",
     icon: Code2,
   },
   {
     num: "04",
-    title: "Validate",
+    title: "Testing & Optimization",
     description:
-      "Test functionality, optimize prompts, improve performance, and ensure production-grade reliability.",
+      "Test application functionality, resolve issues, optimize performance, refine AI workflows, and ensure production-ready reliability.",
     icon: ShieldCheck,
   },
   {
     num: "05",
-    title: "Deploy",
+    title: "Deployment & Maintenance",
     description:
-      "Ship production-ready applications to the cloud and continuously improve them post-launch.",
+      "Deploy applications to cloud platforms, monitor performance, maintain reliability, and continuously improve the product through iterative updates and user feedback.",
     icon: Rocket,
   },
 ];
-
 export function Process() {
   return (
-    <Section
-      id="process"
-      eyebrow="My Workflow"
-      title="How I Build AI Solutions"
-      subtitle="A repeatable five-step process I use to take AI products from idea to production."
-    >
+<Section
+  id="process"
+  eyebrow="04 — Development Process"
+  title="How I Build AI Solutions"
+  subtitle="A structured workflow for building scalable, production-ready AI applications."
+>
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {steps.map((step, i) => {
           const Icon = step.icon;
