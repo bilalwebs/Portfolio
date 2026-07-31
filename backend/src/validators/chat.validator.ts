@@ -3,6 +3,23 @@ import { body, type ValidationChain } from "express-validator";
 const MAX_MESSAGES = 50;
 const MAX_CONVERSATION_TEXT = 20_000;
 
+interface UiMessageLike {
+  parts?: { type?: string; text?: unknown }[];
+}
+
+const totalConversationText = (messages: unknown[]): number =>
+  messages.reduce<number>((sum, message) => {
+    const candidate = message as UiMessageLike;
+    const textLength = (Array.isArray(candidate?.parts) ? candidate.parts : []).reduce(
+      (partSum, part) => {
+        const text = part && typeof part === "object" && part.type === "text" ? part.text : "";
+        return partSum + (typeof text === "string" ? text.length : 0);
+      },
+      0,
+    );
+    return sum + textLength;
+  }, 0);
+
 export const chatRules: ValidationChain[] = [
   body("id")
     .optional()
@@ -14,8 +31,12 @@ export const chatRules: ValidationChain[] = [
   body("messages")
     .isArray({ min: 1 })
     .withMessage("messages must be a non-empty array")
-    .custom((messages: unknown[]) => messages.length <= MAX_MESSAGES)
-    .withMessage(`messages must contain at most ${MAX_MESSAGES} entries`),
+    .custom((messages: unknown[]) => Array.isArray(messages) && messages.length <= MAX_MESSAGES)
+    .withMessage(`messages must contain at most ${MAX_MESSAGES} entries`)
+    .custom((messages: unknown[]) =>
+      Array.isArray(messages) && totalConversationText(messages) <= MAX_CONVERSATION_TEXT,
+    )
+    .withMessage(`Total conversation text must not exceed ${MAX_CONVERSATION_TEXT} characters`),
 
   body("messages.*.id")
     .optional()
@@ -29,18 +50,4 @@ export const chatRules: ValidationChain[] = [
   body("messages.*.parts")
     .isArray()
     .withMessage("Each message must have a parts array"),
-
-  body("messages").custom((messages: unknown[]) => {
-    const totalText = (messages as UiMessageLike[]).reduce((sum, message) => {
-      const textLength = (message?.parts ?? [])
-        .filter((part) => part?.type === "text" && typeof part.text === "string")
-        .reduce((partSum, part) => partSum + (part as { text: string }).text.length, 0);
-      return sum + textLength;
-    }, 0);
-    return totalText <= MAX_CONVERSATION_TEXT;
-  }).withMessage(`Total conversation text must not exceed ${MAX_CONVERSATION_TEXT} characters`),
 ];
-
-interface UiMessageLike {
-  parts?: { type?: string; text?: unknown }[];
-}

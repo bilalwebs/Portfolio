@@ -44,6 +44,24 @@ const AI_PROVIDERS = ["openai", "groq", "gemini"] as const;
 
 export type AiProvider = (typeof AI_PROVIDERS)[number];
 
+/**
+ * Maps each supported provider to the environment variables that configure
+ * it. Adding a future provider (Anthropic, OpenRouter, DeepSeek, ...) only
+ * requires a new entry here plus the corresponding *_API_KEY, *_BASE_URL
+ * and *_MODEL variables.
+ */
+interface AiProviderEnvSpec {
+  apiKey: string;
+  baseUrl: string;
+  model: string;
+}
+
+const AI_PROVIDER_ENV_SPECS: Record<AiProvider, AiProviderEnvSpec> = {
+  openai: { apiKey: "OPENAI_API_KEY", baseUrl: "OPENAI_BASE_URL", model: "OPENAI_MODEL" },
+  groq: { apiKey: "GROQ_API_KEY", baseUrl: "GROQ_BASE_URL", model: "GROQ_MODEL" },
+  gemini: { apiKey: "GEMINI_API_KEY", baseUrl: "GEMINI_BASE_URL", model: "GEMINI_MODEL" },
+};
+
 const AI_PROVIDER = (process.env.AI_PROVIDER ?? "openai").toLowerCase() as AiProvider;
 
 if (!AI_PROVIDERS.includes(AI_PROVIDER)) {
@@ -52,24 +70,40 @@ if (!AI_PROVIDERS.includes(AI_PROVIDER)) {
   );
 }
 
-const OPENAI_API_KEY = process.env.OPENAI_API_KEY?.trim();
-const GROQ_API_KEY = process.env.GROQ_API_KEY?.trim();
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY?.trim();
+const readAiSetting = (name: string): string => process.env[name]?.trim() ?? "";
 
-const AI_API_KEYS: Record<AiProvider, string | undefined> = {
-  openai: OPENAI_API_KEY,
-  groq: GROQ_API_KEY,
-  gemini: GEMINI_API_KEY,
-};
+const aiEnvSpec = AI_PROVIDER_ENV_SPECS[AI_PROVIDER];
+const aiApiKey = readAiSetting(aiEnvSpec.apiKey);
+const aiBaseUrl = readAiSetting(aiEnvSpec.baseUrl);
+const aiModel = readAiSetting(aiEnvSpec.model);
 
-const selectedAiApiKey = AI_API_KEYS[AI_PROVIDER];
-
-if (!selectedAiApiKey) {
+if (!aiApiKey) {
   throw new Error(
-    `Invalid configuration: AI_PROVIDER is "${AI_PROVIDER}" but ${AI_PROVIDER.toUpperCase()}_API_KEY is missing. ` +
+    `Invalid configuration: AI_PROVIDER is "${AI_PROVIDER}" but ${aiEnvSpec.apiKey} is missing. ` +
       "Add it to the environment (.env) to enable the chat endpoint.",
   );
 }
+
+if (!aiBaseUrl) {
+  throw new Error(
+    `Invalid configuration: AI_PROVIDER is "${AI_PROVIDER}" but ${aiEnvSpec.baseUrl} is missing. ` +
+      "Add it to the environment (.env) to enable the chat endpoint.",
+  );
+}
+
+if (!aiModel) {
+  throw new Error(
+    `Invalid configuration: AI_PROVIDER is "${AI_PROVIDER}" but ${aiEnvSpec.model} is missing. ` +
+      "Add it to the environment (.env) to enable the chat endpoint.",
+  );
+}
+
+export const aiProviderConfig = {
+  provider: AI_PROVIDER,
+  apiKey: aiApiKey,
+  baseUrl: aiBaseUrl,
+  model: aiModel,
+} as const;
 
 export const env = {
   NODE_ENV: process.env.NODE_ENV ?? "development",
@@ -86,10 +120,6 @@ export const env = {
   CONTACT_RATE_LIMIT_MAX: toInt(process.env.CONTACT_RATE_LIMIT_MAX, 5),
   CHAT_RATE_LIMIT_WINDOW_MS: toInt(process.env.CHAT_RATE_LIMIT_WINDOW_MS, 15 * 60 * 1000),
   CHAT_RATE_LIMIT_MAX: toInt(process.env.CHAT_RATE_LIMIT_MAX, 30),
-  AI_PROVIDER,
-  OPENAI_API_KEY,
-  GROQ_API_KEY,
-  GEMINI_API_KEY,
 } as const;
 
 export const isProduction = env.NODE_ENV === "production";
