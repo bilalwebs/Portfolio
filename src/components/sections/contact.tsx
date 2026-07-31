@@ -6,12 +6,39 @@ import { profile } from "@/data/portfolio";
 
 export function Contact() {
   const [sent, setSent] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
-  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSent(true);
-    setTimeout(() => setSent(false), 3500);
-    (e.currentTarget as HTMLFormElement).reset();
+    setError(null);
+
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+
+    try {
+      setLoading(true);
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(Object.fromEntries(formData)),
+      });
+
+      const data = (await res.json()) as { success?: boolean; error?: string };
+
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || "Something went wrong. Please try again.");
+      }
+
+      setSent(true);
+      form.reset();
+      setTimeout(() => setSent(false), 3500);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
+      setTimeout(() => setError(null), 5000);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const cards = [
@@ -87,6 +114,14 @@ export function Contact() {
           viewport={{ once: true }}
           className="glass-card space-y-4 p-6 sm:p-8 lg:col-span-7"
         >
+          <input
+            type="text"
+            name="_hp"
+            tabIndex={-1}
+            autoComplete="off"
+            aria-hidden="true"
+            style={{ position: "absolute", left: "-9999px", opacity: 0 }}
+          />
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <Field label="Full Name" name="name" placeholder="Your full name" />
             <Field label="Email" name="email" type="email" placeholder="you@company.com" />
@@ -110,7 +145,7 @@ export function Contact() {
           </div>
           <button
             type="submit"
-            disabled={sent}
+            disabled={sent || loading}
             className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary px-6 py-3.5 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/30 transition-all hover:scale-[1.01] hover:neon-glow-strong disabled:opacity-70"
           >
             {sent ? (
@@ -124,6 +159,11 @@ export function Contact() {
               </>
             )}
           </button>
+          {error ? (
+            <p className="text-center text-sm text-destructive" role="alert">
+              {error}
+            </p>
+          ) : null}
         </motion.form>
       </div>
     </Section>

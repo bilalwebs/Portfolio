@@ -1,8 +1,8 @@
 # Bilal Hussain — Portfolio
 
-> Full-Stack Engineer & UI Architect
+> AI Engineer & Full-Stack Developer
 
-A modern, single-page portfolio website built with **TanStack Start**, **React 19**, and **Tailwind CSS v4**. Features a cyber-blue neon dark theme, interactive AI chatbot assistant, and SSR-powered performance.
+A modern, single-page portfolio website built with **React 19**, **Vite 8**, and **Tailwind CSS v4**. Features a cyber-blue neon dark theme, interactive AI chatbot assistant, and a fully responsive, mobile-first layout.
 
 ---
 
@@ -22,81 +22,70 @@ A modern, single-page portfolio website built with **TanStack Start**, **React 1
 - **Projects Showcase** — Cards with image overlay, live preview animation, tech tags
 - **Recognition** — Hackathon wins, Kaggle rankings, awards
 - **Certificates** — Certificate cards with hover-reveal view action
-- **Contact Section** — Contact info cards + form (UI only, no backend)
-- **AI Chatbot** — Floating assistant powered by Vercel AI SDK + Lovable AI Gateway
+- **Contact Section** — Contact info cards + form (posts to `/api/contact`)
+- **AI Chatbot** — Floating assistant powered by Vercel AI SDK (client-side, posts to `/api/chat`)
 - **Custom Cursor** — Neon-accent cursor on desktop
 - **Preloader Animation** — Branded entry animation
 - **Responsive Design** — Mobile-first with responsive navigation
-- **SSR** — Server-side rendering with robust error handling
 - **Dark Theme** — Cyber-blue neon aesthetic throughout
 
 ---
 
 ## Tech Stack
 
-| Category             | Technology                                 |
-| -------------------- | ------------------------------------------ |
-| **Framework**  | TanStack Start (React 19 + Vite 8 + Nitro) |
-| **Routing**    | TanStack Router (file-based)               |
-| **State**      | TanStack Query (React Query)               |
-| **Language**   | TypeScript 5.8                             |
-| **Styling**    | Tailwind CSS v4 + tw-animate-css           |
-| **Animations** | Motion (React) + Custom CSS                |
-| **Icons**      | Lucide React                               |
-| **UI Library** | shadcn/ui (Radix primitives)               |
-| **AI Chat**    | Vercel AI SDK + @ai-sdk/openai-compatible  |
-| **AI Gateway** | Lovable AI Gateway                         |
-| **Form**       | react-hook-form + zod                      |
-| **Build**      | Vite 8 + Nitro 3                           |
-| **Linting**    | ESLint 9 + Prettier                        |
-| **Package**    | npm / bun                                  |
+| Category          | Technology                                   |
+| ----------------- | -------------------------------------------- |
+| **Framework**     | React 19 + Vite 8 (SPA)                      |
+| **Language**      | TypeScript 5.8                               |
+| **Styling**       | Tailwind CSS v4 + tw-animate-css             |
+| **Animations**    | Motion (React) + Custom CSS                  |
+| **Icons**         | Lucide React                                 |
+| **UI Library**    | shadcn/ui (Radix primitives)                 |
+| **AI Chat**       | Vercel AI SDK (`ai` + `@ai-sdk/react`)       |
+| **Form**          | react-hook-form + @hookform/resolvers        |
+| **Build**         | Vite 8                                       |
+| **Linting**       | ESLint 9 + Prettier                          |
+| **Package**       | npm                                          |
 
 ---
 
 ## Project Architecture
 
 ```
-TanStack Start (SSR)
-├── Vite 8 — Build tool
-├── TanStack Router — File-based routing
-├── TanStack Query — Server state management
-├── Nitro — Server engine (Cloudflare-compatible)
-└── Lovable Config — Preconfigured plugin stack
+React + Vite (SPA)
+├── Vite 8 — Build tool + dev server
+├── React 19 — UI framework
+├── Tailwind CSS v4 — Styling (@tailwindcss/vite)
+├── react-dom/client — Client-side rendering (src/main.tsx)
+└── Static output — dist/ (hostable on any static host)
 ```
 
-The application is structured as a **single-page portfolio** where all sections are rendered on the `/` route. An API route at `/api/chat` handles AI chat requests server-side using the Lovable AI Gateway.
+The application is a **frontend-only single-page portfolio**. All sections render on the root route via `src/App.tsx`. The chatbot and contact form call the `/api/chat` and `/api/contact` endpoints respectively; these are **expected to be provided by an external backend or the deployment platform** — no server code lives in this repository.
 
 ---
 
 ## Folder Structure
 
 ```
+index.html            # HTML entry point (meta tags, fonts, #root mount)
 src/
-├── assets/              # Static images (profile, projects, certificates)
+├── assets/           # Static images (profile, projects, certificates)
 ├── components/
-│   ├── layout/          # Navbar, Footer
-│   ├── sections/        # Hero, About, Timeline, Skills, Process, Projects,
-│   │                    # Recognition, Certificates, Contact
-│   └── ui/              # shadcn/ui components + custom Section wrapper
+│   ├── layout/       # Navbar, Footer
+│   ├── sections/     # Hero, About, Timeline, Skills, Process, Projects,
+│   │                 # Recognition, Certificates, Contact
+│   ├── chatbot.tsx   # AI assistant widget (client-side)
+│   └── ui/           # shadcn/ui components + custom Section wrapper
 ├── data/
-│   └── portfolio.ts     # All portfolio content data
+│   └── portfolio.ts  # All portfolio content data
 ├── hooks/
-│   └── use-mobile.tsx   # Mobile detection hook
+│   └── use-mobile.tsx# Mobile detection hook
 ├── lib/
-│   ├── utils.ts         # cn() Tailwind class merge utility
-│   ├── error-capture.ts # SSR error capture & console.error wrapping
-│   ├── error-page.ts    # SSR error page HTML renderer
-│   ├── lovable-error-reporting.ts  # Lovable editor telemetry
-│   └── ai-gateway.server.ts # AI Gateway OpenAPI-compatible provider
-├── routes/
-│   ├── __root.tsx       # Root layout, 404, error boundary
-│   ├── index.tsx        # Homepage (all sections)
-│   └── api/chat.ts      # AI Chat POST endpoint
-├── router.tsx           # Router + QueryClient factory
-├── routeTree.gen.ts     # Auto-generated route tree
-├── server.ts            # SSR entry point with error normalization
-├── start.ts             # TanStack Start instance + error middleware
-└── styles.css           # Global styles, Tailwind, theme, utilities
+│   └── utils.ts      # cn() Tailwind class merge utility
+├── App.tsx           # Root component (composes all sections)
+├── main.tsx          # React entry point (createRoot)
+├── vite-env.d.ts     # Vite client type references
+└── styles.css        # Global styles, Tailwind, theme, utilities
 ```
 
 ---
@@ -106,7 +95,7 @@ src/
 ### Prerequisites
 
 - **Node.js** 20+ ([install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating))
-- **npm** or **bun**
+- **npm**
 
 ### Clone & Install
 
@@ -150,23 +139,13 @@ npm run preview
 
 ---
 
-## Environment Variables
-
-| Variable            | Required          | Description                        |
-| ------------------- | ----------------- | ---------------------------------- |
-| `LOVABLE_API_KEY` | Yes (for chatbot) | API key for the Lovable AI Gateway |
-
-Create a `.env` file in the project root or set the variable in your deployment environment.
-
----
-
 ## Build Instructions
 
 ```sh
 npm run build
 ```
 
-The output is written to `.output/` (Nitro server build) and `dist/` (client build). The production server runs on the Nitro engine, compatible with Cloudflare Pages, Vercel, and Node.js environments.
+The production build is written to `dist/` and consists of static HTML, CSS, and JavaScript — deployable to any static host.
 
 ---
 
@@ -176,10 +155,21 @@ The output is written to `.output/` (Nitro server build) and `dist/` (client bui
 
 1. Push the repository to GitHub.
 2. Import the project in [Vercel](https://vercel.com).
-3. Set the `LOVABLE_API_KEY` environment variable in Vercel's dashboard.
-4. Deploy — Vercel auto-detects the framework.
+3. Set the **build command** to `npm run build` and the **output directory** to `dist`.
+4. Deploy — Vercel serves the static SPA.
 
-The project is preconfigured for Vercel deployment via the `@tanstack/react-start` + Nitro server engine.
+> **Note:** The contact form (`/api/contact`) and chatbot (`/api/chat`) call backend endpoints. If you host those APIs elsewhere, configure a rewrite/proxy from `/api/*` to your backend in your hosting platform.
+
+---
+
+## Environment Variables
+
+The frontend build requires **no environment variables**. The `.env.example` file documents variables used by the external backend:
+
+| Variable       | Description                                    |
+| -------------- | ---------------------------------------------- |
+| `RESEND_API_KEY` | Resend API key for the contact form backend  |
+| `CONTACT_EMAIL`  | Recipient email for contact form submissions |
 
 ---
 
@@ -188,9 +178,7 @@ The project is preconfigured for Vercel deployment via the `@tanstack/react-star
 ### Core
 
 - `react` / `react-dom` — v19.2
-- `@tanstack/react-start` — SSR meta-framework
-- `@tanstack/react-router` — File-based routing
-- `@tanstack/react-query` — Server state management
+- `vite` — v8 build tool and dev server
 
 ### UI & Styling
 
@@ -202,9 +190,7 @@ The project is preconfigured for Vercel deployment via the `@tanstack/react-star
 
 ### AI Chat
 
-- `ai` / `@ai-sdk/react` — Vercel AI SDK
-- `@ai-sdk/openai-compatible` — OpenAI-compatible provider
-- `@lovable.dev/vite-tanstack-config` — Lovable plugin config
+- `ai` / `@ai-sdk/react` — Vercel AI SDK (client-side)
 
 ---
 
@@ -213,18 +199,17 @@ The project is preconfigured for Vercel deployment via the `@tanstack/react-star
 - **`src/data/portfolio.ts`** — Central data file. Edit this to update all portfolio content (name, bio, skills, projects, etc.).
 - **`src/components/sections/`** — One component per page section. Each reads from `portfolio.ts`.
 - **`src/components/ui/section.tsx`** — Reusable section wrapper with consistent heading/styling patterns.
-- **`src/lib/error-capture.ts`** — Patches `console.error` and captures global errors for SSR recovery.
-- **`src/server.ts`** — Server entry point that intercepts swallowed SSR errors and renders a fallback page.
-- **`src/routes/__root.tsx`** — Root layout with `<head>`, 404 page, error boundary, and `QueryClientProvider`.
+- **`src/App.tsx`** — Root component that composes every section, plus the preloader, custom cursor, and chatbot.
+- **`src/main.tsx`** — Mounts the React app into `#root` and imports the global stylesheet.
+- **`index.html`** — HTML entry point containing all `<head>` metadata (SEO, Open Graph, Twitter cards) and the Google Fonts stylesheets.
 
 ---
 
 ## Future Improvements
 
-- [ ] Contact form backend integration (EmailJS, Resend, or Nodemailer)
+- [ ] Backend for the contact form and chatbot (`/api/contact`, `/api/chat`)
 - [ ] Replace placeholder links with actual GitHub/social profiles
 - [ ] Resume/CV download endpoint
-- [ ] Add `.env.example` file
 - [ ] Lazy-load sections below the fold
 - [ ] Image optimization (WebP/AVIF, responsive srcset)
 - [ ] Remove unused shadcn/ui components to reduce bundle size
@@ -242,6 +227,4 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ## Author
 
-Built with [TanStack Start](https://tanstack.com/start) and [Lovable](https://lovable.dev).
-
-For questions or collaboration:
+Built with [React](https://react.dev) + [Vite](https://vite.dev) and [Tailwind CSS](https://tailwindcss.com).
