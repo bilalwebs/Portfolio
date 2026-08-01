@@ -4,34 +4,34 @@ export const contactRules: ValidationChain[] = [
   body("name")
     .trim()
     .isString()
-    .withMessage("Name must be a string")
+    .withMessage("Full name must be valid text.")
     .notEmpty()
-    .withMessage("Name is required")
+    .withMessage("Please enter your full name.")
     .isLength({ min: 2, max: 120 })
-    .withMessage("Name must be between 2 and 120 characters"),
+    .withMessage("Full name must be between 2 and 120 characters."),
 
   body("email")
     .trim()
     .toLowerCase()
     .isEmail()
-    .withMessage("A valid email address is required")
+    .withMessage("Please enter a valid email address.")
     .isLength({ max: 254 })
-    .withMessage("Email must be 254 characters or fewer"),
+    .withMessage("Email must be 254 characters or fewer."),
 
   body("subject")
     .optional({ values: "null" })
     .trim()
     .isString()
-    .withMessage("Subject must be a string")
+    .withMessage("Subject must be valid text.")
     .isLength({ max: 200 })
-    .withMessage("Subject must be 200 characters or fewer"),
+    .withMessage("Subject must be 200 characters or fewer."),
 
   body("message")
     .trim()
     .isString()
-    .withMessage("Message must be a string")
+    .withMessage("Message must be valid text.")
     .notEmpty()
-    .withMessage("Message is required")
+    .withMessage("Please enter a message.")
     .isLength({ min: 10, max: 5000 })
-    .withMessage("Message must be between 10 and 5000 characters"),
+    .withMessage("Message must be between 10 and 5000 characters."),
 ];

@@ -93,6 +93,8 @@ export function About() {
           <div className="mt-10">
             <a
               href={profile.resumeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-[0_0_30px_rgba(0,191,255,0.45)] transition-all hover:-translate-y-0.5 hover:bg-accent"
             >
               <Download className="h-4 w-4" />

@@ -11,6 +11,7 @@
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "predev": "npm run sync:portfolio",
+    "vercel-build": "npm run sync:portfolio && npm run prisma:generate",
     "build": "prisma generate && tsc -p tsconfig.json",
     "prebuild": "npm run sync:portfolio",
     "sync:portfolio": "node scripts/generate-portfolio-data.mjs",

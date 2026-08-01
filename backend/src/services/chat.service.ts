@@ -667,7 +667,11 @@ function countRecords(sectionKeys: string[]): number {
 const QUERY_ALIASES: Record<string, string[]> = {
   contact: ["email", "phone", "location"],
   resume: ["resume", "pdf", "cv"],
-  social: ["github", "linkedin", "twitter", "dribbble"],
+  social: ["github", "linkedin", "twitter", "dribbble", "hugging", "face"],
+  link: ["github", "linkedin", "twitter", "dribbble", "hugging", "face"],
+  links: ["github", "linkedin", "twitter", "dribbble", "hugging", "face"],
+  huggingface: ["hugging", "face"],
+  hf: ["hugging", "face"],
   live: ["location", "karachi"],
   resides: ["location", "karachi"],
   address: ["location", "karachi"],
@@ -1089,8 +1093,12 @@ async function retrieveRelevantContext(
       result = await judgeKeys();
     }
   } else if (scored[0]!.score >= 0.5) {
+    // Also keep meaningful secondary sections (>= half the top score) so a
+    // query like "Show all contact links" surfaces both the profile contact
+    // details and the social links, not just the single top-ranked section.
+    const topScore = scored[0]!.score;
     const topTied = scored
-      .filter((entry) => entry.score === scored[0]!.score)
+      .filter((entry) => entry.score >= topScore * 0.5)
       .slice(0, MAX_CONTEXT_SECTIONS)
       .map((entry) => entry.index.key);
     result = generalHit

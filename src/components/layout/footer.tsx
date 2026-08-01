@@ -1,7 +1,6 @@
-import { ArrowUp, Github, Linkedin, Twitter, Dribbble } from "lucide-react";
+import { ArrowUp } from "lucide-react";
 import { socials, profile } from "@/data/portfolio";
-
-const iconMap = { Github, Linkedin, Twitter, Dribbble };
+import { SocialIcon } from "@/components/ui/social-icon";
 
 export function Footer() {
   const year = new Date().getFullYear();
@@ -24,7 +23,6 @@ export function Footer() {
 
         <div className="flex items-center gap-3">
           {socials.map((s) => {
-            const Icon = iconMap[s.icon];
             return (
               <a
                 key={s.name}
@@ -34,7 +32,7 @@ export function Footer() {
                 aria-label={s.name}
                 className="grid h-9 w-9 place-items-center rounded-full border border-border text-muted-foreground transition-all hover:border-primary hover:text-primary hover:neon-glow"
               >
-                <Icon size={14} />
+                <SocialIcon name={s.icon} size={14} />
               </a>
             );
           })}

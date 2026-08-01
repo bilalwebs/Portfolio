@@ -17,7 +17,7 @@ tagline:
   location: "Karachi, Pakistan",
   email: "bilalhussain42201@gmail.com",
   phone: "+92 335 2009245",
-  resumeUrl: "./Bilal_Hussain.pdf",
+  resumeUrl: "/resume/Bilal_Hussain.pdf",
   image: profileImg,
   aboutImage: aboutImg,
 };
@@ -32,6 +32,7 @@ export const stats = [
 export const socials = [
   { name: "GitHub", href: "https://github.com/bilalwebs", icon: "Github" as const },
   { name: "LinkedIn", href: "https://www.linkedin.com/in/bilal-hussain-dev/", icon: "Linkedin" as const },
+  { name: "Hugging Face", href: "https://huggingface.co/BilalCode", icon: "Huggingface" as const },
   { name: "Twitter", href: "https://twitter.com", icon: "Twitter" as const },
   { name: "Dribbble", href: "https://dribbble.com", icon: "Dribbble" as const },
 ];

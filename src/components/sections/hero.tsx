@@ -1,9 +1,8 @@
 import { motion } from "motion/react";
-import { Download, Mail, Github, Linkedin, Twitter, Dribbble } from "lucide-react";
+import { Download, Mail } from "lucide-react";
 import { TypeAnimation } from "react-type-animation";
 import { profile, socials } from "@/data/portfolio";
-
-const iconMap = { Github, Linkedin, Twitter, Dribbble };
+import { SocialIcon } from "@/components/ui/social-icon";
 
 export function Hero() {
   return (
@@ -68,6 +67,8 @@ export function Hero() {
           <div className="mt-8 flex flex-wrap items-center gap-3">
             <a
               href={profile.resumeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
               className="group inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/30 transition-all hover:scale-105 hover:neon-glow-strong"
             >
               <Download size={16} className="transition-transform group-hover:translate-y-0.5" />
@@ -84,7 +85,6 @@ export function Hero() {
 
           <div className="mt-8 flex items-center gap-3">
             {socials.map((s) => {
-              const Icon = iconMap[s.icon];
               return (
                 <a
                   key={s.name}
@@ -94,7 +94,7 @@ export function Hero() {
                   rel="noreferrer"
                   className="grid h-10 w-10 place-items-center rounded-full border border-border bg-card/60 text-muted-foreground transition-all hover:scale-110 hover:border-primary hover:text-primary hover:neon-glow"
                 >
-                  <Icon size={16} />
+                  <SocialIcon name={s.icon} size={16} />
                 </a>
               );
             })}

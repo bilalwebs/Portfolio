@@ -1,8 +1,9 @@
 import { useState, type FormEvent } from "react";
 import { motion } from "motion/react";
-import { Mail, Phone, MapPin, Send, Check, Github, Linkedin, Twitter } from "lucide-react";
+import { Mail, Phone, MapPin, Send, Check } from "lucide-react";
 import { Section } from "@/components/ui/section";
-import { profile } from "@/data/portfolio";
+import { profile, socials } from "@/data/portfolio";
+import { SocialIcon } from "@/components/ui/social-icon";
 
 export function Contact() {
   const [sent, setSent] = useState(false);
@@ -24,17 +25,24 @@ export function Contact() {
         body: JSON.stringify(Object.fromEntries(formData)),
       });
 
-      const data = (await res.json()) as { success?: boolean; error?: string };
+      const data = (await res.json()) as {
+        success?: boolean;
+        message?: string;
+        error?: { message?: string; details?: { msg?: string }[] };
+      };
 
       if (!res.ok || !data.success) {
-        throw new Error(data.error || "Something went wrong. Please try again.");
+        const detail = Array.isArray(data.error?.details) ? data.error.details[0]?.msg : undefined;
+        throw new Error(
+          detail || data.message || data.error?.message || "Something went wrong. Please try again in a moment.",
+        );
       }
 
       setSent(true);
       form.reset();
       setTimeout(() => setSent(false), 3500);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
+      setError(err instanceof Error ? err.message : "Something went wrong. Please try again in a moment.");
       setTimeout(() => setError(null), 5000);
     } finally {
       setLoading(false);
@@ -52,7 +60,7 @@ export function Contact() {
       id="contact"
       eyebrow="08 — Contact"
       title="Let's Connect"
-      subtitle="Got a project in mind? I'd love to hear about it."
+      subtitle="Have an AI, software engineering, or full-stack idea? Let's explore how we can build it together."
     >
       <div className="mx-auto grid max-w-6xl grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-10">
         {/* Left column — pitch + contacts */}
@@ -63,10 +71,11 @@ export function Contact() {
           className="space-y-6 lg:col-span-5"
         >
           <div>
-            <h3 className="text-2xl font-bold sm:text-3xl">Got a project in mind?</h3>
+            <h3 className="text-2xl font-bold sm:text-3xl">Let's build what's next.</h3>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-              Whether it's a product launch, a design-system rebuild, or an AI-powered interface —
-              let's build something remarkable together.
+              From AI-powered products, agentic LLM applications, and intelligent automation to scalable
+              full-stack platforms built with FastAPI, React, and Next.js — I engineer software that delivers
+              real results. If you have a bold idea, let's turn it into something remarkable together.
             </p>
           </div>
 
@@ -88,19 +97,17 @@ export function Contact() {
             ))}
           </div>
 
-          <div className="flex items-center gap-3 pt-2">
-            {[
-              { icon: Github, href: "https://github.com", label: "GitHub" },
-              { icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn" },
-              { icon: Twitter, href: "https://twitter.com", label: "Twitter" },
-            ].map((s) => (
+          <div className="flex flex-wrap items-center gap-3 pt-2">
+            {socials.map((s) => (
               <a
-                key={s.label}
+                key={s.name}
                 href={s.href}
-                aria-label={s.label}
+                aria-label={s.name}
+                target="_blank"
+                rel="noreferrer"
                 className="grid h-10 w-10 place-items-center rounded-full border border-border bg-background/40 text-muted-foreground transition hover:-translate-y-0.5 hover:border-primary hover:text-primary hover:neon-glow"
               >
-                <s.icon size={16} />
+                <SocialIcon name={s.icon} size={16} />
               </a>
             ))}
           </div>
@@ -123,10 +130,10 @@ export function Contact() {
             style={{ position: "absolute", left: "-9999px", opacity: 0 }}
           />
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <Field label="Full Name" name="name" placeholder="Your full name" />
-            <Field label="Email" name="email" type="email" placeholder="you@company.com" />
+            <Field label="Full Name" name="name" placeholder="Enter your full name" />
+            <Field label="Email" name="email" type="email" placeholder="Enter your email address" />
           </div>
-          <Field label="Subject" name="subject" placeholder="Project inquiry" />
+          <Field label="Subject" name="subject" placeholder="Project inquiry or collaboration" />
           <div>
             <label
               htmlFor="message"
@@ -139,7 +146,7 @@ export function Contact() {
               required
               rows={6}
               name="message"
-              placeholder="Tell me a little about what you're building…"
+              placeholder="Tell me about your project, idea, or how I can help."
               className="w-full resize-none rounded-xl border border-border bg-background/40 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/60 outline-none transition focus:border-primary focus:neon-glow"
             />
           </div>
@@ -150,12 +157,12 @@ export function Contact() {
           >
             {sent ? (
               <>
-                <Check size={16} /> Message sent
+                <Check size={16} /> Message sent — I'll be in touch soon.
               </>
             ) : (
               <>
                 <Send size={16} className="transition-transform group-hover:translate-x-0.5" />
-                Send Message
+                Send Inquiry
               </>
             )}
           </button>

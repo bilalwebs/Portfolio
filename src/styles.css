@@ -212,3 +212,38 @@
 .chatbot-messages code {
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 }
+
+/* ------------------------------------------------------------------
+   Site-wide custom scrollbar (native CSS, cross-browser).
+   Thin, rounded thumb, cyan-on-dark accent, low-contrast track,
+   subtle hover brightening. Appearance only — scroll behavior
+   (speed, smoothness, overscroll) is untouched. The chatbot
+   container keeps its own dedicated scrollbar (higher specificity).
+   ------------------------------------------------------------------ */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 191, 255, 0.4) rgba(11, 40, 64, 0.35);
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: rgba(11, 40, 64, 0.35);
+}
+
+*::-webkit-scrollbar-thumb {
+  background: rgba(0, 191, 255, 0.35);
+  border-radius: 9999px;
+  transition: background-color 0.2s ease;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 191, 255, 0.6);
+}
+
+*::-webkit-scrollbar-corner {
+  background: transparent;
+}
