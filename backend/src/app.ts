@@ -27,8 +27,13 @@ app.use(cors(corsOptions));
 app.use(compression());
 
 // --- Request body parsing (bounded payload size) ---
-app.use(express.json({ limit: "10kb" }));
-app.use(express.urlencoded({ extended: true, limit: "10kb" }));
+// The chat validator allows up to 20_000 chars of conversation text
+// (backend/src/validators/chat.validator.ts) and the frontend resends the
+// full conversation history on every message. A 10kb body limit used to throw
+// PayloadTooLargeError after only a few exchanges, so the limit must cover the
+// largest allowed conversation plus per-message JSON overhead (~64kb).
+app.use(express.json({ limit: "64kb" }));
+app.use(express.urlencoded({ extended: true, limit: "64kb" }));
 
 // --- Request logging ---
 app.use(morgan(isProduction ? "combined" : "dev"));

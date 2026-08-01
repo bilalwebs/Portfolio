@@ -26,6 +26,25 @@ export const chatController = {
     const messages = (req.body?.messages ?? []) as UiMessage[];
     const providerMessages = chatService.toProviderMessages(messages);
 
+    const bodyBytes = Buffer.byteLength(JSON.stringify(req.body ?? {}), "utf8");
+    const conversationTextChars = messages.reduce((sum, message) => {
+      const text = (Array.isArray(message?.parts) ? message.parts : [])
+        .filter(
+          (part): part is { type: "text"; text: string } =>
+            part != null &&
+            typeof part === "object" &&
+            part.type === "text" &&
+            typeof part.text === "string",
+        )
+        .map((part) => part.text)
+        .join("");
+      return sum + text.length;
+    }, 0);
+    console.info(
+      `[chat] request bodyBytes=${bodyBytes} messages=${providerMessages.length} ` +
+        `conversationTextChars=${conversationTextChars}`,
+    );
+
     const abortController = new AbortController();
 
     res.set(SSE_HEADERS);

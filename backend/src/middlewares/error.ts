@@ -54,6 +54,17 @@ const normalizeError = (err: unknown): { statusCode: number; message: string; na
     };
   }
 
+  // body-parser raises PayloadTooLargeError (status 413) when the request
+  // body exceeds the express.json() limit. Surface it as a clean 413 instead
+  // of a generic 500.
+  if (err instanceof Error && "status" in err && (err as Error & { status?: number }).status === 413) {
+    return {
+      statusCode: 413,
+      message: "Request payload too large.",
+      name: err.name,
+    };
+  }
+
   if (err instanceof Error) {
     return {
       statusCode: 500,

@@ -155,7 +155,7 @@ export function Chatbot() {
             {/* Messages */}
             <div
               ref={scrollRef}
-              className="flex-1 space-y-3 overflow-y-auto px-4 py-4 [scrollbar-width:thin]"
+              className="chatbot-messages flex-1 space-y-3 overflow-y-auto px-4 py-4"
             >
               {messages.length === 0 && (
                 <div className="space-y-3">

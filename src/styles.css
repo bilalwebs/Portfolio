@@ -161,3 +161,26 @@
 .animate-float { animation: float 6s ease-in-out infinite; }
 .animate-pulse-ring { animation: pulse-ring 4s ease-in-out infinite; }
 .animate-drift { animation: drift 18s ease-in-out infinite; }
+
+/* Chatbot message container scrollbar (only this scrollable area is styled) */
+.chatbot-messages {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 191, 255, 0.4) transparent;
+}
+
+.chatbot-messages::-webkit-scrollbar {
+  width: 6px;
+}
+
+.chatbot-messages::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.chatbot-messages::-webkit-scrollbar-thumb {
+  background: rgba(0, 191, 255, 0.35);
+  border-radius: 9999px;
+}
+
+.chatbot-messages::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 191, 255, 0.55);
+}
