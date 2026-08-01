@@ -4,9 +4,11 @@ import project1 from "@/assets/Gulzaren.jpeg";
 import project2 from "@/assets/amd.jpeg";
 import project3 from "@/assets/mentor.jpeg";
 import project4 from "@/assets/project-4.jpg";
-import cert1 from "@/assets/cert-1.jpg";
+import cert1 from "@/assets/cert-1.PNG";
 import cert2 from "@/assets/cert-2.jpg";
 import cert3 from "@/assets/cert-3.jpg";
+import cert4 from "@/assets/cert-4.png";
+import cert5 from "@/assets/cert-5.PNG";
 
 export const profile = {
   name: "Muhammad Bilal Hussain",
@@ -70,7 +72,16 @@ export const journey = [
     description:
       "Comprehensive training in Generative AI, Agentic AI, Cloud Computing, FastAPI, LangChain, LangGraph, RAG, and production-ready AI application development.",
   },
+  {
+    type: "Experience",
+    title: "Front-end AI Engineer Intern",
+    org: "FlyRank AI",
+    period: "Jun 2026 – Present",
+    description:
+      "Accepted into FlyRank AI's Front-end AI Engineering Internship (July 2026 Cohort). Working remotely on AI-powered frontend development, building modern user interfaces, and integrating Artificial Intelligence technologies into real-world applications.",
+  },
 ];
+
 export const skills = {
   Frontend: [
     { name: "HTML5", level: 80 },
@@ -141,7 +152,7 @@ export const projects = [
     "HTML",
     "JavaScript"
   ],
-  github: "YOUR_GITHUB",
+  github: "https://github.com/bilalwebs/AMD-Hackathon",
   demo: "https://amd-hackathon.streamlit.app/",
 },
 {
@@ -162,28 +173,41 @@ export const projects = [
 },
 
 ];
-
 export const certificates = [
   {
-    title: "Advanced React Patterns",
-    org: "Frontend Masters",
+    title: "CS50x Puzzle Day 2026",
+    org: "Harvard University",
     image: cert1,
-    href: "#",
+    href: "https://certificates.cs50.io/2d097c23-246c-466c-a75b-2b10e650eeed.pdf?size=letter",
   },
   {
-    title: "System Design Professional",
-    org: "Educative",
-    image: cert2,
-    href: "#",
+    title: "Postman API Fundamentals Student Expert",
+    org: "Postman",
+    image: cert4,
+    href: "https://badges.parchment.com/public/assertions/L2grLLy3T3CDLg-tcZEaYA",
   },
   {
-    title: "Generative AI Specialist",
-    org: "DeepLearning.AI",
+    title: "Stanford Code in Place: Programming Methodologies",
+    org: "Stanford University",
     image: cert3,
-    href: "#",
+    href: "https://codeinplace.stanford.edu/cip5/certificate/o3h6t1",
   },
+  {
+    title: "Legacy Responsive Web Design V8",
+    org: "freeCodeCamp",
+    image: cert2,
+    href: "https://www.freecodecamp.org/certification/bilalcode1/responsive-web-design",
+  },
+  {
+  title: "Python For Data Science - Real Time Coding Exercises",
+  org: "Udemy",
+  issuer: "Data Science Lovers",
+  issued: "June 2024",
+  credentialId: "UC-a30de616-e8b4-45a4-89e6-f150824664ee",
+  image: cert5,
+  href: "https://www.udemy.com/certificate/UC-a30de616-e8b4-45a4-89e6-f150824664ee/",
+}
 ];
-
 export const recognitions = [
   {
   tag: "Hackathon",

@@ -13,15 +13,17 @@ export function Certificates() {
     >
       <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
         {certificates.map((c, i) => (
-          <motion.a
-            key={c.title}
-            href={c.href}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: i * 0.08 }}
-            className="group glass-card overflow-hidden transition-all hover:-translate-y-1 hover:neon-glow"
-          >
+         <motion.a
+  key={c.title}
+  href={c.href}
+  target="_blank"
+  rel="noopener noreferrer"
+  initial={{ opacity: 0, y: 30 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  viewport={{ once: true }}
+  transition={{ duration: 0.5, delay: i * 0.08 }}
+  className="group glass-card overflow-hidden transition-all hover:-translate-y-1 hover:neon-glow"
+>
             <div className="relative aspect-[4/3] overflow-hidden bg-background/40">
               <img
                 src={c.image}
