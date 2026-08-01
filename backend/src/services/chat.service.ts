@@ -33,6 +33,7 @@ export interface RetrievalResult {
   intent: "portfolio" | "general_knowledge" | "off_topic";
   sectionKeys: string[];
   context: string;
+  recordCount?: number;
 }
 
 const SYSTEM_PROMPT =
@@ -41,15 +42,27 @@ const SYSTEM_PROMPT =
   "builds intelligent AI applications and scalable full-stack solutions. " +
   "Be concise, friendly, and professional.";
 
+/**
+ * Exact message for questions that have no answerable portfolio content. It is
+ * streamed directly to the client (zero AI tokens) whenever retrieval finds no
+ * relevant portfolio section, so the wording never drifts through the model.
+ */
+const PORTFOLIO_NOT_FOUND =
+  "Sorry, I couldn't find that information in Bilal Hussain's portfolio. " +
+  "Please ask about his projects, skills, education, certifications, " +
+  "experience, hackathons, or other portfolio details.";
+
 const PORTFOLIO_INSTRUCTIONS =
   "Answer the user's question using ONLY the 'Relevant portfolio information' " +
   "provided below. Do not invent facts about Bilal and do not rely on outside " +
   "knowledge about him. If NO relevant portfolio information was provided at all, " +
-  "respond with exactly: I couldn't find that information in Bilal Hussain's portfolio. " +
-  "When relevant portfolio information IS provided, answer from it; if a specific " +
-  "detail is not covered by the provided information, state briefly that it is not " +
-  "mentioned in the portfolio instead of using the blanket reply above. When you " +
-  "reference links from the information, use the absolute URLs as given.";
+  "respond with exactly: " +
+  JSON.stringify(PORTFOLIO_NOT_FOUND) +
+  " When relevant portfolio information IS provided, answer from it; if a " +
+  "specific detail is not covered by the provided information, state briefly " +
+  "that it is not mentioned in the portfolio instead of using the blanket " +
+  "reply above. When you reference links from the information, use the " +
+  "absolute URLs as given.";
 
 const OFF_TOPIC_INSTRUCTIONS =
   "The user's question is not about Bilal or his portfolio. Give a short answer or " +
@@ -277,14 +290,43 @@ const IDENTITY_PHRASES = new Set([
   "your introduction",
 ]);
 
+/**
+ * Semantic identity/help patterns. They run against the normalized query and
+ * never trigger retrieval or an LLM call — the canned intro is streamed back
+ * instead, consuming zero AI tokens. The alternation is ordered so phrases
+ * about the assistant ("about yourself", "your purpose") are matched while
+ * questions about Bilal ("tell me about bilal", "your projects") fall through
+ * to portfolio retrieval.
+ */
+const IDENTITY_PATTERNS: RegExp[] = [
+  /^(?:who|what)\s+(?:are|is)\s+you$/,
+  /^(?:what|which)\s+(?:do|can)\s+you\s+do\b/,
+  /^(?:what|how)\s+can\s+you\s+help(?:\s+me)?$/,
+  /^(?:can\s+you\s+help(?:\s+me)?|how\s+do\s+you\s+help|how\s+would\s+you\s+help\s+me|are\s+you\s+able\s+to\s+help\s+me)$/,
+  /^help(?:\s+me)?$/,
+  /^what\s+questions\s+(?:can\s+i\s+ask|can\s+i\s+ask\s+you|can\s+you\s+answer|do\s+you\s+answer)(?:\s+me)?$/,
+  /^what\s+can\s+i\s+ask(?:\s+you)?$/,
+  /^(?:can\s+you\s+)?(?:tell\s+me|tell)\s+(?:a\s+(?:little|bit)\s+)?about\s+(?:yourself|you)\b/,
+  /^(?:tell\s+me\s+)?about\s+(?:yourself|this\s+(?:assistant|bot|chatbot))\b/,
+  /^(?:introduce|introducing)\s+(?:yourself|you)\b/,
+  /^your\s+introduction\b/,
+  /^(?:explain|what\s+is|what's|what\s+are)\s+(?:your|the\s+assistant['’]?s?)\s+(?:purpose|role|job|function|name)\b/,
+  /^(?:who|what)\s+(?:is|are)\s+this\s+(?:assistant|bot|chatbot)\b/,
+  /^(?:are\s+you\s+an?\s+)?(?:ai|bot|assistant|chatbot)$/,
+  /^are\s+you\s+(?:real|human|a\s+robot)\b/,
+];
+
 function isIdentityQuery(query: string): boolean {
   const normalized = query
     .toLowerCase()
     .replace(/\s+/g, " ")
-    .replace(/^[?!.\s]+|[?!.\s]+$/g, "")
+    .replace(/[?!.,;:]+$/g, "")
     .replace(/\s+please$/i, "")
     .trim();
-  return IDENTITY_PHRASES.has(normalized);
+  if (IDENTITY_PHRASES.has(normalized)) {
+    return true;
+  }
+  return IDENTITY_PATTERNS.some((pattern) => pattern.test(normalized));
 }
 
 function streamIntro(onDelta: (delta: string) => void): void {
@@ -401,11 +443,15 @@ async function judgeRelevantSections(
     '1. {"intent":"sections","sections":["key1","key2"]} when portfolio section(s) ' +
     "contain the answer or useful related information. Only use section keys from the " +
     "list below.\n" +
-    '2. {"intent":"general_knowledge"} when the question asks for a general educational ' +
+    '2. {"intent":"sections","sections":[]} when the question asks for a specific fact ' +
+    "about Bilal (for example his GPA, CGPA, whether he built some famous product, a " +
+    "particular employer, or any detail that appears in NO section). Do not invent or " +
+    "guess a section — if the fact is absent, return an empty sections list.\n" +
+    '3. {"intent":"general_knowledge"} when the question asks for a general educational ' +
     "explanation of a concept (for example: what is RAG, explain machine learning, how " +
     "does a neural network work, what is FastAPI) rather than a fact about Bilal's " +
     "portfolio.\n" +
-    '3. {"intent":"off_topic"} only when the question is entirely unrelated to Bilal, ' +
+    '4. {"intent":"off_topic"} only when the question is entirely unrelated to Bilal, ' +
     "his portfolio, or general tech/AI concepts (for example weather, sports, cooking).\n" +
     "Questions about Bilal's resume, contact details, social profiles, education, " +
     "projects, skills, certifications, hackathons, or recognitions are always " +
@@ -456,21 +502,36 @@ async function judgeRelevantSections(
 /**
  * Recursively strips fields that carry no signal for the model (nulls, empty
  * strings, empty arrays/objects) so the serialized context stays minimal.
+ * `maxFieldChars` truncates long strings (used when the prompt budget is
+ * tight) and `maxRecords` keeps only the top records of a list.
  */
-function compactValue(value: unknown): unknown {
+interface CompactOptions {
+  maxFieldChars?: number;
+  maxRecords?: number;
+}
+
+function compactValue(value: unknown, opts: CompactOptions = {}): unknown {
   if (value == null) return undefined;
   if (typeof value === "string") {
     const trimmed = value.trim();
-    return trimmed ? trimmed : undefined;
+    if (!trimmed) return undefined;
+    const max = opts.maxFieldChars;
+    if (max && trimmed.length > max) {
+      return `${trimmed.slice(0, Math.max(1, max - 1))}…`;
+    }
+    return trimmed;
   }
   if (typeof value === "number" || typeof value === "boolean") return value;
   if (Array.isArray(value)) {
-    const compacted = value.map(compactValue).filter((item) => item !== undefined);
+    const limited = opts.maxRecords ? value.slice(0, opts.maxRecords) : value;
+    const compacted = limited
+      .map((item) => compactValue(item, opts))
+      .filter((item) => item !== undefined);
     return compacted.length > 0 ? compacted : undefined;
   }
   if (typeof value === "object") {
     const entries = Object.entries(value)
-      .map(([key, nested]) => [key, compactValue(nested)] as const)
+      .map(([key, nested]) => [key, compactValue(nested, opts)] as const)
       .filter(([, nested]) => nested !== undefined);
     return entries.length > 0 ? Object.fromEntries(entries) : undefined;
   }
@@ -488,27 +549,95 @@ function serializeSection(key: string): string {
 }
 
 /**
- * Hard ceiling for the retrieved-context block (system prompt payload). Whole
- * sections are kept in relevance order; anything that would overflow the
- * budget is dropped. Always keeps at least the highest-ranked section.
+ * Rough token estimate (chars / 4) used to keep every request inside the
+ * configured prompt budget. Only used for budgeting and instrumentation, never
+ * to gate features.
  */
-const MAX_CONTEXT_CHARS = 6_000;
+function estimateTokens(text: string): number {
+  return Math.ceil(text.length / 4);
+}
 
-function buildContext(keys: string[]): { keys: string[]; context: string } {
-  const blocks: { key: string; block: string }[] = [];
+interface ContextBlock {
+  key: string;
+  label: string;
+  value: unknown;
+}
+
+function serializeBlock(block: ContextBlock, opts: CompactOptions = {}): string {
+  const compact = compactValue(block.value, opts);
+  return `[${block.label}]\n${resolveRelativeUrls(JSON.stringify(compact ?? null))}`;
+}
+
+function sectionBlocks(keys: string[]): ContextBlock[] {
+  return keys
+    .filter((key) => Object.prototype.hasOwnProperty.call(portfolioData, key))
+    .map((key) => ({ key, label: key, value: portfolioData[key] }));
+}
+
+/**
+ * Builds the smallest context that fits the prompt budget. Sections are kept
+ * in relevance order; a section that would overflow the budget is first
+ * trimmed (descriptions shortened, records capped) and only dropped if it
+ * still does not fit. The highest-ranked section is always kept.
+ */
+function buildContext(
+  blocks: ContextBlock[],
+  opts: { maxTokens: number; baseChars: number },
+): { keys: string[]; context: string } {
+  const maxContextChars = Math.max(600, opts.maxTokens * 4 - opts.baseChars);
+  const out: { key: string; text: string }[] = [];
   let total = 0;
-  for (const key of keys) {
-    const block = `[${key}]\n${serializeSection(key)}`;
-    if (blocks.length > 0 && total + block.length + 2 > MAX_CONTEXT_CHARS) {
-      break;
+
+  for (const block of blocks) {
+    const join = out.length > 0 ? 2 : 0;
+    let text = serializeBlock(block);
+    let len = text.length;
+
+    if (out.length > 0 && total + join + len > maxContextChars) {
+      text = serializeBlock(block, { maxFieldChars: 220 });
+      len = text.length;
     }
-    total += (blocks.length > 0 ? 2 : 0) + block.length;
-    blocks.push({ key, block });
+    if (out.length > 0 && total + join + len > maxContextChars) {
+      text = serializeBlock(block, { maxFieldChars: 140, maxRecords: 10 });
+      len = text.length;
+    }
+    if (out.length > 0 && total + join + len > maxContextChars) {
+      text = serializeBlock(block, { maxFieldChars: 100, maxRecords: 6 });
+      len = text.length;
+    }
+    if (total + join + len > maxContextChars) {
+      if (out.length === 0) {
+        text = serializeBlock(block, { maxFieldChars: 70, maxRecords: 4 });
+        len = text.length;
+      } else {
+        continue;
+      }
+    }
+
+    total += join + len;
+    out.push({ key: block.key, text });
   }
+
   return {
-    keys: blocks.map((entry) => entry.key),
-    context: blocks.map((entry) => entry.block).join("\n\n"),
+    keys: out.map((entry) => entry.key),
+    context: out.map((entry) => entry.text).join("\n\n"),
   };
+}
+
+/**
+ * Length of the fixed system-prompt prefix (base prompt + intent instructions
+ * + conversation history) that competes with the retrieved context for the
+ * prompt budget. Adding 100 chars of slack keeps the final estimate from
+ * drifting past the ceiling after JSON serialization.
+ */
+function promptReservedChars(intent: RetrievalResult["intent"], historyChars: number): number {
+  const prefix =
+    intent === "portfolio"
+      ? `${SYSTEM_PROMPT}\n\n${PORTFOLIO_INSTRUCTIONS}\n\nRelevant portfolio information:\n`
+      : intent === "general_knowledge"
+        ? `${SYSTEM_PROMPT}\n\n${GENERAL_KNOWLEDGE_INSTRUCTIONS}`
+        : `${SYSTEM_PROMPT}\n\n${OFF_TOPIC_INSTRUCTIONS}`;
+  return prefix.length + historyChars + 100;
 }
 
 /**
@@ -526,6 +655,266 @@ function countRecords(sectionKeys: string[]): number {
     }
   }
   return total;
+}
+
+/**
+ * Semantic aliases: query words that describe a portfolio concept but never
+ * appear verbatim in the indexed text. They expand into field tokens so the
+ * right section still wins lexically — e.g. "contact" resolves to the profile's
+ * email/phone/location without needing an LLM. Content-derived, not tied to
+ * export names.
+ */
+const QUERY_ALIASES: Record<string, string[]> = {
+  contact: ["email", "phone", "location"],
+  resume: ["resume", "pdf", "cv"],
+  social: ["github", "linkedin", "twitter", "dribbble"],
+  live: ["location", "karachi"],
+  resides: ["location", "karachi"],
+  address: ["location", "karachi"],
+  work: ["role", "engineer"],
+};
+
+/**
+ * True when at least one non-subject query token appears in any of the selected
+ * sections. Used to reject judge-selected sections that share no signal with
+ * the query (e.g. the profile picked for "What is Bilal's GPA?") so those
+ * questions stream the exact not-found fallback instead of a vague LLM reply.
+ */
+function hasContentMatch(sectionKeys: string[], contentTokens: Set<string>): boolean {
+  if (contentTokens.size === 0) return true;
+  for (const key of sectionKeys) {
+    const value = portfolioData[key];
+    if (value == null) continue;
+    const tokens = tokenize(`${key} ${flattenValue(value)}`);
+    for (const token of contentTokens) {
+      if (tokens.has(token)) return true;
+    }
+  }
+  return false;
+}
+
+/**
+ * True when the user asks for a whole-profile overview ("tell me everything",
+ * "summarize Bilal", "biography", ...). These queries build one ordered,
+ * merged, budget-capped context instead of scoring individual sections.
+ */
+function isSummaryQuery(query: string): boolean {
+  const normalized = query.toLowerCase().replace(/\s+/g, " ").trim();
+  return (
+    /\beverything\b/.test(normalized) ||
+    /\b(summarize|summary)\b/.test(normalized) ||
+    /\bbiography\b/.test(normalized) ||
+    /\b(complete|full|entire)\s+(profile|portfolio)\b/.test(normalized) ||
+    /\boverview\b/.test(normalized) ||
+    /(?:^|[!?.\s])(?:tell\s+me\s+|give\s+me\s+)?about\s+bilal\b(?!'s)/i.test(normalized)
+  );
+}
+
+function isRecordArray(value: unknown): value is Record<string, unknown>[] {
+  return (
+    Array.isArray(value) &&
+    value.length > 0 &&
+    value.every(
+      (item) => item != null && typeof item === "object" && !Array.isArray(item),
+    )
+  );
+}
+
+function hasFields(record: Record<string, unknown>, fields: string[]): boolean {
+  return fields.every((field) => record[field] !== undefined);
+}
+
+function isStatsSection(value: unknown): boolean {
+  return isRecordArray(value) && value.every((record) => hasFields(record, ["label", "value"]));
+}
+
+function isSocialsSection(value: unknown): boolean {
+  return (
+    isRecordArray(value) &&
+    value.every(
+      (record) =>
+        hasFields(record, ["name", "href"]) &&
+        !hasFields(record, ["title", "tag", "tech", "period", "type"]),
+    )
+  );
+}
+
+function isJourneySection(value: unknown): boolean {
+  return (
+    isRecordArray(value) &&
+    value.every(
+      (record) =>
+        hasFields(record, ["title"]) &&
+        (hasFields(record, ["period"]) || hasFields(record, ["type"])) &&
+        !hasFields(record, ["href", "tag", "tech"]),
+    )
+  );
+}
+
+function isCertificatesSection(value: unknown): boolean {
+  return (
+    isRecordArray(value) &&
+    value.every(
+      (record) =>
+        hasFields(record, ["title", "org", "href"]) &&
+        !hasFields(record, ["period", "type", "tag"]),
+    )
+  );
+}
+
+function isRecognitionsSection(value: unknown): boolean {
+  return isRecordArray(value) && value.every((record) => hasFields(record, ["tag", "title"]));
+}
+
+function isProjectsSection(value: unknown): boolean {
+  return (
+    isRecordArray(value) &&
+    value.every(
+      (record) =>
+        hasFields(record, ["title"]) &&
+        (hasFields(record, ["tech"]) || hasFields(record, ["github"]) || hasFields(record, ["demo"])),
+    )
+  );
+}
+
+function isSkillsSection(value: unknown): boolean {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return false;
+  const entries = Object.values(value as Record<string, unknown>);
+  return (
+    entries.length > 0 &&
+    entries.every(
+      (arr) =>
+        Array.isArray(arr) &&
+        arr.length > 0 &&
+        arr.every(
+          (item) =>
+            item != null && typeof item === "object" && hasFields(item as Record<string, unknown>, ["name", "level"]),
+        ),
+    )
+  );
+}
+
+/**
+ * Builds the ordered, merged "tell me everything" context. Sections are
+ * discovered by their data shape (never by hardcoded export names) in the
+ * preferred order: About, Statistics, Journey, Skills, Projects, Recognitions,
+ * Certificates, Contact, Resume, Social Links. Similar content is merged —
+ * journey Certification entries become part of the Certificates section —
+ * duplicates are dropped, and any future export (awards, blogs, research, ...)
+ * is appended automatically.
+ */
+function buildSummaryBlocks(): { blocks: ContextBlock[]; recordCount: number } {
+  const blocks: ContextBlock[] = [];
+  const usedKeys = new Set<string>();
+  let recordCount = 0;
+
+  const add = (label: string, key: string, value: unknown) => {
+    if (value == null) return;
+    blocks.push({ key, label, value });
+    if (key) usedKeys.add(key);
+    recordCount += Array.isArray(value) ? value.length : 1;
+  };
+
+  const entries = Object.entries(portfolioData).filter(
+    ([key]) => !NON_CONTENT_SECTION_KEYS.has(key),
+  );
+
+  const findFirst = (predicate: (value: unknown) => boolean): [string, unknown] | undefined => {
+    for (const [key, value] of entries) {
+      if (!usedKeys.has(key) && predicate(value)) return [key, value];
+    }
+    return undefined;
+  };
+
+  const profileKey = findProfileSection();
+  const profile =
+    profileKey && portfolioData[profileKey] && typeof portfolioData[profileKey] === "object"
+      ? (portfolioData[profileKey] as Record<string, unknown>)
+      : null;
+
+  if (profileKey && profile) add("About", profileKey, profile);
+
+  const stats = findFirst(isStatsSection);
+  if (stats) add("Portfolio Statistics", stats[0], stats[1]);
+
+  const journey = findFirst(isJourneySection);
+  if (journey) add("Journey", journey[0], journey[1]);
+
+  const skills = findFirst(isSkillsSection);
+  if (skills) add("Skills", skills[0], skills[1]);
+
+  const projects = findFirst(isProjectsSection);
+  if (projects) add("Projects", projects[0], projects[1]);
+
+  const recognitions = findFirst(isRecognitionsSection);
+  if (recognitions) add("Recognitions", recognitions[0], recognitions[1]);
+
+  // Certificates: journey Certification entries merged with the certificates
+  // section, deduplicated by title.
+  const mergedCerts: Record<string, unknown>[] = [];
+  const seenTitles = new Set<string>();
+  const pushCert = (item: Record<string, unknown>) => {
+    const title = typeof item.title === "string" ? item.title.trim().toLowerCase() : "";
+    if (!title || seenTitles.has(title)) return;
+    seenTitles.add(title);
+    mergedCerts.push(item);
+  };
+  if (journey) {
+    for (const item of journey[1] as Record<string, unknown>[]) {
+      if (typeof item.type === "string" && /certification/i.test(item.type)) pushCert(item);
+    }
+  }
+  const certSection = findFirst(isCertificatesSection);
+  if (certSection) {
+    for (const item of certSection[1] as Record<string, unknown>[]) pushCert(item);
+  }
+  if (mergedCerts.length > 0) {
+    add("Certificates", certSection?.[0] ?? journey?.[0] ?? "", mergedCerts);
+  }
+
+  // Hackathons stay separate only when recognitions mixes in non-hackathon
+  // entries; otherwise the recognitions block already covers them.
+  if (recognitions) {
+    const items = recognitions[1] as Record<string, unknown>[];
+    const hackathons = items.filter(
+      (item) => typeof item.tag === "string" && /hackathon/i.test(item.tag),
+    );
+    const others = items.filter(
+      (item) => !(typeof item.tag === "string" && /hackathon/i.test(item.tag)),
+    );
+    if (hackathons.length > 0 && others.length > 0) add("Hackathons", "Hackathons", hackathons);
+  }
+
+  if (profile) {
+    const contact: Record<string, unknown> = {};
+    if (typeof profile.email === "string") contact.email = profile.email;
+    if (typeof profile.phone === "string") contact.phone = profile.phone;
+    if (typeof profile.location === "string") contact.location = profile.location;
+    if (Object.keys(contact).length > 0) add("Contact", "Contact", contact);
+    if (typeof profile.resumeUrl === "string" && profile.resumeUrl) {
+      add("Resume", "Resume", { resumeUrl: resolveRelativeUrls(profile.resumeUrl) });
+    }
+  }
+
+  const socials = findFirst(isSocialsSection);
+  if (socials) add("Social Links", socials[0], socials[1]);
+
+  // Any remaining discovered section (future exports) is appended as-is so it
+  // automatically becomes part of the summary too.
+  for (const [key, value] of entries) {
+    if (!usedKeys.has(key)) add(key, key, value);
+  }
+
+  return { blocks, recordCount };
+}
+
+function buildSummaryContext(
+  maxTokens: number,
+  baseChars: number,
+): { keys: string[]; context: string; recordCount: number } {
+  const { blocks, recordCount } = buildSummaryBlocks();
+  const built = buildContext(blocks, { maxTokens, baseChars });
+  return { keys: built.keys, context: built.context, recordCount };
 }
 
 const judgeCache = new Map<string, Promise<string[] | "off_topic" | "general_knowledge">>();
@@ -562,15 +951,34 @@ function cachedJudgeRelevantSections(
  * single-topic and multi-topic queries: when a query enumerates several topics
  * (commas, "and", "including", "everything"), the planner merges every matched
  * section — ranked, deduplicated, capped at MAX_CONTEXT_SECTIONS_MULTI — so no
- * explicitly requested topic is dropped. No section names are hardcoded; every
- * section exported by src/data/portfolio.ts (and any added in the future) is
- * discovered from the generated snapshot.
+ * explicitly requested topic is dropped. Whole-profile requests ("tell me
+ * everything", "summarize Bilal") build one ordered, merged context. No section
+ * names are hardcoded; every section exported by src/data/portfolio.ts (and any
+ * added in the future) is discovered from the generated snapshot. The retrieval
+ * logic itself never depends on AI_PROVIDER — the optional LLM judge is only a
+ * lexical fallback and degrades to the index when unavailable.
  */
 async function retrieveRelevantContext(
   query: string,
   signal?: AbortSignal,
+  options?: { historyChars?: number },
 ): Promise<RetrievalResult> {
+  const historyChars = options?.historyChars ?? 0;
   const offTopic: RetrievalResult = { intent: "off_topic", sectionKeys: [], context: "" };
+
+  if (isSummaryQuery(query)) {
+    const built = buildSummaryContext(
+      env.PROMPT_BUDGET_TOKENS,
+      promptReservedChars("portfolio", historyChars),
+    );
+    return {
+      intent: "portfolio",
+      sectionKeys: built.keys,
+      context: built.context,
+      recordCount: built.recordCount,
+    };
+  }
+
   const queryTokens = tokenize(query);
 
   if (queryTokens.size === 0) {
@@ -581,10 +989,23 @@ async function retrieveRelevantContext(
           intent: "portfolio",
           sectionKeys: [profileKey],
           context: `[${profileKey}]\n${serializeSection(profileKey)}`,
+          recordCount: 1,
         };
       }
     }
     return offTopic;
+  }
+
+  // Semantic alias expansion: "contact" -> profile email/phone/location etc.
+  for (const token of [...queryTokens]) {
+    const aliases = QUERY_ALIASES[token];
+    if (aliases) {
+      for (const alias of aliases) {
+        for (const expanded of tokenize(alias)) {
+          queryTokens.add(expanded);
+        }
+      }
+    }
   }
 
   const subjectHit = [...queryTokens].some((token) => SUBJECT_TOKENS.has(token));
@@ -656,24 +1077,29 @@ async function retrieveRelevantContext(
       ? { intent: "portfolio", keys: profileOnly() }
       : { intent: "off_topic", keys: [] };
   } else if (scored.length === 0) {
-    if (subjectHit) {
-      result = await judgeKeys();
+    if (subjectHit && !generalHit) {
+      // A question about Bilal that matches no portfolio content at all
+      // (GPA, "did he build X", ...) — deterministic not-found, zero AI tokens.
+      result = { intent: "portfolio", keys: [] };
+    } else if (subjectHit) {
+      result = { intent: "general_knowledge", keys: [] };
     } else if (generalHit) {
       result = { intent: "general_knowledge", keys: [] };
     } else {
-      result = { intent: "off_topic", keys: [] };
+      result = await judgeKeys();
     }
-  } else if (scored[0]!.score >= 1) {
+  } else if (scored[0]!.score >= 0.5) {
     const topTied = scored
       .filter((entry) => entry.score === scored[0]!.score)
       .slice(0, MAX_CONTEXT_SECTIONS)
       .map((entry) => entry.index.key);
-    result =
-      generalHit && !subjectHit
-        ? { intent: "general_knowledge", keys: topTied }
-        : { intent: "portfolio", keys: topTied };
+    result = generalHit
+      ? { intent: "general_knowledge", keys: topTied }
+      : { intent: "portfolio", keys: topTied };
   } else if (subjectHit) {
-    result = await judgeKeys();
+    result = generalHit
+      ? { intent: "general_knowledge", keys: lexicalKeys() }
+      : await judgeKeys();
   } else if (generalHit) {
     result = { intent: "general_knowledge", keys: lexicalKeys() };
   } else {
@@ -681,15 +1107,29 @@ async function retrieveRelevantContext(
   }
 
   const keys =
-    result.intent === "portfolio" ? buildPortfolioKeys(result.keys) : result.keys;
+    result.intent === "portfolio" && result.keys.length > 0
+      ? buildPortfolioKeys(result.keys)
+      : result.keys;
 
-  if (keys.length === 0) {
-    return { intent: result.intent, sectionKeys: [], context: "" };
+  if (result.intent === "portfolio" && !hasContentMatch(keys, contentTokens)) {
+    return { intent: "portfolio", sectionKeys: [], context: "", recordCount: 0 };
   }
 
-  const built = buildContext(keys);
+  if (keys.length === 0) {
+    return { intent: result.intent, sectionKeys: [], context: "", recordCount: 0 };
+  }
 
-  return { intent: result.intent, sectionKeys: built.keys, context: built.context };
+  const built = buildContext(sectionBlocks(keys), {
+    maxTokens: env.PROMPT_BUDGET_TOKENS,
+    baseChars: promptReservedChars(result.intent, historyChars),
+  });
+
+  return {
+    intent: result.intent,
+    sectionKeys: built.keys,
+    context: built.context,
+    recordCount: countRecords(built.keys),
+  };
 }
 
 function toErrorMessage(error: unknown): string {
@@ -776,11 +1216,26 @@ export const chatService = {
       return "stop";
     }
 
+    const historyText = options.messages.map((message) => message.content ?? "").join("");
+
     let systemContent = SYSTEM_PROMPT;
     let retrieval: RetrievalResult | null = null;
 
     if (query.trim()) {
-      retrieval = await retrieveRelevantContext(query, options.signal);
+      retrieval = await retrieveRelevantContext(query, options.signal, {
+        historyChars: historyText.length,
+      });
+
+      // Unknown portfolio question: no relevant section exists, so the exact
+      // fallback is streamed statically — zero AI tokens, no hallucination.
+      if (retrieval.intent === "portfolio" && !retrieval.context) {
+        console.info(
+          `[chat] no relevant portfolio info queryLen=${query.length}; streamed exact fallback (no LLM call)`,
+        );
+        options.onDelta(PORTFOLIO_NOT_FOUND);
+        return "stop";
+      }
+
       if (retrieval.intent === "off_topic") {
         systemContent = `${SYSTEM_PROMPT}\n\n${OFF_TOPIC_INSTRUCTIONS}`;
       } else if (retrieval.intent === "general_knowledge") {
@@ -803,14 +1258,18 @@ export const chatService = {
       model: aiProviderConfig.model,
       messages: providerMessages,
     }).length;
+    const promptTokens = estimateTokens(systemContent) + estimateTokens(historyText);
 
     console.info(
       `[chat] queryLen=${query.length} ` +
         `intent=${retrieval?.intent ?? "none"} ` +
         `sections=${retrieval?.sectionKeys.length ?? 0} ` +
-        `records=${retrieval ? countRecords(retrieval.sectionKeys) : 0} ` +
+        `records=${retrieval?.recordCount ?? (retrieval ? countRecords(retrieval.sectionKeys) : 0)} ` +
         `contextChars=${retrieval?.context.length ?? 0} ` +
         `systemPromptChars=${systemContent.length} ` +
+        `historyChars=${historyText.length} ` +
+        `promptTokens≈${promptTokens} ` +
+        `budget=${env.PROMPT_BUDGET_TOKENS} ` +
         `requestBodyChars=${requestBodyChars}`,
     );
 

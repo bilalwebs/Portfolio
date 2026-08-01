@@ -120,6 +120,9 @@ export const env = {
   CONTACT_RATE_LIMIT_MAX: toInt(process.env.CONTACT_RATE_LIMIT_MAX, 5),
   CHAT_RATE_LIMIT_WINDOW_MS: toInt(process.env.CHAT_RATE_LIMIT_WINDOW_MS, 15 * 60 * 1000),
   CHAT_RATE_LIMIT_MAX: toInt(process.env.CHAT_RATE_LIMIT_MAX, 30),
+  // Configurable prompt budget in tokens. Every LLM request is kept at or
+  // below this ceiling by trimming the retrieved portfolio context first.
+  PROMPT_BUDGET_TOKENS: toInt(process.env.PROMPT_BUDGET_TOKENS, 6000),
 } as const;
 
 export const isProduction = env.NODE_ENV === "production";
