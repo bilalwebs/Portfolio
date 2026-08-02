@@ -25,7 +25,7 @@ const OUT_FILE = resolve(backendDir, "src", "generated", "portfolio.data.ts");
 const assetStubPlugin = {
   name: "asset-stub",
   setup(build) {
-    build.onLoad({ filter: /\.(png|jpe?g|gif|svg|webp|ico|avif|pdf)$/ }, () => ({
+    build.onLoad({ filter: /\.(png|jpe?g|gif|svg|webp|ico|avif|pdf)$/i }, () => ({
       contents: "export default '';",
       loader: "js",
     }));
