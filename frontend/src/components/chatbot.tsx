@@ -123,7 +123,7 @@ export function Chatbot() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.96 }}
             transition={{ type: "spring", stiffness: 260, damping: 24 }}
-            className="fixed bottom-24 right-3 z-50 flex h-[calc(100dvh-8rem)] max-h-[600px] w-[calc(100vw-1.5rem)] max-w-[400px] flex-col overflow-hidden glass-card border-primary/30 shadow-2xl shadow-primary/20 sm:right-6 sm:bottom-28"
+            className="fixed bottom-24 right-3 z-50 flex h-[calc(100dvh-8rem)] max-h-[600px] w-[calc(100dvw-1.5rem)] max-w-[400px] flex-col overflow-hidden glass-card border-primary/30 shadow-2xl shadow-primary/20 sm:right-6 sm:bottom-28"
             role="dialog"
             aria-label="Bilal Portfolio AI Assistant"
           >
@@ -156,7 +156,7 @@ export function Chatbot() {
             {/* Messages */}
             <div
               ref={scrollRef}
-              className="chatbot-messages flex-1 space-y-3 overflow-y-auto px-4 py-4"
+              className="chatbot-messages min-h-0 flex-1 space-y-3 overflow-y-auto px-4 py-4"
             >
               {messages.length === 0 && (
                 <div className="space-y-3">
@@ -164,7 +164,7 @@ export function Chatbot() {
                     <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-primary/15 text-primary">
                       <Sparkles size={14} />
                     </span>
-                    <div className="rounded-2xl rounded-tl-sm border border-border bg-background/50 px-3.5 py-2.5 text-sm text-foreground whitespace-pre-line">
+                    <div className="min-w-0 rounded-2xl rounded-tl-sm border border-border bg-background/50 px-3.5 py-2.5 text-sm text-foreground whitespace-pre-line">
                       {`Hi! 👋 I'm Bilal's AI Assistant.
 
 I can answer questions about:
@@ -210,7 +210,7 @@ Ask me anything!`}
                       </span>
                     )}
                     <div
-                      className={`max-w-[80%] whitespace-pre-wrap rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed ${
+                      className={`min-w-0 max-w-[80%] whitespace-pre-wrap rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed ${
                         isUser
                           ? "rounded-tr-sm bg-primary text-primary-foreground shadow-md shadow-primary/30"
                           : "rounded-tl-sm border border-border bg-background/50 text-foreground"
@@ -247,14 +247,14 @@ Ask me anything!`}
             {/* Composer */}
             <form
               onSubmit={handleSubmit}
-              className="flex items-end gap-2 border-t border-border/60 bg-background/40 p-3 backdrop-blur"
+              className="flex min-w-0 items-end gap-2 border-t border-border/60 bg-background/40 p-3 backdrop-blur"
             >
               <input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Ask me anything about Bilal..."
                 disabled={isBusy}
-                className="flex-1 rounded-full border border-border bg-background/60 px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/60 outline-none transition focus:border-primary focus:neon-glow disabled:opacity-60"
+                className="min-w-0 flex-1 rounded-full border border-border bg-background/60 px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/60 outline-none transition focus:border-primary focus:neon-glow disabled:opacity-60"
               />
               <button
                 type="submit"
