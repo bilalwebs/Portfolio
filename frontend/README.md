@@ -55,7 +55,7 @@ A modern, production-ready portfolio monorepo with a **React + Vite** single-pag
 - **Projects Showcase** — Cards with image overlay, preview animation, and tech tags
 - **Recognition & Certificates** — Hackathon/award cards and certificate gallery
 - **Contact Section** — Info cards + validated form posting to `/api/contact`
-- **AI Chatbot** — Floating assistant powered by the AI SDK, posting to `/api/chat`
+- **AI Chatbot** — Floating assistant powered by the AI SDK, posting to `/api/chat`; mobile-responsive composer (input auto-shrinks, send button always visible, message text wraps — no horizontal overflow)
 - **Custom Cursor & Preloader** — Neon-accent cursor (desktop) and branded entry animation
 - **Responsive + Dark Theme** — Mobile-first layout with a cyber-blue neon aesthetic
 
@@ -77,7 +77,7 @@ A modern, production-ready portfolio monorepo with a **React + Vite** single-pag
 | Category       | Technology                                             |
 | -------------- | ------------------------------------------------------ |
 | **Framework**  | React 19 + Vite 8 (SPA)                                |
-| **Language**   | TypeScript 5.8                                          |
+| **Language**   | TypeScript 5.x (pinned)                                  |
 | **Styling**    | Tailwind CSS v4 (`@tailwindcss/vite`) + tw-animate-css  |
 | **Animations** | Motion + react-type-animation + custom CSS              |
 | **Icons**      | Lucide React                                            |
@@ -155,7 +155,7 @@ Bilal_Portfolio/
 │       ├── data/
 │       │   └── portfolio.ts  # Single source of truth for all content
 │       ├── hooks/            # use-mobile, etc.
-│       ├── lib/              # cn() class utility
+│       ├── lib/              # cn() class utility, api.ts (env-driven API base)
 │       ├── App.tsx           # Root component (composes every section)
 │       ├── main.tsx          # React entry point
 │       └── styles.css        # Global styles, Tailwind, theme
@@ -330,6 +330,8 @@ The floating chatbot answers questions about Bilal's background, skills, project
 
 Set `AI_PROVIDER` to the active provider; only that provider's variables are required. Changing providers requires no code changes.
 
+The composer is fully responsive on mobile (320–480px): the input auto-shrinks with `min-width: 0` to whatever space is available, the send button keeps a fixed size and stays visible, and message text wraps so nothing overflows horizontally.
+
 ---
 
 ## Portfolio Data Sync
@@ -380,6 +382,8 @@ npm run build          # production bundle to dist/
 ### Backend on Vercel (Node API)
 
 See the [root README](../README.md#deployment). In short: a second Vercel project with Root Directory `backend`, using the `vercel-build` script and the `api/index.ts` serverless entry; all configuration comes from the project's environment variables (`DATABASE_URL` → Neon, Gmail SMTP, AI provider, `CORS_ORIGINS`).
+
+> The backend pins `typescript` to `~5.9.3`: `@vercel/node` is incompatible with TypeScript 7 and fails the build with `Cannot read properties of undefined (reading 'readFile')`.
 
 > **Note:** In production the app sets `trust proxy` so rate limiting and `req.ip` behave correctly behind load balancers/proxies.
 

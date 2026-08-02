@@ -79,6 +79,8 @@ The current target is **Vercel**. The frontend and backend are deployed as **two
 1. Create a second Vercel project and import the same repository.
 2. Set **Root Directory** to `backend`.
 3. Build command uses the `vercel-build` script (`npm run sync:portfolio && npm run prisma:generate`). The serverless entry point is `api/index.ts` (see `backend/vercel.json`).
+
+   > **TypeScript version:** `@vercel/node` requires TypeScript **5.x**. The backend pins `typescript` to `~5.9.3` on purpose — TypeScript 7 is incompatible and aborts the serverless build with `Error: Cannot read properties of undefined (reading 'readFile')`. Keep the pin in place.
 4. Add all environment variables from [`backend/.env.example`](backend/.env.example) to the Vercel project (Production + Preview). The important ones:
 
    | Variable              | Description                                           |
@@ -125,6 +127,12 @@ docker compose up -d --build
 ```
 
 The container runs `node dist/server.js` on port `4000` with `NODE_ENV=production`. Apply migrations before/after startup with `npx prisma migrate deploy`.
+
+### Troubleshooting
+
+| Symptom | Cause & fix |
+| ------- | ----------- |
+| Backend build fails with `Error: Cannot read properties of undefined (reading 'readFile')` | `@vercel/node` is incompatible with **TypeScript 7**. `backend/package.json` must keep `"typescript": "~5.9.3"`; after changing the version, re-run `npm install` so the lockfile and `node_modules` resolve to 5.x, then redeploy. |
 
 ## License
 
