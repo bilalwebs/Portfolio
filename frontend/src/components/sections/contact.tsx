@@ -4,6 +4,7 @@ import { Mail, Phone, MapPin, Send, Check } from "lucide-react";
 import { Section } from "@/components/ui/section";
 import { profile, socials } from "@/data/portfolio";
 import { SocialIcon } from "@/components/ui/social-icon";
+import { API_BASE_URL } from "@/lib/api";
 
 export function Contact() {
   const [sent, setSent] = useState(false);
@@ -19,7 +20,7 @@ export function Contact() {
 
     try {
       setLoading(true);
-      const res = await fetch("/api/contact", {
+      const res = await fetch(`${API_BASE_URL}/contact`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(Object.fromEntries(formData)),

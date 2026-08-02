@@ -1,22 +1,5 @@
-# Dependencies
-node_modules/
-
-# Build output
-dist/
-dist-ssr/
-.output/
-.vinxi/
-
-# Vite cache
-.tanstack/
-
-# Environment variables
-.env
-.env.*
-!.env.example
-
 # Logs
-logs/
+logs
 *.log
 npm-debug.log*
 yarn-debug.log*
@@ -24,10 +7,28 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+node_modules
+dist
+dist-ssr
+.output
+.vinxi
+.tanstack/**
+.nitro
+*.local
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Wrangler / Cloudflare
+.wrangler/
+.dev.vars
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
-.idea/
+.idea
 .DS_Store
 *.suo
 *.ntvs*

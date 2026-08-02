@@ -2,281 +2,107 @@
 
 > **AI Engineer | Full-Stack Engineer**
 
-A modern, production-ready portfolio monorepo with a **React + Vite** single-page frontend and a **Node.js + Express** backend API. The site showcases Bilal's projects, skills, journey, certifications, and recognitions, and ships with a working contact form (with email notifications), an AI-powered portfolio chatbot, and a cyber-blue neon dark theme throughout.
-
----
-
-## Table of Contents
-
-- [Highlights](#highlights)
-- [Features](#features)
-- [Tech Stack](#tech-stack)
-- [Architecture](#architecture)
-- [Repository Structure](#repository-structure)
-- [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [1. Frontend Setup](#1-frontend-setup)
-  - [2. Backend Setup](#2-backend-setup)
-- [Running in Development](#running-in-development)
-- [Scripts](#scripts)
-- [API Reference](#api-reference)
-- [Contact Flow](#contact-flow)
-- [AI Chatbot](#ai-chatbot)
-- [Portfolio Data Sync](#portfolio-data-sync)
-- [Email Notification Template](#email-notification-template)
-- [Deployment](#deployment)
-- [Environment Variables](#environment-variables)
-- [Quality Checks](#quality-checks)
-- [Future Improvements](#future-improvements)
-- [License](#license)
-- [Author](#author)
-
----
-
-## Highlights
-
-- **Single-page portfolio** — Hero, About, Journey timeline, Skills, Process, Projects, Recognition, Certificates, and Contact sections, all driven by one data file.
-- **Fully functional backend** — Express 5 REST API with PostgreSQL persistence via Prisma, input validation, rate limiting, and security hardening.
-- **Contact form with email notifications** — Submissions are stored in the database and a **premium HTML notification email** is delivered to the owner's inbox via Gmail SMTP, with reply-to the sender and a one-click "Reply to Sender" button.
-- **AI portfolio chatbot** — A floating assistant that answers questions about Bilal using the live portfolio data as context. Provider-agnostic (OpenAI, Groq, or Gemini).
-- **Email-safe, responsive design** — The notification email is built with table-based, inline-CSS HTML that renders correctly in Gmail, Outlook, Apple Mail, Yahoo Mail, and mobile clients.
-
----
-
-## Features
-
-### Frontend
-
-- **Hero Section** — Typewriter role animation, CTA buttons, social links
-- **About Section** — Bio, animated stats counters, resume download
-- **Journey Timeline** — Alternating cards for education and certifications
-- **Skills Grid** — Animated progress bars grouped by category (Frontend, Backend, AI, Tools)
-- **Process Section** — 5-step workflow (Discover → Design → Build → Validate → Deploy)
-- **Projects Showcase** — Cards with image overlay, preview animation, and tech tags
-- **Recognition & Certificates** — Hackathon/award cards and certificate gallery
-- **Contact Section** — Info cards + validated form posting to `/api/contact`
-- **AI Chatbot** — Floating assistant powered by the AI SDK, posting to `/api/chat`
-- **Custom Cursor & Preloader** — Neon-accent cursor (desktop) and branded entry animation
-- **Responsive + Dark Theme** — Mobile-first layout with a cyber-blue neon aesthetic
-
-### Backend
-
-- `GET /health` — Liveness/health check
-- `POST /api/contact` — Validated, rate-limited contact submissions
-- `POST /api/chat` — LLM chat with streaming via a configurable AI provider
-- **PostgreSQL persistence** — All contact submissions stored via Prisma
-- **Email delivery** — Nodemailer (Gmail SMTP) with a redesigned premium HTML notification
-- **Security & hardening** — Helmet, CORS, response compression, bounded body limits, global + per-route rate limiting, graceful shutdown
-
----
-
-## Tech Stack
-
-### Frontend
-
-| Category       | Technology                                             |
-| -------------- | ------------------------------------------------------ |
-| **Framework**  | React 19 + Vite 8 (SPA)                                |
-| **Language**   | TypeScript 5.8                                          |
-| **Styling**    | Tailwind CSS v4 (`@tailwindcss/vite`) + tw-animate-css  |
-| **Animations** | Motion + react-type-animation + custom CSS              |
-| **Icons**      | Lucide React                                            |
-| **UI Library** | shadcn/ui (Radix primitives)                            |
-| **Forms**      | react-hook-form + @hookform/resolvers + sonner toasts   |
-| **AI Chat**    | AI SDK (`ai` + `@ai-sdk/react`)                         |
-| **Build**      | Vite 8 + vite-tsconfig-paths                            |
-| **Linting**    | ESLint 9 + Prettier                                     |
-| **Package**    | npm                                                     |
-
-### Backend
-
-| Category              | Technology                                   |
-| --------------------- | -------------------------------------------- |
-| **Runtime**           | Node.js 20+ (ESM, TypeScript)                |
-| **Framework**         | Express 5                                    |
-| **Language**          | TypeScript (`tsx` for dev, `tsc` for build)  |
-| **Database**          | PostgreSQL via Prisma ORM (Prisma 7 + `@prisma/adapter-pg`) |
-| **Email**             | Nodemailer (Gmail SMTP)                      |
-| **AI Chat**           | `openai` SDK (provider-agnostic config)      |
-| **Validation**        | express-validator                            |
-| **Rate Limiting**     | express-rate-limit (global + contact + chat) |
-| **Security**          | Helmet, CORS, compression, bounded body size |
-| **Build**             | `tsc` + esbuild (for portfolio data sync)    |
-
----
-
-## Architecture
-
-```
-┌─────────────────────────────┐         ┌──────────────────────────────┐
-│   Frontend (React + Vite)   │         │   Backend (Express + Prisma) │
-│                             │  /api   │                              │
-│  src/  →  static SPA (dist) │ ──────► │  POST /api/contact           │
-│  /api/*  proxied in dev     │ ◄────── │  POST /api/chat              │
-│                             │  JSON   │  GET  /health                │
-└─────────────────────────────┘         └──────────────┬───────────────┘
-                                                       │
-                                          ┌────────────┴────────────┐
-                                          │  PostgreSQL             │
-                                          │  (contact_submissions)  │
-                                          └─────────────────────────┘
-                                          ┌─────────────────────────┐
-                                          │  Gmail SMTP (Nodemailer)│
-                                          │  notification emails    │
-                                          └─────────────────────────┘
-```
-
-- The frontend is a **static SPA**. During local development, Vite proxies `/api/*` to `http://localhost:4000` (see `vite.config.ts`).
-- The backend is a **self-contained Express API**. It owns the database, validation, rate limiting, and email delivery.
-- The chatbot runs **server-side on the backend** (unlike the original client-side design) and uses an LLM provider configured via environment variables.
-
----
+A production-ready monorepo for Bilal's portfolio — a **React + Vite** single-page frontend and a **Node.js + Express** backend API. The site showcases projects, skills, journey, certifications, and recognitions, and ships with a working contact form (with email notifications), an AI-powered portfolio chatbot, and a cyber-blue neon dark theme.
 
 ## Repository Structure
 
 ```
 Bilal_Portfolio/
-├── index.html                # HTML entry (SEO/OG/Twitter meta, fonts)
-├── package.json              # Frontend package & scripts
-├── vite.config.ts            # Vite + React + Tailwind + /api proxy
-├── .env.example
-├── public/                   # Favicons, resume, static assets
-└── src/
-    ├── assets/               # Images (profile, projects, certificates)
-    ├── components/
-    │   ├── layout/           # Navbar, Footer
-    │   ├── sections/         # Hero, About, Timeline, Skills, Process,
-    │   │                     # Projects, Recognition, Certificates, Contact
-    │   ├── chatbot.tsx       # AI assistant widget
-    │   ├── preloader.tsx     # Branded entry animation
-    │   ├── custom-cursor.tsx # Neon cursor (desktop)
-    │   └── ui/               # shadcn/ui components + Section wrapper
-    ├── data/
-    │   └── portfolio.ts      # Single source of truth for all content
-    ├── hooks/                # use-mobile, etc.
-    ├── lib/                  # cn() class utility
-    ├── App.tsx               # Root component (composes every section)
-    ├── main.tsx              # React entry point
-    └── styles.css            # Global styles, Tailwind, theme
-
-backend/
-├── package.json              # Backend package & scripts
-├── tsconfig.json
-├── .env.example              # Backend environment template
-├── prisma/
-│   └── schema.prisma         # ContactSubmission model
-├── scripts/
-│   ├── generate-portfolio-data.mjs   # Bundles portfolio.ts → JSON snapshot
-│   ├── verify-chat.mjs               # Manual chat endpoint smoke test
-│   └── verify-multiintent.mjs        # Multi-intent chat verification
-└── src/
-    ├── app.ts                # Express app (middleware, routes, handlers)
-    ├── server.ts             # HTTP server + graceful shutdown
-    ├── config/               # env, cors
-    ├── controllers/          # health, contact, chat
-    ├── services/             # contact, chat, email (Nodemailer + HTML template)
-    ├── validators/           # contact, chat
-    ├── middlewares/          # validate, rateLimit, error, asyncHandler
-    ├── routes/               # index, health, contact, chat
-    ├── lib/prisma.ts         # Prisma client (adapter-pg)
-    ├── utils/                # ApiResponse, ApiError
-    └── generated/            # prisma client + portfolio data snapshot
+├── frontend/          # React + Vite SPA (portfolio UI, chatbot widget, contact form)
+│   ├── src/           # App source (components, data, styles)
+│   ├── public/        # Favicons, resume, static assets
+│   └── vercel.json    # Vercel config (root directory: frontend)
+├── backend/           # Express + Prisma API (contact, chat, health endpoints)
+│   ├── api/           # Vercel serverless entry point
+│   ├── Dockerfile     # Future Docker deployment (not used on Vercel)
+│   └── docker-compose.yml
+├── .dockerignore      # Build context exclusions for the backend Docker image
+├── .gitignore
+└── README.md
 ```
 
----
+- **`frontend/`** — the React + Vite single-page application. See [`frontend/README.md`](frontend/README.md).
+- **`backend/`** — the Express + Prisma REST API. It owns the database, validation, rate limiting, and email delivery.
 
 ## Getting Started
 
-### Prerequisites
-
-- **Node.js 20+** ([install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating))
-- **npm**
-- **PostgreSQL** (local instance or a hosted service such as Neon/Supabase)
-
-### 1. Frontend Setup
-
-```sh
-git clone <repository-url>
-cd Bilal_Portfolio
-npm install
-```
-
-No environment variables are required for the frontend. In development it proxies `/api/*` to `http://localhost:4000`.
-
-### 2. Backend Setup
-
-```sh
-cd backend
-npm install
-cp .env.example .env
-```
-
-Edit `backend/.env` and fill in at minimum:
-
-- `DATABASE_URL` — your PostgreSQL connection string
-- `GMAIL_USER` + `GMAIL_APP_PASSWORD` — Gmail account + [App Password](https://myaccount.google.com/apppasswords) used to send contact notifications
-- `CONTACT_EMAIL` — the inbox that receives contact notifications
-- One AI provider block (`AI_PROVIDER=openai|groq|gemini` + its `API_KEY`/`BASE_URL`/`MODEL`)
-
-Then prepare the database:
-
-```sh
-cd backend
-npx prisma migrate dev   # create the schema in your local DB
-```
-
----
-
-## Running in Development
-
-Frontend (http://localhost:5173):
-
-```sh
-npm run dev
-```
-
-Backend (http://localhost:4000):
-
-```sh
-cd backend
-npm run dev
-```
-
-`npm run dev` in the backend first runs the portfolio data sync (`predev`), then starts the API with `tsx watch`. Open http://localhost:5173 and the frontend proxies `/api/*` to the backend automatically.
-
----
-
-## Scripts
+Prerequisites: **Node.js 20+** and **npm**.
 
 ### Frontend
 
-| Script              | Description                              |
-| ------------------- | ---------------------------------------- |
-| `npm run dev`       | Start Vite dev server with HMR           |
-| `npm run build`     | Build the production bundle to `dist/`   |
-| `npm run build:dev` | Build in development mode                |
-| `npm run preview`   | Preview the production build locally     |
-| `npm run lint`      | Run ESLint across all source files       |
-| `npm run format`    | Format code with Prettier                |
+```sh
+cd frontend
+npm install
+npm run dev
+```
+
+Starts Vite at http://localhost:5173. In development it proxies `/api/*` to `http://localhost:4000`.
 
 ### Backend
 
-| Script                          | Description                                         |
-| ------------------------------- | --------------------------------------------------- |
-| `npm run dev`                   | Start the API with `tsx watch` (auto-syncs portfolio data) |
-| `npm run build`                 | Generate Prisma client + typecheck and compile to `dist/` |
-| `npm run start`                 | Run the compiled server from `dist/`                |
-| `npm run preview`               | Build and start                                     |
-| `npm run typecheck`             | Type-check without emitting (`tsc --noEmit`)        |
-| `npm run sync:portfolio`        | Regenerate the chatbot portfolio snapshot            |
-| `npm run prisma:generate`       | Generate the Prisma client                          |
-| `npm run prisma:migrate`        | Create/apply migrations in dev                      |
-| `npm run prisma:deploy`         | Apply migrations in production                      |
-| `npm run prisma:studio`         | Open Prisma Studio                                  |
+```sh
+cd backend
+npm install
+cp .env.example .env   # then fill in your environment variables
+npm run dev
+```
 
----
+Starts the API at http://localhost:4000. See [`backend/.env.example`](backend/.env.example) for the required variables (`DATABASE_URL`, Gmail SMTP credentials, and an AI provider).
 
-## API Reference
+### Build
+
+```sh
+cd frontend && npm run build   # production bundle to frontend/dist/
+cd backend  && npm run build   # compile + generate Prisma client
+```
+
+## Deployment
+
+The current target is **Vercel**. The frontend and backend are deployed as **two separate Vercel projects** (each deploys its own folder). The production database stays on **Neon PostgreSQL**. Docker files are provided for future portability only.
+
+### Frontend on Vercel
+
+1. Create a new Vercel project and import this repository.
+2. Set **Root Directory** to `frontend`.
+3. Framework preset auto-detects **Vite**; build command `npm run build`, output directory `dist`.
+4. Add the environment variable so the app talks to your deployed backend:
+
+   | Name                    | Example                                            |
+   | ----------------------- | -------------------------------------------------- |
+   | `VITE_BACKEND_API_URL`  | `https://your-backend-project.vercel.app/api`      |
+
+   > If unset, the frontend falls back to the same-origin `/api` prefix (used by the Vite dev proxy). Set it in **Production**, **Preview**, and **Development** environments.
+5. Deploy. The static site is served from `frontend/dist`.
+
+### Backend on Vercel
+
+1. Create a second Vercel project and import the same repository.
+2. Set **Root Directory** to `backend`.
+3. Build command uses the `vercel-build` script (`npm run sync:portfolio && npm run prisma:generate`). The serverless entry point is `api/index.ts` (see `backend/vercel.json`).
+4. Add all environment variables from [`backend/.env.example`](backend/.env.example) to the Vercel project (Production + Preview). The important ones:
+
+   | Variable              | Description                                           |
+   | --------------------- | ----------------------------------------------------- |
+   | `DATABASE_URL`        | Your **Neon** PostgreSQL connection string            |
+   | `GMAIL_USER`          | Gmail address used as the notification sender         |
+   | `GMAIL_APP_PASSWORD`  | Gmail App Password (not the account password)         |
+   | `CONTACT_EMAIL`       | Inbox that receives contact notifications             |
+   | `AI_PROVIDER` + keys  | Active chat provider (`openai` \| `groq` \| `gemini`) |
+   | `CORS_ORIGINS`        | The deployed frontend URL (comma-separated)           |
+   | `NODE_ENV`            | `production`                                          |
+
+5. Apply the database schema to Neon:
+
+   ```sh
+   cd backend
+   npx prisma migrate deploy
+   ```
+
+   > During Vercel builds, `DATABASE_URL` must be available. For Neon, prefer the pooled connection string (host ending in `-pooler`) or add `?sslmode=require` to the direct one. `prisma.config.ts` reads it automatically.
+
+6. After both projects are live, point the frontend at the backend by setting `VITE_BACKEND_API_URL` on the frontend project (step 4 above) and redeploy the frontend. Add the frontend URL to the backend's `CORS_ORIGINS`.
+
+**Endpoints** (from the backend project):
 
 | Method | Endpoint      | Description                                                    |
 | ------ | ------------- | -------------------------------------------------------------- |
@@ -284,164 +110,25 @@ npm run dev
 | POST   | `/api/contact`| Create a contact submission and email the owner a notification |
 | POST   | `/api/chat`   | Stream a chatbot reply grounded in portfolio data               |
 
-**`POST /api/contact`** request body:
+### Future Docker deployment (backend)
 
-```json
-{
-  "name": "Jane Doe",
-  "email": "jane@example.com",
-  "subject": "Job opportunity",
-  "message": "Hi Bilal, we'd love to work with you."
-}
-```
+Docker is **not** used for the current Vercel deployment. Files live in `backend/` for portability.
 
-Responses: `202` with `{ accepted, trackingId, provider }` on success; `422` for validation errors; `429` when rate-limited; `502` if the notification email could not be delivered (the submission is still saved).
-
----
-
-## Contact Flow
-
-1. The visitor submits the form on the frontend → `POST /api/contact`.
-2. The request passes validation (`express-validator`) and a strict anti-spam rate limiter.
-3. The submission is persisted to the `contact_submissions` table via Prisma.
-4. A **notification email** is sent to `CONTACT_EMAIL` via Gmail SMTP:
-   - Reply-To is set to the visitor's email so the owner can reply in-place.
-   - The email includes a tracking/reference ID, submission time, and a "Reply to Sender" button that opens a pre-addressed `mailto:`.
-5. The API returns the stored row's id as the `trackingId`.
-6. If email delivery fails, the submission remains saved and a `502` is returned so the client can inform the user.
-
----
-
-## AI Chatbot
-
-The floating chatbot answers questions about Bilal's background, skills, projects, education, and contact details. How it works:
-
-- The frontend streams requests to `POST /api/chat` using the AI SDK.
-- The backend injects the **live portfolio data snapshot** as context (generated from `src/data/portfolio.ts`), with a token budget (`PROMPT_BUDGET_TOKENS`) that trims large contexts before each request.
-- The provider is configured entirely through environment variables:
-
-| Provider | Variables                                                |
-| -------- | -------------------------------------------------------- |
-| `openai` | `OPENAI_API_KEY`, `OPENAI_BASE_URL`, `OPENAI_MODEL`       |
-| `groq`   | `GROQ_API_KEY`, `GROQ_BASE_URL`, `GROQ_MODEL`             |
-| `gemini` | `GEMINI_API_KEY`, `GEMINI_BASE_URL`, `GEMINI_MODEL`       |
-
-Set `AI_PROVIDER` to the active provider; only that provider's variables are required. Changing providers requires no code changes.
-
----
-
-## Portfolio Data Sync
-
-The chatbot is always in sync with the portfolio content:
+- `backend/Dockerfile` — multi-stage production image (build + runtime).
+- `backend/docker-compose.yml` — Compose service wired to the same environment variables as Vercel (Neon stays the database; no local DB is started by default).
+- `.dockerignore` (repository root) — required because the Docker build context is the repository root (the build reads `frontend/src/data/portfolio.ts` for the chatbot snapshot).
 
 ```sh
 cd backend
-npm run sync:portfolio
+cp .env.example .env      # fill in DATABASE_URL (Neon), SMTP, AI provider
+docker compose up -d --build
 ```
 
-`scripts/generate-portfolio-data.mjs` bundles `src/data/portfolio.ts` with esbuild, executes it under Node (stubbing image imports), and writes a plain JSON snapshot to `backend/src/generated/portfolio.data.ts`. The chat service reads from that snapshot. This runs automatically as a `predev`/`prebuild` hook — edit `src/data/portfolio.ts` and the assistant picks up the changes on the next sync/build.
-
-> **Note:** `backend/src/generated/` is auto-generated. Do not edit it manually.
-
----
-
-## Email Notification Template
-
-When a contact submission arrives, the owner receives a modern, recruiter-friendly HTML notification built in `backend/src/services/email.service.ts`:
-
-- **Branded header** — MBH monogram, name, role, and a "Portfolio Contact Notification" badge
-- **Contact details card** — Name, email, and subject with muted labels
-- **Highlighted message block** — the visitor's message with a cyan accent border, proper whitespace handling, and long-URL wrapping
-- **Submission details** — Reference ID, submission time (UTC), and source
-- **Reply to Sender** — a pill-shaped button that opens a pre-addressed `mailto:` to the visitor
-- **Clean footer** — auto-generated notice, no-reply guidance, and copyright
-
-The template is **email-safe HTML**: table-based layout, inline CSS, no JavaScript, no external fonts/images, and fully responsive from desktop to mobile clients (Gmail, Outlook, Apple Mail, Yahoo Mail). The companion plain-text body is preserved for clients that don't render HTML.
-
----
-
-## Deployment
-
-### Frontend (static SPA)
-
-```sh
-npm run build
-```
-
-The production bundle is written to `dist/` — deploy it to any static host (Vercel, Netlify, Cloudflare Pages, GitHub Pages). Configure a **rewrite/proxy** of `/api/*` to your hosted backend, or set `VITE_*`-style base URLs in the frontend calls if you prefer absolute API URLs.
-
-### Backend (Node API)
-
-Any platform that runs Node 20+ (Railway, Render, Fly.io, a VM, Azure App Service, etc.):
-
-1. Set all backend environment variables (see below).
-2. Run `npm run prisma:deploy` to apply migrations to the production database.
-3. Run `npm run build` then `npm run start`.
-4. Point your frontend's `/api` proxy/rewrite at the deployed API URL and add it to `CORS_ORIGINS`.
-
-> **Note:** In production the app sets `trust proxy` so rate limiting and `req.ip` behave correctly behind load balancers/proxies.
-
----
-
-## Environment Variables
-
-The frontend requires **none**. The backend is configured via `backend/.env` (see `backend/.env.example`):
-
-| Variable                    | Required | Description                                              |
-| --------------------------- | -------- | -------------------------------------------------------- |
-| `DATABASE_URL`              | ✓        | PostgreSQL connection string used by Prisma              |
-| `GMAIL_USER`                | ✓        | Gmail address used as the notification sender            |
-| `GMAIL_APP_PASSWORD`        | ✓        | Gmail App Password (not the account password)            |
-| `CONTACT_EMAIL`             | ✓        | Inbox that receives contact notifications                |
-| `AI_PROVIDER`               | ✓        | Active chat provider: `openai`, `groq`, or `gemini`      |
-| `OPENAI_API_KEY` / `OPENAI_BASE_URL` / `OPENAI_MODEL` | * | OpenAI provider credentials        |
-| `GROQ_API_KEY` / `GROQ_BASE_URL` / `GROQ_MODEL`      | * | Groq provider credentials            |
-| `GEMINI_API_KEY` / `GEMINI_BASE_URL` / `GEMINI_MODEL` | * | Gemini provider credentials          |
-| `NODE_ENV`                  | –        | `development` (default) or `production`                  |
-| `HOST` / `PORT`             | –        | Server bind address/port (default `0.0.0.0:4000`)        |
-| `CORS_ORIGINS`              | –        | Comma-separated allowed origins (default `http://localhost:5173`) |
-| `RATE_LIMIT_WINDOW_MS` / `RATE_LIMIT_MAX` | –    | Global rate limit window/count                           |
-| `CONTACT_RATE_LIMIT_WINDOW_MS` / `CONTACT_RATE_LIMIT_MAX` | – | Stricter contact-form anti-spam limits |
-| `CHAT_RATE_LIMIT_WINDOW_MS` / `CHAT_RATE_LIMIT_MAX` | – | Chat endpoint limits                    |
-| `PROMPT_BUDGET_TOKENS`      | –        | Max prompt tokens for the chatbot context (default `6000`) |
-
-_\* Only the variables for the provider selected by `AI_PROVIDER` are required._
-
----
-
-## Quality Checks
-
-```sh
-# Frontend
-npm run lint          # ESLint
-npm run format        # Prettier
-
-# Backend
-cd backend && npm run typecheck
-```
-
-`npm run build` in the backend also runs the TypeScript compiler, so a clean build doubles as a full type check.
-
----
-
-## Future Improvements
-
-- [ ] Live deployment URL for the portfolio
-- [ ] Replace placeholder project/social links with final URLs
-- [ ] Image optimization (WebP/AVIF, responsive `srcset`)
-- [ ] Remove unused shadcn/ui components to slim the bundle
-- [ ] Automated test suite for the backend (unit + integration)
-- [ ] Admin dashboard to manage contact submissions
-- [ ] Accessibility audit and improvements
-- [ ] Internationalization (i18n) support
-
----
+The container runs `node dist/server.js` on port `4000` with `NODE_ENV=production`. Apply migrations before/after startup with `npx prisma migrate deploy`.
 
 ## License
 
 This project is open source and available under the MIT License.
-
----
 
 ## Author
 

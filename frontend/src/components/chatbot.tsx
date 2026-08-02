@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { MessageCircle, X, Send, Sparkles } from "lucide-react";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport, type UIMessage } from "ai";
+import { API_BASE_URL } from "@/lib/api";
 
 const STORAGE_KEY = "bilal-portfolio-chat-v1";
 
@@ -32,7 +33,7 @@ export function Chatbot() {
   const [initial] = useState<UIMessage[]>(() => loadMessages());
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  const transport = useRef(new DefaultChatTransport({ api: "/api/chat" })).current;
+  const transport = useRef(new DefaultChatTransport({ api: `${API_BASE_URL}/chat` })).current;
   const { messages, sendMessage, status, setMessages } = useChat({
     id: "bilal-assistant",
     messages: initial,

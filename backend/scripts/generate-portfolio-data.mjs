@@ -17,9 +17,9 @@ import { fileURLToPath } from "node:url";
 
 const scriptDir = dirname(fileURLToPath(import.meta.url));
 const backendDir = resolve(scriptDir, "..");
-const rootDir = resolve(backendDir, "..");
+const frontendDir = resolve(backendDir, "..", "frontend");
 
-const SOURCE_FILE = resolve(rootDir, "src", "data", "portfolio.ts");
+const SOURCE_FILE = resolve(frontendDir, "src", "data", "portfolio.ts");
 const OUT_FILE = resolve(backendDir, "src", "generated", "portfolio.data.ts");
 
 const assetStubPlugin = {
@@ -41,7 +41,7 @@ const result = await build({
   target: "node20",
   sourcemap: false,
   logLevel: "silent",
-  alias: { "@": resolve(rootDir, "src") },
+  alias: { "@": resolve(frontendDir, "src") },
   plugins: [assetStubPlugin],
 });
 
