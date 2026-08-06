@@ -9,6 +9,7 @@ import cert2 from "@/assets/cert-2.jpg";
 import cert3 from "@/assets/cert-3.jpg";
 import cert4 from "@/assets/cert-4.png";
 import cert5 from "@/assets/cert-5.PNG";
+import cert6 from "@/assets/cert-6.jpeg";
 
 export const profile = {
   name: "Muhammad Bilal Hussain",
@@ -126,15 +127,14 @@ export const projects = [
     "An AI-powered platform that classifies agricultural crop residue from smartphone images, estimates market value, recommends reuse opportunities, detects contamination, and calculates CO₂ emissions using Computer Vision and Machine Learning.",
   image: project1,
   tech: [
-    "Python",
-    "FastAPI",
-    "React",
-    "TypeScript",
-    "ONNX Runtime",
-    "Computer Vision",
-    "Docker",
-    "Vercel"
-  ],
+  "Python",
+  "FastAPI",
+  "React",
+  "TypeScript",
+  "ONNX Runtime",
+  "Azure Custom Vision",
+  "Computer Vision",
+],
   github: "https://github.com/bilalwebs/Gulzareen",
   demo: "https://gulzareen.vercel.app/",
 },
@@ -199,6 +199,12 @@ export const certificates = [
     href: "https://www.freecodecamp.org/certification/bilalcode1/responsive-web-design",
   },
   {
+  title: "Certificate of Achievement – Top 30 Innovative Projects",
+  org: "Digital Youth Leadership Program (DYLP)",
+  image: cert6,
+  href: "https://drive.google.com/file/d/1Q52FpBlSgbjTOiKKh1LKXjtVkEvCncQW/view?usp=sharing",
+},
+  {
   title: "Python For Data Science - Real Time Coding Exercises",
   org: "Udemy",
   issuer: "Data Science Lovers",
@@ -227,8 +233,8 @@ export const recognitions = [
   tag: "Hackathon",
   title: "DYLP Vibe Coding Hackathon 2026",
   description:
-    "Developed 'Gulzareen', an AI-powered crop residue classification platform that helps farmers identify agricultural waste, estimate market value, discover reuse opportunities, and reduce crop burning through computer vision and AI.",
-  status: "Results Pending",
+    "Built 'Gulzareen', an AI-powered crop residue classification platform that helps farmers identify agricultural waste, estimate market value, discover reuse opportunities, and reduce crop burning through computer vision and AI.",
+  status: "Top 30 Innovative Projects"
 },
   
 ];
