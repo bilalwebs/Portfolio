@@ -31,9 +31,9 @@ export function Navbar() {
         <a href="#home" className="group flex shrink-0 items-center gap-3">
           <img
             src="/assets/logo.png"
-            alt="Bilal Hussain logo"
-            width={44}
-            height={42}
+            alt="Muhammad Bilal Hussain logo"
+            width={42}
+            height={40}
             className="h-10 w-auto shrink-0 object-contain transition-transform duration-300 group-hover:scale-105"
           />
 
@@ -62,9 +62,9 @@ export function Navbar() {
 
         <a
           href="#contact"
-          className="hidden shrink-0 whitespace-nowrap rounded-full bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground shadow-lg shadow-primary/30 transition-transform hover:scale-105 hover:neon-glow-strong lg:inline-flex lg:px-5 lg:text-sm"
+          className="hidden shrink-0 items-center whitespace-nowrap rounded-full bg-primary px-5 py-2.5 text-xs font-semibold text-primary-foreground shadow-lg shadow-primary/30 transition-all duration-300 hover:-translate-y-0.5 hover:bg-accent hover:neon-glow-strong lg:inline-flex lg:px-6 lg:text-sm"
         >
-          Hire me
+          Hire Me
         </a>
 
         <button
@@ -98,9 +98,9 @@ export function Navbar() {
               <a
                 href="#contact"
                 onClick={() => setOpen(false)}
-                className="mt-2 block rounded-lg bg-primary px-4 py-3 text-center text-sm font-semibold text-primary-foreground"
+                className="mt-2 block rounded-lg bg-primary px-4 py-3 text-center text-sm font-semibold text-primary-foreground transition-all hover:bg-accent"
               >
-                Hire me
+                Hire Me
               </a>
             </div>
           </motion.div>

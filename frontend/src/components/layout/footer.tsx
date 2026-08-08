@@ -10,9 +10,9 @@ export function Footer() {
         <a href="#home" className="group flex items-center gap-3">
           <img
             src="/assets/logo.png"
-            alt="Bilal Hussain logo"
-            width={40}
-            height={38}
+            alt="Muhammad Bilal Hussain logo"
+            width={38}
+            height={36}
             className="h-9 w-auto shrink-0 object-contain transition-transform duration-300 group-hover:scale-105"
           />
 
@@ -40,6 +40,16 @@ export function Footer() {
               </a>
             );
           })}
+          <a
+            key="Linktree"
+            href="https://linktr.ee/bilalcode"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Linktree"
+            className="grid h-9 w-9 place-items-center rounded-full border border-border text-muted-foreground transition-all hover:border-primary hover:text-primary hover:neon-glow"
+          >
+            <SocialIcon name="Linktree" size={14} />
+          </a>
           <a
             href="#home"
             aria-label="Back to top"

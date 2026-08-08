@@ -111,6 +111,16 @@ export function Contact() {
                 <SocialIcon name={s.icon} size={16} />
               </a>
             ))}
+            <a
+              key="Linktree"
+              href="https://linktr.ee/bilalcode"
+              aria-label="Linktree"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="grid h-10 w-10 place-items-center rounded-full border border-border bg-background/40 text-muted-foreground transition hover:-translate-y-0.5 hover:border-primary hover:text-primary hover:neon-glow"
+            >
+              <SocialIcon name="Linktree" size={16} />
+            </a>
           </div>
         </motion.aside>
 
