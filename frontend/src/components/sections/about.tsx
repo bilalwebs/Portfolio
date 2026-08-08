@@ -5,7 +5,7 @@ import { profile } from "@/data/portfolio";
 
 const aboutStats = [
   {
-    value: "5th",
+    value: "7th",
     label: "Semester"
   },
   {
