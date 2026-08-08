@@ -105,7 +105,7 @@ export function Contact() {
                 href={s.href}
                 aria-label={s.name}
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 className="grid h-10 w-10 place-items-center rounded-full border border-border bg-background/40 text-muted-foreground transition hover:-translate-y-0.5 hover:border-primary hover:text-primary hover:neon-glow"
               >
                 <SocialIcon name={s.icon} size={16} />

@@ -91,7 +91,7 @@ export function Hero() {
                   href={s.href}
                   aria-label={s.name}
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   className="grid h-10 w-10 place-items-center rounded-full border border-border bg-card/60 text-muted-foreground transition-all hover:scale-110 hover:border-primary hover:text-primary hover:neon-glow"
                 >
                   <SocialIcon name={s.icon} size={16} />

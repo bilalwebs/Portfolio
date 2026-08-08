@@ -28,21 +28,25 @@ export function Navbar() {
           scrolled ? "border-b border-border bg-background/70" : ""
         }`}
       >
-        <a href="#home" className="flex items-center gap-3 group">
-  <div className="grid h-10 w-10 place-items-center rounded-xl bg-primary text-primary-foreground font-bold text-lg shadow-lg shadow-primary/30 transition-transform group-hover:scale-105">
-    BH
-  </div>
+        <a href="#home" className="group flex shrink-0 items-center gap-3">
+          <img
+            src="/assets/logo.png"
+            alt="Bilal Hussain logo"
+            width={44}
+            height={42}
+            className="h-10 w-auto shrink-0 object-contain transition-transform duration-300 group-hover:scale-105"
+          />
 
-  <div className="leading-tight">
-    <h1 className="text-lg font-bold tracking-tight">
-      Bilal <span className="gradient-text">Hussain</span>
-    </h1>
+          <div className="leading-tight">
+            <h1 className="text-lg font-bold tracking-tight">
+              Bilal <span className="gradient-text">Hussain</span>
+            </h1>
 
-    <p className="mt-0.5 text-[11px] font-medium uppercase tracking-[0.28em] text-muted-foreground">
-      AI Engineer
-    </p>
-  </div>
-</a>
+            <p className="mt-0.5 text-[11px] font-medium uppercase tracking-[0.28em] text-muted-foreground">
+              AI Engineer
+            </p>
+          </div>
+        </a>
 
         <nav className="hidden min-w-0 flex-1 items-center justify-center lg:flex lg:gap-1">
           {navLinks.map((l) => (
