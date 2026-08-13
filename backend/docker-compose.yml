@@ -1,0 +1,79 @@
+# =============================================================================
+# Bilal Portfolio — Backend (future Docker deployment)
+#
+# NOTE: The current production target is Vercel, NOT Docker. This compose file
+# exists for portability/local runs only.
+#
+# The production database remains Neon PostgreSQL — this file does NOT spin up
+# a database by default. All values below are substituted from `backend/.env`
+# (copy `.env.example` → `.env` first).
+#
+# Usage:
+#   cp .env.example .env        # fill in DATABASE_URL (Neon), SMTP, AI provider
+#   docker compose up -d --build
+# =============================================================================
+
+services:
+  backend:
+    build:
+      context: ..
+      dockerfile: backend/Dockerfile
+    image: bilal-portfolio-backend:latest
+    container_name: bilal-portfolio-backend
+    restart: unless-stopped
+    environment:
+      # Server
+      NODE_ENV: ${NODE_ENV:-production}
+      HOST: ${HOST:-0.0.0.0}
+      PORT: ${PORT:-4000}
+      # Database (Neon PostgreSQL)
+      DATABASE_URL: ${DATABASE_URL:?DATABASE_URL is required}
+      # CORS — comma-separated allowed origins
+      CORS_ORIGINS: ${CORS_ORIGINS:?CORS_ORIGINS is required}
+      # Email (Gmail SMTP)
+      GMAIL_USER: ${GMAIL_USER:?GMAIL_USER is required}
+      GMAIL_APP_PASSWORD: ${GMAIL_APP_PASSWORD:?GMAIL_APP_PASSWORD is required}
+      CONTACT_EMAIL: ${CONTACT_EMAIL:?CONTACT_EMAIL is required}
+      # AI chat provider
+      AI_PROVIDER: ${AI_PROVIDER:-openai}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENAI_BASE_URL: ${OPENAI_BASE_URL:-}
+      OPENAI_MODEL: ${OPENAI_MODEL:-}
+      GROQ_API_KEY: ${GROQ_API_KEY:-}
+      GROQ_BASE_URL: ${GROQ_BASE_URL:-}
+      GROQ_MODEL: ${GROQ_MODEL:-}
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      GEMINI_BASE_URL: ${GEMINI_BASE_URL:-}
+      GEMINI_MODEL: ${GEMINI_MODEL:-}
+      # Rate limiting (optional overrides)
+      RATE_LIMIT_WINDOW_MS: ${RATE_LIMIT_WINDOW_MS:-900000}
+      RATE_LIMIT_MAX: ${RATE_LIMIT_MAX:-100}
+      CONTACT_RATE_LIMIT_WINDOW_MS: ${CONTACT_RATE_LIMIT_WINDOW_MS:-900000}
+      CONTACT_RATE_LIMIT_MAX: ${CONTACT_RATE_LIMIT_MAX:-5}
+      CHAT_RATE_LIMIT_WINDOW_MS: ${CHAT_RATE_LIMIT_WINDOW_MS:-900000}
+      CHAT_RATE_LIMIT_MAX: ${CHAT_RATE_LIMIT_MAX:-30}
+      # Chat prompt budget (tokens)
+      PROMPT_BUDGET_TOKENS: ${PROMPT_BUDGET_TOKENS:-6000}
+    ports:
+      - "${PORT:-4000}:${PORT:-4000}"
+
+# -----------------------------------------------------------------------------
+# Optional: a local PostgreSQL for DEVELOPMENT ONLY. Production uses Neon, so
+# keep `DATABASE_URL` in `.env` pointing at your Neon database and leave this
+# service commented out in production.
+# -----------------------------------------------------------------------------
+#  db:
+#    image: postgres:17-alpine
+#    container_name: bilal-portfolio-db
+#    restart: unless-stopped
+#    environment:
+#      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+#      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+#      POSTGRES_DB: ${POSTGRES_DB:-bilal_portfolio}
+#    volumes:
+#      - pgdata:/var/lib/postgresql/data
+#    ports:
+#      - "5432:5432"
+#
+# volumes:
+#   pgdata:

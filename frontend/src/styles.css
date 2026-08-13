@@ -1,0 +1,249 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif;
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-glow: var(--glow);
+}
+
+:root {
+  --radius: 1rem;
+  /* Cyber blue neon dark theme */
+  --background: #071B2D;
+  --foreground: #FFFFFF;
+  --card: #0B2840;
+  --card-foreground: #FFFFFF;
+  --popover: #0B2840;
+  --popover-foreground: #FFFFFF;
+  --primary: #00BFFF;
+  --primary-foreground: #051422;
+  --secondary: #0B2840;
+  --secondary-foreground: #FFFFFF;
+  --muted: #0F3352;
+  --muted-foreground: #A8C7D8;
+  --accent: #19D3FF;
+  --accent-foreground: #051422;
+  --destructive: oklch(0.63 0.24 27);
+  --destructive-foreground: #FFFFFF;
+  --border: rgba(0, 191, 255, 0.15);
+  --input: rgba(0, 191, 255, 0.2);
+  --ring: #00BFFF;
+  --glow: rgba(0, 191, 255, 0.45);
+}
+
+.dark {
+  --background: #071B2D;
+  --foreground: #FFFFFF;
+  --card: #0B2840;
+  --card-foreground: #FFFFFF;
+  --popover: #0B2840;
+  --popover-foreground: #FFFFFF;
+  --primary: #00BFFF;
+  --primary-foreground: #051422;
+  --secondary: #0B2840;
+  --secondary-foreground: #FFFFFF;
+  --muted: #0F3352;
+  --muted-foreground: #A8C7D8;
+  --accent: #19D3FF;
+  --accent-foreground: #051422;
+  --border: rgba(0, 191, 255, 0.15);
+  --input: rgba(0, 191, 255, 0.2);
+  --ring: #00BFFF;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    background-image:
+      radial-gradient(circle at 20% 0%, rgba(0, 191, 255, 0.08), transparent 40%),
+      radial-gradient(circle at 80% 60%, rgba(25, 211, 255, 0.06), transparent 45%);
+    background-attachment: fixed;
+  }
+
+  ::selection {
+    background-color: rgba(0, 191, 255, 0.35);
+    color: white;
+  }
+}
+
+@utility glass-card {
+  background: linear-gradient(
+    135deg,
+    rgba(11, 40, 64, 0.85),
+    rgba(7, 27, 45, 0.7)
+  );
+  border: 1px solid var(--color-border);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-radius: var(--radius-2xl);
+}
+
+@utility neon-glow {
+  box-shadow:
+    0 0 10px rgba(0, 191, 255, 0.12),
+    0 0 20px rgba(0, 191, 255, 0.06);
+}
+
+@utility neon-glow-strong {
+  box-shadow:
+    0 0 14px rgba(0, 191, 255, 0.25),
+    0 0 28px rgba(0, 191, 255, 0.12);
+}
+
+@utility text-glow {
+  text-shadow: 0 0 14px rgba(0, 191, 255, 0.35);
+}
+
+@utility gradient-text {
+  background: linear-gradient(135deg, #19D3FF 0%, #00BFFF 50%, #0088CC 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-14px); }
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.95); opacity: 0.7; }
+  50% { transform: scale(1.05); opacity: 0.3; }
+  100% { transform: scale(0.95); opacity: 0.7; }
+}
+
+@keyframes drift {
+  0% { transform: translate(0, 0); }
+  50% { transform: translate(30px, -20px); }
+  100% { transform: translate(0, 0); }
+}
+
+.animate-float { animation: float 6s ease-in-out infinite; }
+.animate-pulse-ring { animation: pulse-ring 4s ease-in-out infinite; }
+.animate-drift { animation: drift 18s ease-in-out infinite; }
+
+/* Chatbot message container scrollbar (only this scrollable area is styled) */
+.chatbot-messages {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 191, 255, 0.4) transparent;
+  scrollbar-gutter: stable;
+  scroll-behavior: smooth;
+  overscroll-behavior-y: contain;
+  overflow-x: hidden;
+}
+
+.chatbot-messages::-webkit-scrollbar {
+  width: 6px;
+}
+
+.chatbot-messages::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.chatbot-messages::-webkit-scrollbar-thumb {
+  background: rgba(0, 191, 255, 0.35);
+  border-radius: 9999px;
+  background-clip: padding-box;
+}
+
+.chatbot-messages::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 191, 255, 0.55);
+  background-clip: padding-box;
+}
+
+/* Message rows/bubbles must never push the container horizontally */
+.chatbot-messages > * {
+  max-width: 100%;
+}
+
+/* Long tokens/URLs wrap instead of overflowing; only code blocks scroll sideways */
+.chatbot-messages .whitespace-pre-wrap {
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
+.chatbot-messages pre {
+  max-width: 100%;
+  overflow-x: auto;
+  white-space: pre;
+  border-radius: var(--radius-md);
+}
+
+.chatbot-messages code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+/* ------------------------------------------------------------------
+   Site-wide custom scrollbar (native CSS, cross-browser).
+   Thin, rounded thumb, cyan-on-dark accent, low-contrast track,
+   subtle hover brightening. Appearance only — scroll behavior
+   (speed, smoothness, overscroll) is untouched. The chatbot
+   container keeps its own dedicated scrollbar (higher specificity).
+   ------------------------------------------------------------------ */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 191, 255, 0.4) rgba(11, 40, 64, 0.35);
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: rgba(11, 40, 64, 0.35);
+}
+
+*::-webkit-scrollbar-thumb {
+  background: rgba(0, 191, 255, 0.35);
+  border-radius: 9999px;
+  transition: background-color 0.2s ease;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 191, 255, 0.6);
+}
+
+*::-webkit-scrollbar-corner {
+  background: transparent;
+}
