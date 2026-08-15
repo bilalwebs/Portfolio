@@ -4,12 +4,15 @@ import project1 from "@/assets/Gulzaren.jpeg";
 import project2 from "@/assets/amd.jpeg";
 import project3 from "@/assets/mentor.jpeg";
 import project4 from "@/assets/project-4.jpg";
+import project5 from "@/assets/project-5.jpeg";
 import cert1 from "@/assets/cert-1.PNG";
 import cert2 from "@/assets/cert-2.jpg";
 import cert3 from "@/assets/cert-3.jpg";
 import cert4 from "@/assets/cert-4.png";
 import cert5 from "@/assets/cert-5.PNG";
 import cert6 from "@/assets/cert-6.jpeg";
+import cert7 from "@/assets/cert-7.png";
+import cert8 from "@/assets/cert-8.png";
 
 export const profile = {
   name: "Muhammad Bilal Hussain",
@@ -171,6 +174,28 @@ export const projects = [
   github: "https://github.com/bilalwebs/MentorOS",
   demo: "https://mentoros-ai.vercel.app/",
 },
+{
+  title: "SmartHire – AI-Powered Smart Recruitment Platform",
+  description:
+    "A production-oriented AI-assisted recruitment and ATS platform with explainable hybrid candidate matching, multi-tenant workspaces, secure authentication, resume analysis, and human-in-the-loop hiring workflows.",
+  image: project5,
+  tech: [
+    "React",
+    "TypeScript",
+    "Vite",
+    "Python",
+    "FastAPI",
+    "PostgreSQL",
+    "SQLAlchemy",
+    "Google Gemini",
+    "scikit-learn",
+    "JWT",
+    "Docker",
+    "Nginx"
+  ],
+  github: "https://github.com/mazhar-naseer/AI-Powered-Smart-Recruitment",
+  demo: "https://smarthire-prod.vercel.app/",
+},
 
 ];
 export const certificates = [
@@ -202,7 +227,7 @@ export const certificates = [
   title: "Certificate of Achievement – Top 30 Innovative Projects",
   org: "Digital Youth Leadership Program (DYLP)",
   image: cert6,
-  // href: "https://drive.google.com/file/d/1Q52FpBlSgbjTOiKKh1LKXjtVkEvCncQW/view?usp=sharing",
+  href: "https://drive.google.com/file/d/1Q52FpBlSgbjTOiKKh1LKXjtVkEvCncQW/view?usp=sharing",
 },
   {
   title: "Python For Data Science - Real Time Coding Exercises",
@@ -212,31 +237,52 @@ export const certificates = [
   credentialId: "UC-a30de616-e8b4-45a4-89e6-f150824664ee",
   image: cert5,
   href: "https://www.udemy.com/certificate/UC-a30de616-e8b4-45a4-89e6-f150824664ee/",
-}
+},
+{
+    title: "NativeBuilder: Build Without Limits",
+    org: "AI Factory",
+    image: cert7,
+    href: "https://lablab.ai/u/@bilalhussain-dev/ai-hackathons/nativebuilder-build-without-limits/certificate",
+  },
+{
+    title: "AMD Developer Hackathon: ACT II",
+    org: "AMD",
+    image: cert8,
+    href: "https://lablab.ai/u/@Slick_Silkw514/ai-hackathons/amd-developer-hackathon-act-ii/certificate",
+  },
 ];
 export const recognitions = [
   {
-  tag: "Hackathon",
-  title: "Global AI Hackathon Series with Qwen Cloud",
-  description:
-    "Developed a production-ready AI agent using Qwen Cloud, multi-agent workflows, cloud deployment, and LLM-powered automation for the international AI hackathon.",
-  status: "Results Pending",
-},
+    tag: "Hackathon",
+    title: "Global AI Hackathon Series with Qwen Cloud",
+    description:
+      "Developed a production-ready AI agent using Qwen Cloud, multi-agent workflows, cloud deployment, and LLM-powered automation for the international AI hackathon.",
+    status: "Results Pending",
+  },
+
   {
-  tag: "Hackathon",
-  title: "AMD Developer Hackathon: ACT II",
-  description:
-    "Developed an AI-powered video captioning platform that generates multiple caption styles from a single video using Vision Language Models, FFmpeg, FastAPI, and automated LLM-based quality evaluation.",
-  status: "Results Pending",
-},
+    tag: "Hackathon",
+    title: "AMD Developer Hackathon: ACT II",
+    description:
+      "Developed an AI-powered video captioning platform for AMD Hackathon Track 2, generating four caption styles from video using Vision Language Models, FastAPI, FFmpeg, and LLM-based evaluation.",
+    status: "Track 2 — Video Captioning",
+  },
+
   {
-  tag: "Hackathon",
-  title: "DYLP Vibe Coding Hackathon 2026",
-  description:
-    "Built 'Gulzareen', an AI-powered crop residue classification platform that helps farmers identify agricultural waste, estimate market value, discover reuse opportunities, and reduce crop burning through computer vision and AI.",
-  status: "Top 30 Innovative Projects"
-},
-  
+    tag: "Hackathon",
+    title: "DYLP Vibe Coding Hackathon 2026",
+    description:
+      "Built 'Gulzareen', an AI-powered crop residue classification platform that helps farmers identify agricultural waste, estimate market value, discover reuse opportunities, and reduce crop burning through computer vision and AI.",
+    status: "Top 30 Innovative Projects",
+  },
+
+  {
+    tag: "Hackathon",
+    title: "NativeBuilder: Build Without Limits",
+    description:
+      "Participated in the NativeBuilder: Build Without Limits AI hackathon organized by AI Factory, developing an AI-powered project as part of the hackathon.",
+    status: "Certificate of Participation",
+  },
 ];
 
 export const navLinks = [
