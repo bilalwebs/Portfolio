@@ -1,6 +1,6 @@
 import { useState, useRef, useCallback, type FormEvent } from "react";
 import { motion } from "motion/react";
-import { Mail, Phone, MapPin, Send, Check, Copy } from "lucide-react";
+import { Mail, MapPin, Send, Check, Copy, MessageCircle } from "lucide-react";
 import { Section } from "@/components/ui/section";
 import { profile, socials } from "@/data/portfolio";
 import { SocialIcon } from "@/components/ui/social-icon";
@@ -65,7 +65,7 @@ export function Contact() {
 
   const cards = [
     { icon: Mail, label: "Email", value: profile.email, href: `mailto:${profile.email}` },
-    { icon: Phone, label: "Phone", value: profile.phone, href: `tel:${profile.phone.replace(/\s/g, "")}` },
+    { icon: MessageCircle, label: "Chat with WhatsApp", value: "+92 335 2009245", href: `https://wa.me/923352009245?text=${encodeURIComponent("Hi Bilal, I found your portfolio and would like to discuss a project.")}` },
     { icon: MapPin, label: "Location", value: profile.location, href: "#" },
   ];
 
@@ -96,7 +96,11 @@ export function Contact() {
           <div className="space-y-3">
             {cards.map((c) => (
               <div key={c.label} className="glass-card flex items-center gap-4 p-4 transition-all hover:-translate-y-0.5 hover:neon-glow">
-                <a href={c.href} className="flex min-w-0 flex-1 items-center gap-4">
+                <a
+                  href={c.href}
+                  {...(c.label === "Chat with WhatsApp" ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                  className="flex min-w-0 flex-1 items-center gap-4"
+                >
                   <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-primary/15 text-primary neon-glow">
                     <c.icon size={18} />
                   </span>
