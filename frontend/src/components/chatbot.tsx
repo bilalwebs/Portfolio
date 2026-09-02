@@ -14,14 +14,28 @@ const SUGGESTIONS = [
   "What technologies does Bilal specialize in?",
 ];
 
-
 function loadMessages(): UIMessage[] {
   if (typeof window === "undefined") return [];
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY);
     if (!raw) return [];
     const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? (parsed as UIMessage[]) : [];
+    if (!Array.isArray(parsed)) return [];
+    const result = [...parsed] as UIMessage[];
+    while (result.length > 0) {
+      const last = result[result.length - 1];
+      if (
+        last.role === "assistant" &&
+        !(last.parts ?? []).some(
+          (p) => p.type === "text" && (p as { type: "text"; text: string }).text,
+        )
+      ) {
+        result.pop();
+      } else {
+        break;
+      }
+    }
+    return result;
   } catch {
     return [];
   }
@@ -32,6 +46,7 @@ export function Chatbot() {
   const [input, setInput] = useState("");
   const [initial] = useState<UIMessage[]>(() => loadMessages());
   const scrollRef = useRef<HTMLDivElement>(null);
+  const sendingRef = useRef(false);
 
   const transport = useRef(new DefaultChatTransport({ api: `${API_BASE_URL}/chat` })).current;
   const { messages, sendMessage, status, error, setMessages } = useChat({
@@ -56,18 +71,26 @@ export function Chatbot() {
     }
   }, [messages, open, status]);
 
+  useEffect(() => {
+    if (status === "ready" || status === "error") {
+      sendingRef.current = false;
+    }
+  }, [status]);
+
   const isBusy = status === "submitted" || status === "streaming";
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     const text = input.trim();
-    if (!text || isBusy) return;
+    if (!text || isBusy || sendingRef.current) return;
+    sendingRef.current = true;
     setInput("");
     void sendMessage({ text });
   };
 
   const handleSuggestion = (text: string) => {
-    if (isBusy) return;
+    if (isBusy || sendingRef.current) return;
+    sendingRef.current = true;
     void sendMessage({ text });
   };
 
@@ -135,13 +158,11 @@ export function Chatbot() {
                   <Sparkles size={16} />
                 </span>
                 <div className="min-w-0">
-                  <p className="truncate text-sm font-semibold">
-  Bilal AI Assistant
-</p>
+                  <p className="truncate text-sm font-semibold">Bilal AI Assistant</p>
                   <p className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
-  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-  AI Assistant • Online
-</p>
+                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    AI Assistant • Online
+                  </p>
                 </div>
               </div>
               {messages.length > 0 && (
@@ -195,11 +216,12 @@ Ask me anything!`}
                 </div>
               )}
 
-              {messages.map((m) => {
-                const text = m.parts
-                  .map((p) => (p.type === "text" ? p.text : ""))
-                  .join("");
+              {messages.map((m, idx) => {
+                const text = m.parts.map((p) => (p.type === "text" ? p.text : "")).join("");
                 const isUser = m.role === "user";
+                if (!isUser && !text && status === "error" && idx === messages.length - 1) {
+                  return null;
+                }
                 return (
                   <div
                     key={m.id}

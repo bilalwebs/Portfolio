@@ -1,11 +1,12 @@
 /**
  * Resolved backend API base URL.
  *
- * - When `VITE_BACKEND_API_URL` is set (e.g. the deployed backend on Vercel),
- *   API calls go directly to that origin.
- * - Otherwise it falls back to the same-origin `/api` prefix, which Vite
- *   proxies to the backend during local development (see vite.config.ts).
+ * - In development (`vite dev`), always uses the same-origin `/api` prefix
+ *   which Vite proxies to the local backend at http://localhost:4000.
+ * - In production, uses `VITE_BACKEND_API_URL` if set (e.g. the deployed
+ *   backend on Vercel), otherwise falls back to `/api`.
  */
 const raw = (import.meta.env.VITE_BACKEND_API_URL as string | undefined)?.trim();
+const configured = raw ? raw.replace(/\/+$/, "") : "";
 
-export const API_BASE_URL = (raw ? raw.replace(/\/+$/, "") : "") || "/api";
+export const API_BASE_URL = import.meta.env.DEV ? "/api" : configured || "/api";

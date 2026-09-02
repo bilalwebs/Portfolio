@@ -1,6 +1,6 @@
-import { useState, type FormEvent } from "react";
+import { useState, useRef, useCallback, type FormEvent } from "react";
 import { motion } from "motion/react";
-import { Mail, Phone, MapPin, Send, Check } from "lucide-react";
+import { Mail, Phone, MapPin, Send, Check, Copy } from "lucide-react";
 import { Section } from "@/components/ui/section";
 import { profile, socials } from "@/data/portfolio";
 import { SocialIcon } from "@/components/ui/social-icon";
@@ -10,6 +10,19 @@ export function Contact() {
   const [sent, setSent] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [emailCopied, setEmailCopied] = useState(false);
+  const copyTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const copyEmail = useCallback(async () => {
+    try {
+      await navigator.clipboard.writeText(profile.email);
+      setEmailCopied(true);
+      if (copyTimerRef.current) clearTimeout(copyTimerRef.current);
+      copyTimerRef.current = setTimeout(() => setEmailCopied(false), 2000);
+    } catch {
+      // clipboard access failed — do nothing
+    }
+  }, []);
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -82,19 +95,27 @@ export function Contact() {
 
           <div className="space-y-3">
             {cards.map((c) => (
-              <a
-                key={c.label}
-                href={c.href}
-                className="glass-card flex items-center gap-4 p-4 transition-all hover:-translate-y-0.5 hover:neon-glow"
-              >
-                <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-primary/15 text-primary neon-glow">
-                  <c.icon size={18} />
-                </span>
-                <div className="min-w-0">
-                  <p className="text-xs text-muted-foreground">{c.label}</p>
-                  <p className="truncate text-sm font-semibold text-foreground">{c.value}</p>
-                </div>
-              </a>
+              <div key={c.label} className="glass-card flex items-center gap-4 p-4 transition-all hover:-translate-y-0.5 hover:neon-glow">
+                <a href={c.href} className="flex min-w-0 flex-1 items-center gap-4">
+                  <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-primary/15 text-primary neon-glow">
+                    <c.icon size={18} />
+                  </span>
+                  <div className="min-w-0">
+                    <p className="text-xs text-muted-foreground">{c.label}</p>
+                    <p className="truncate text-sm font-semibold text-foreground">{c.value}</p>
+                  </div>
+                </a>
+                {c.label === "Email" && (
+                  <button
+                    type="button"
+                    onClick={copyEmail}
+                    aria-label="Copy email"
+                    className="grid h-9 w-9 shrink-0 place-items-center rounded-lg border border-border bg-background/40 text-muted-foreground transition hover:border-primary hover:text-primary hover:neon-glow"
+                  >
+                    {emailCopied ? <Check size={14} className="text-primary" /> : <Copy size={14} />}
+                  </button>
+                )}
+              </div>
             ))}
           </div>
 
