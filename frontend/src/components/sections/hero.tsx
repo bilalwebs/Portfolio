@@ -6,12 +6,29 @@ import { SocialIcon } from "@/components/ui/social-icon";
 
 export function Hero() {
   return (
-    <section id="home" className="relative overflow-hidden pt-32 pb-20 sm:pt-40">
+    <section
+      id="home"
+      className="relative overflow-hidden pt-32 pb-20 sm:pt-40"
+      style={{
+        backgroundImage:
+          "linear-gradient(rgba(0,191,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0,191,255,0.05) 1px, transparent 1px)",
+        backgroundSize: "60px 60px",
+      }}
+    >
+      {/* edge fade — top */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-background to-transparent" />
+      {/* edge fade — bottom */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-background to-transparent" />
+      {/* edge fade — left */}
+      <div className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-background to-transparent" />
+      {/* edge fade — right */}
+      <div className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-background to-transparent" />
+      {/* radial glow — center */}
+      <div className="pointer-events-none absolute left-1/2 top-1/2 h-[700px] w-[700px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/[0.04] blur-[140px]" />
       {/* particles / orbs */}
       <div className="pointer-events-none absolute inset-0 -z-10">
         <div className="absolute -left-32 top-20 h-72 w-72 rounded-full bg-primary/20 blur-3xl animate-drift" />
         <div className="absolute right-0 top-40 h-96 w-96 rounded-full bg-accent/10 blur-3xl animate-drift" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,191,255,0.08)_1px,transparent_1px)] [background-size:32px_32px] opacity-40" />
       </div>
 
       <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-14 px-6 md:grid-cols-2">
