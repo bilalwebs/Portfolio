@@ -64,7 +64,7 @@ export function Navbar() {
           href="#contact"
           className="hidden shrink-0 items-center whitespace-nowrap rounded-full bg-primary px-5 py-2.5 text-xs font-semibold text-primary-foreground shadow-lg shadow-primary/30 transition-all duration-300 hover:-translate-y-0.5 hover:bg-accent hover:neon-glow-strong lg:inline-flex lg:px-6 lg:text-sm"
         >
-          Hire Me
+          Get in Touch
         </a>
 
         <button
@@ -100,7 +100,7 @@ export function Navbar() {
                 onClick={() => setOpen(false)}
                 className="mt-2 block rounded-lg bg-primary px-4 py-3 text-center text-sm font-semibold text-primary-foreground transition-all hover:bg-accent"
               >
-                Hire Me
+                Get in Touch
               </a>
             </div>
           </motion.div>
