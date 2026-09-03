@@ -5,6 +5,8 @@ import project2 from "@/assets/amd.jpeg";
 import project3 from "@/assets/mentor.jpeg";
 import project4 from "@/assets/project-4.jpg";
 import project5 from "@/assets/project-5.jpeg";
+import project6 from "@/assets/project-6.PNG";
+import project7 from "@/assets/project-8.PNG";
 import cert1 from "@/assets/cert-1.PNG";
 import cert2 from "@/assets/cert-2.jpg";
 import cert3 from "@/assets/cert-3.jpg";
@@ -195,6 +197,36 @@ export const projects = [
   ],
   github: "https://github.com/mazhar-naseer/AI-Powered-Smart-Recruitment",
   demo: "https://smarthire-prod.vercel.app/",
+},
+{
+  title: "RedStore – Ecommerce Website Design",
+  description:
+    "A fully responsive, modern ecommerce frontend for a sportswear and fitness fashion store. Built with pure HTML, CSS, and vanilla JavaScript — featuring product catalog, single product gallery, cart, and account pages.",
+  image: project6, // ya project4 agar wahi slot use kar rahe ho
+  tech: [
+    "HTML5",
+    "CSS3",
+    "JavaScript (ES6)",
+    "Responsive Design",
+    "Font Awesome"
+  ],
+  github: "https://github.com/bilalwebs/RedStore-Ecommerce-Website-Design",
+  demo: "https://redstore-bybilal.vercel.app/",
+},
+{
+  title: "Cara – Ecommerce Website",
+  description:
+    "A fully responsive, multipage ecommerce front-end for a fashion retail store, built with vanilla HTML, CSS, and JavaScript — featuring product catalog, single product gallery, blog, cart, and checkout flow.",
+  image: project7,
+  tech: [
+    "HTML5",
+    "CSS3",
+    "JavaScript (ES6)",
+    "Responsive Design",
+    "Font Awesome"
+  ],
+  github: "https://github.com/bilalwebs/Cara-Ecommerce",
+  demo: "https://cara-store-by-bilal.vercel.app/",
 },
 
 ];
