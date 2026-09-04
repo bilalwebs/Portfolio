@@ -1,0 +1,10 @@
+# robots.txt — https://bilalforge.vercel.app
+User-agent: *
+Allow: /
+
+# Disallow admin/API paths
+Disallow: /api/
+Disallow: /admin/
+
+# Sitemap
+Sitemap: https://bilalforge.vercel.app/sitemap.xml
