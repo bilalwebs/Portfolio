@@ -233,7 +233,7 @@ export const projects = [
   title: "GIAIC Website Clone",
   description:
     "A pixel-perfect, fully responsive frontend recreation of the official Governor Sindh Initiative for Artificial Intelligence, Web 3.0 & Metaverse (GIAIC) website. Built with Next.js, React, TypeScript, and Tailwind CSS, featuring modern UI, optimized performance, and SEO-ready architecture.",
-  image: project4,
+  image: project8,
   tech: [
     "Next.js",
     "React",
