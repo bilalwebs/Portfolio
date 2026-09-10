@@ -7,6 +7,7 @@ import project4 from "@/assets/project-4.jpg";
 import project5 from "@/assets/project-5.jpeg";
 import project6 from "@/assets/project-6.PNG";
 import project7 from "@/assets/project-8.PNG";
+import project8 from "@/assets/project-9.PNG";
 import cert1 from "@/assets/cert-1.PNG";
 import cert2 from "@/assets/cert-2.jpg";
 import cert3 from "@/assets/cert-3.jpg";
@@ -227,6 +228,22 @@ export const projects = [
   ],
   github: "https://github.com/bilalwebs/Cara-Ecommerce",
   demo: "https://cara-store-by-bilal.vercel.app/",
+},
+{
+  title: "GIAIC Website Clone",
+  description:
+    "A pixel-perfect, fully responsive frontend recreation of the official Governor Sindh Initiative for Artificial Intelligence, Web 3.0 & Metaverse (GIAIC) website. Built with Next.js, React, TypeScript, and Tailwind CSS, featuring modern UI, optimized performance, and SEO-ready architecture.",
+  image: project4,
+  tech: [
+    "Next.js",
+    "React",
+    "TypeScript",
+    "Tailwind CSS",
+    "App Router",
+    "Responsive Design"
+  ],
+  github: "https://github.com/bilalwebs/giaic-website-clone",
+  demo: "https://bilal-giaic.vercel.app/",
 },
 
 ];
