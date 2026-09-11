@@ -56,6 +56,10 @@
     {
       "source": "/certificates/(.*)",
       "destination": "/index.html"
+    },
+    {
+      "source": "/((?!assets/|favicon\\.ico|logo\\.png|robots\\.txt|sitemap\\.xml|manifest\\.json).*)",
+      "destination": "/index.html"
     }
   ]
 }

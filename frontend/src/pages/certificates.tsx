@@ -7,7 +7,7 @@ type Certificate = (typeof certificates)[number];
 
 function CertificateCard({ c, index }: { c: Certificate; index: number }) {
   const cls =
-    "group block glass-card overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:neon-glow flex flex-col";
+    "group block glass-card overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:neon-glow";
 
   const content = (
     <>
@@ -19,7 +19,7 @@ function CertificateCard({ c, index }: { c: Certificate; index: number }) {
           className="max-h-full max-w-full object-contain transition-transform duration-500 group-hover:scale-105"
         />
       </div>
-      <div className="flex-1 p-5">
+      <div className="p-5">
         <h3 className="text-lg font-semibold transition-colors group-hover:text-primary">
           {c.title}
         </h3>
