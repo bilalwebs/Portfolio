@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Github, ExternalLink, Loader2 } from "lucide-react";
+import { Github, ExternalLink, Loader2, ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Section } from "@/components/ui/section";
 import { projects } from "@/data/portfolio";
 
@@ -15,6 +16,8 @@ export function Projects() {
     }, 1100);
   };
 
+  const featuredProjects = projects.slice(0, 4);
+
   return (
     <Section
       id="projects"
@@ -23,7 +26,7 @@ export function Projects() {
       subtitle="A few things I've built recently — from realtime dashboards to full commerce stacks."
     >
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-        {projects.map((p, i) => {
+        {featuredProjects.map((p, i) => {
           const isLoading = loadingIndex === i;
           return (
             <motion.article
@@ -42,7 +45,6 @@ export function Projects() {
                   className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
 
-                {/* Blurred hover overlay with centered Live Preview */}
                 <div
                   className="pointer-events-none absolute inset-0 flex items-center justify-center bg-background/50 opacity-0 backdrop-blur-md transition-all duration-500 group-hover:pointer-events-auto group-hover:opacity-100"
                 >
@@ -123,6 +125,16 @@ export function Projects() {
             </motion.article>
           );
         })}
+      </div>
+
+      <div className="mt-12 flex justify-center">
+        <Link
+          to="/projects"
+          className="inline-flex items-center gap-2 rounded-full border border-border bg-background/40 px-6 py-3 text-sm font-medium text-foreground transition-all duration-300 hover:border-primary hover:text-primary hover:neon-glow group"
+        >
+          See More
+          <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+        </Link>
       </div>
     </Section>
   );

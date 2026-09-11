@@ -40,6 +40,22 @@
     {
       "source": "/robots.txt",
       "destination": "/robots.txt"
+    },
+    {
+      "source": "/projects",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/projects/(.*)",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/certificates",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/certificates/(.*)",
+      "destination": "/index.html"
     }
   ]
 }

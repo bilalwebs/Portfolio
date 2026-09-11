@@ -1,3 +1,4 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { ScrollProgress } from "@/components/scroll-progress";
@@ -14,14 +15,13 @@ import { Chatbot } from "@/components/chatbot";
 import { BackToTop } from "@/components/back-to-top";
 import { CustomCursor } from "@/components/custom-cursor";
 import { Preloader } from "@/components/preloader";
+import { ProjectsPage } from "@/pages/projects";
+import { CertificatesPage } from "@/pages/certificates";
+import { NotFound } from "@/pages/not-found";
 
-export function App() {
+function HomePage() {
   return (
-    <div className="dark min-h-screen overflow-x-clip bg-background text-foreground md:cursor-none md:[&_*]:cursor-none">
-      <ScrollProgress />
-      <Preloader />
-      <CustomCursor />
-      <Navbar />
+    <>
       <main>
         <Hero />
         <About />
@@ -36,6 +36,25 @@ export function App() {
       <Footer />
       <BackToTop />
       <Chatbot />
-    </div>
+    </>
+  );
+}
+
+export function App() {
+  return (
+    <BrowserRouter>
+      <div className="dark min-h-screen overflow-x-clip bg-background text-foreground md:cursor-none md:[&_*]:cursor-none">
+        <ScrollProgress />
+        <Preloader />
+        <CustomCursor />
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/projects" element={<ProjectsPage />} />
+          <Route path="/certificates" element={<CertificatesPage />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </div>
+    </BrowserRouter>
   );
 }
