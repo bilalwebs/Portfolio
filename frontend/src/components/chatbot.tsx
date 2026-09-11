@@ -102,16 +102,18 @@ export function Chatbot() {
   return (
     <>
       {/* Launcher */}
-      <motion.button
-        onClick={() => setOpen((v) => !v)}
-        aria-label={open ? "Close chat" : "Open chat with Bilal's AI Assistant"}
-        initial={{ scale: 0, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ delay: 0.5, type: "spring", stiffness: 220, damping: 18 }}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        className="fixed bottom-5 right-5 z-50 grid h-14 w-14 place-items-center rounded-full bg-primary text-primary-foreground shadow-lg shadow-primary/40 neon-glow-strong sm:bottom-6 sm:right-6"
-      >
+      <div className="fixed bottom-5 right-5 z-50 sm:bottom-6 sm:right-6">
+        <span className="absolute inset-0 animate-ping rounded-full bg-primary/30" />
+        <motion.button
+          onClick={() => setOpen((v) => !v)}
+          aria-label={open ? "Close chat" : "Open chat with Bilal's AI Assistant"}
+          initial={{ scale: 0, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ delay: 0.5, type: "spring", stiffness: 220, damping: 18 }}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className="relative grid h-14 w-14 place-items-center rounded-full bg-primary text-primary-foreground shadow-lg shadow-primary/40 neon-glow-strong"
+        >
         <AnimatePresence mode="wait" initial={false}>
           {open ? (
             <motion.span
@@ -137,7 +139,8 @@ export function Chatbot() {
             </motion.span>
           )}
         </AnimatePresence>
-      </motion.button>
+        </motion.button>
+      </div>
 
       {/* Panel */}
       <AnimatePresence>
