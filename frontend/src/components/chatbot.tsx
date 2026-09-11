@@ -135,7 +135,7 @@ export function Chatbot() {
               className="relative"
             >
               <MessageCircle size={22} />
-              <span className="absolute -right-1 -top-1 h-2.5 w-2.5 animate-pulse rounded-full bg-accent" />
+              <span className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full bg-green-500 shadow-[0_0_6px_rgba(34,197,94,0.6)]" />
             </motion.span>
           )}
         </AnimatePresence>
