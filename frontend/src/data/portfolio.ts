@@ -6,7 +6,7 @@ import project3 from "@/assets/mentor.jpeg";
 import project5 from "@/assets/project-5.jpeg";
 import project6 from "@/assets/project-6.PNG";
 import project7 from "@/assets/project-8.PNG";
-import project8 from "@/assets/project-9.PNG";
+import project8 from "@/assets/project-9.png";
 import project9 from "@/assets/project-7.PNG";
 import project10 from "@/assets/project-10.png";
 import cert1 from "@/assets/cert-1.PNG";
