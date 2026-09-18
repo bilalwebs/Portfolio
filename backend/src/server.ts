@@ -5,7 +5,7 @@ const server = app.listen(env.PORT, env.HOST, () => {
   console.log(
     `[server] running in ${env.NODE_ENV} mode on http://${env.HOST}:${env.PORT}`,
   );
-  console.log(`[server] endpoints: GET /health, POST /api/contact, POST /api/chat`);
+  console.log(`[server] endpoints: GET /, GET /health, POST /api/contact, POST /api/chat`);
 });
 
 // --- Graceful shutdown ---
