@@ -3,7 +3,6 @@ import aboutImg from "@/assets/about.png";
 import project1 from "@/assets/Gulzaren.jpeg";
 import project2 from "@/assets/amd.jpeg";
 import project3 from "@/assets/mentor.jpeg";
-import project4 from "@/assets/project-4.jpg";
 import project5 from "@/assets/project-5.jpeg";
 import project6 from "@/assets/project-6.PNG";
 import project7 from "@/assets/project-7.PNG";
