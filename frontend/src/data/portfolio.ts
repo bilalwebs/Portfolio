@@ -3,12 +3,11 @@ import aboutImg from "@/assets/about.png";
 import project1 from "@/assets/Gulzaren.jpeg";
 import project2 from "@/assets/amd.jpeg";
 import project3 from "@/assets/mentor.jpeg";
+import project4 from "@/assets/project-4.jpg";
 import project5 from "@/assets/project-5.jpeg";
 import project6 from "@/assets/project-6.PNG";
 import project7 from "@/assets/project-8.PNG";
 import project8 from "@/assets/project-9.PNG";
-import project9 from "@/assets/project-7.PNG";
-import project10 from "@/assets/project-10.PNG";
 import cert1 from "@/assets/cert-1.PNG";
 import cert2 from "@/assets/cert-2.jpg";
 import cert3 from "@/assets/cert-3.jpg";
@@ -17,12 +16,10 @@ import cert5 from "@/assets/cert-5.PNG";
 import cert6 from "@/assets/cert-6.jpeg";
 import cert7 from "@/assets/cert-7.png";
 import cert8 from "@/assets/cert-8.png";
-import cert9 from "@/assets/cert-9.PNG";
-import cert10 from "@/assets/cert-10.PNG";
 
 export const profile = {
   name: "Muhammad Bilal Hussain",
-  role:"AI Engineer | Full-Stack Engineer | Agentic AI ",
+  role:"AI Engineer | Full-Stack Engineer",
   greeting: "Hello, I'm",
 tagline:
   "Building intelligent AI applications and scalable full-stack solutions with Python, FastAPI, React, Next.js, and Large Language Models—focused on solving real-world problems through modern software engineering.",
@@ -206,7 +203,7 @@ export const projects = [
   title: "RedStore – Ecommerce Website Design",
   description:
     "A fully responsive, modern ecommerce frontend for a sportswear and fitness fashion store. Built with pure HTML, CSS, and vanilla JavaScript — featuring product catalog, single product gallery, cart, and account pages.",
-  image: project6,
+  image: project6, // ya project4 agar wahi slot use kar rahe ho
   tech: [
     "HTML5",
     "CSS3",
@@ -248,41 +245,7 @@ export const projects = [
   github: "https://github.com/bilalwebs/giaic-website-clone",
   demo: "https://bilal-giaic.vercel.app/",
 },
-{
-  title: "Flight Assistant AI",
-  description:
-    "A full-stack AI flight booking platform built with Next.js frontend, FastAPI backend, and a conversational travel assistant powered by the OpenAI Agents SDK and Gemini/Groq. Features secure JWT authentication, real-time seat availability, automated PNR generation, and server-authoritative pricing.",
-  image: project10, 
-  tech: [
-    "Next.js",
-    "React",
-    "TypeScript",
-    "FastAPI",
-    "Python",
-    "OpenAI Agents SDK",
-    "Tailwind CSS",
-    "SQLite",
-  ],
-  github: "https://github.com/bilalwebs/flight_assistant",
-  demo: "https://bilal-flight-assistant.vercel.app/",
-},
-{
-  title: "Civic Voice – AI-Powered Civic Complaint Generator",
-  description:
-    "A Streamlit-based web application that converts informal descriptions of civic problems into professional, structured complaint letters. Features smart priority detection, AI generation via Google Gemini with robust template fallback, multi-language input awareness (English/Urdu/Roman Urdu), department routing, and multi-format export (TXT, DOCX, PDF, mailto, QR code).",
-  image: project11, 
-  tech: [
-    "Python",
-    "Streamlit",
-    "Google Gemini",
-    "python-docx",
-    "fpdf2",
-    "qrcode",
-    "Pillow",
-  ],
-  github: "https://github.com/bilalwebs/civic-voice",
-  demo: "https://civic-voice.streamlit.app/",
-},
+
 ];
 export const certificates = [
   {
@@ -336,18 +299,6 @@ export const certificates = [
     image: cert8,
     href: "https://lablab.ai/u/@Slick_Silkw514/ai-hackathons/amd-developer-hackathon-act-ii/certificate",
   },
-  {
-  title: "AI Fluency Internship Program",
-  org: "FlyRank.ai",
-  image: cert9, 
-  href: "https://drive.google.com/file/d/1ahWNFrSaR7sgG5oBb3xrJmYCmjNm_xbc/view?usp=sharing",
-},
-{
-  title: "Front-end AI Engineering Internship Program",
-  org: "FlyRank.ai",
-  image: cert10,
-  href: "https://drive.google.com/file/d/1UY50OukNv1Aus1darDSjUqpysDFoloWe/view?usp=sharing",
-},
 ];
 export const recognitions = [
   {
