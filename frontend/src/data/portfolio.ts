@@ -22,7 +22,7 @@ import cert10 from "@/assets/cert-10.PNG";
 
 export const profile = {
   name: "Muhammad Bilal Hussain",
-  role:"AI Engineer | Full-Stack Engineer",
+  role:"AI Engineer | Full-Stack Engineer | Agentic AI Engineer",
   greeting: "Hello, I'm",
 tagline:
   "Building intelligent AI applications and scalable full-stack solutions with Python, FastAPI, React, Next.js, and Large Language Models—focused on solving real-world problems through modern software engineering.",
