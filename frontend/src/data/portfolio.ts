@@ -7,6 +7,8 @@ import project5 from "@/assets/project-5.jpeg";
 import project6 from "@/assets/project-6.PNG";
 import project7 from "@/assets/project-7.PNG";
 import project8 from "@/assets/project-8.PNG";
+import project9 from "@/assets/project-9.PNG";
+import project10 from "@/assets/project-10.PNG";
 import cert1 from "@/assets/cert-1.PNG";
 import cert2 from "@/assets/cert-2.jpg";
 import cert3 from "@/assets/cert-3.jpg";
@@ -243,6 +245,41 @@ export const projects = [
   ],
   github: "https://github.com/bilalwebs/giaic-website-clone",
   demo: "https://bilal-giaic.vercel.app/",
+},
+{
+  title: "Flight Assistant AI",
+  description:
+    "A full-stack AI flight booking platform built with Next.js frontend, FastAPI backend, and a conversational travel assistant powered by the OpenAI Agents SDK and Gemini/Groq. Features secure JWT authentication, real-time seat availability, automated PNR generation, and server-authoritative pricing.",
+  image: project9,
+  tech: [
+    "Next.js",
+    "React",
+    "TypeScript",
+    "FastAPI",
+    "Python",
+    "OpenAI Agents SDK",
+    "Tailwind CSS",
+    "SQLite",
+  ],
+  github: "https://github.com/bilalwebs/flight_assistant",
+  demo: "https://bilal-flight-assistant.vercel.app/",
+},
+{
+  title: "Civic Voice – AI-Powered Civic Complaint Generator",
+  description:
+    "A Streamlit-based web application that converts informal descriptions of civic problems into professional, structured complaint letters. Features smart priority detection, AI generation via Google Gemini with robust template fallback, multi-language input awareness (English/Urdu/Roman Urdu), department routing, and multi-format export (TXT, DOCX, PDF, mailto, QR code).",
+  image: project10,
+  tech: [
+    "Python",
+    "Streamlit",
+    "Google Gemini",
+    "python-docx",
+    "fpdf2",
+    "qrcode",
+    "Pillow",
+  ],
+  github: "https://github.com/bilalwebs/civic-voice",
+  demo: "https://civic-voice.streamlit.app/",
 },
 
 ];
