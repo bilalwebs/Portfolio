@@ -17,6 +17,7 @@ import cert5 from "@/assets/cert-5.PNG";
 import cert6 from "@/assets/cert-6.jpeg";
 import cert7 from "@/assets/cert-7.png";
 import cert8 from "@/assets/cert-8.png";
+import cert9 from "@/assets/cert-9.PNG";
 
 export const profile = {
   name: "Muhammad Bilal Hussain",
@@ -335,6 +336,12 @@ export const certificates = [
     image: cert8,
     href: "https://lablab.ai/u/@Slick_Silkw514/ai-hackathons/amd-developer-hackathon-act-ii/certificate",
   },
+  {
+  title: "Front-end AI Engineering Internship Program",
+  org: "FlyRank.ai",
+  image: cert9, 
+  href: "https://drive.google.com/file/d/1UY50OukNv1Aus1darDSjUqpysDFoloWe/view?usp=sharing"
+},
 ];
 export const recognitions = [
   {
