@@ -18,6 +18,7 @@ import cert6 from "@/assets/cert-6.jpeg";
 import cert7 from "@/assets/cert-7.png";
 import cert8 from "@/assets/cert-8.png";
 import cert9 from "@/assets/cert-9.PNG";
+import cert10 from "@/assets/cert-10.PNG";
 
 export const profile = {
   name: "Muhammad Bilal Hussain",
@@ -341,6 +342,12 @@ export const certificates = [
   org: "FlyRank.ai",
   image: cert9, 
   href: "https://drive.google.com/file/d/1UY50OukNv1Aus1darDSjUqpysDFoloWe/view?usp=sharing"
+},
+{
+  title: "AI Fluency Internship Program",
+  org: "FlyRank.ai",
+  image: cert10, 
+  href: "https://drive.google.com/file/d/1ahWNFrSaR7sgG5oBb3xrJmYCmjNm_xbc/view?usp=sharing"
 },
 ];
 export const recognitions = [
