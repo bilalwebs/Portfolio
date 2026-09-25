@@ -34,13 +34,6 @@ tagline:
   aboutImage: aboutImg,
 };
 
-export const stats = [
-  { label: "Projects", value: "15+" },
-  { label: "Hackathons", value: "4+" },
-  { label: "Certificates", value: "10+" },
-  { label: "Technologies", value: "25+" },
-];
-
 export const socials = [
   { name: "GitHub", href: "https://github.com/bilalwebs", icon: "Github" as const },
   { name: "LinkedIn", href: "https://www.linkedin.com/in/bilal-hussain-dev/", icon: "Linkedin" as const },
@@ -382,6 +375,18 @@ export const recognitions = [
       "Participated in the NativeBuilder: Build Without Limits AI hackathon organized by AI Factory, developing an AI-powered project as part of the hackathon.",
     status: "Certificate of Participation",
   },
+];
+
+// Hackathons are recognition entries tagged "Hackathon". Exposed as its own
+// array so counts elsewhere (stats, about section, chatbot) stay derived from
+// the data instead of being hardcoded.
+export const hackathons = recognitions.filter((item) => /hackathon/i.test(item.tag));
+
+export const stats = [
+  { label: "Projects", value: `${projects.length}+` },
+  { label: "Hackathons", value: `${hackathons.length}` },
+  { label: "Certificates", value: "10+" },
+  { label: "Technologies", value: "25+" },
 ];
 
 export const navLinks = [

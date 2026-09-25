@@ -1,19 +1,19 @@
 import { motion } from "motion/react";
 import { Download } from "lucide-react";
 import { Section } from "@/components/ui/section";
-import { profile } from "@/data/portfolio";
+import { profile, projects, hackathons } from "@/data/portfolio";
 
 const aboutStats = [
   {
-    value: "7th",
+    value: "8th",
     label: "Semester"
   },
   {
-    value: "4",
+    value: `${hackathons.length}+`,
     label: "Hackathons"
   },
   {
-    value: "15+",
+    value: `${projects.length}+`,
     label: "Projects"
   }
 ];
